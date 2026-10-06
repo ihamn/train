@@ -1,0 +1,34 @@
+# ── 体积巨大的中间产物（可重新生成，不上传）──
+work/
+全民漂移_*.apk
+__pycache__/
+tempframes/
+gifframes/
+stat2/
+stat_align/
+_voodoo_research/
+
+# ── 大批截图与拼图（源素材，不进 git）──
+picture/
+*_GIF*.png
+温度盘_*.png
+速度条_GIF*.png
+速度弧_*.png
+4399火车游戏_*.png
+grid_*.png
+*.gif
+
+# ── 一次性抓取残留 ──
+pk.txt
+pk.xz
+news.html
+voodoo_pr.html
+
+# ── 工具运行输出（可随时重跑生成）──
+# 注意：tools/*.py 与 tools/*.md 要保留，只忽略输出
+tools/out/
+tools/variants/
+
+# ── 杂项 ──
+.DS_Store
+*.tmp
