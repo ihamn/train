@@ -1,0 +1,92 @@
+{
+  "format": "qxqy-autotest",
+  "version": 1,
+  "name": "m0-move",
+  "canvasId": "mobile-16-9",
+  "dt": 0.03333333333333333,
+  "playerCount": 1,
+  "events": [],
+  "_note": "几何空间：v6 不再改挂载点的锚点/中心（v5.3 那处改动导致真机卡死，已回退），所以子控件 box 坐标 = offX − W/2；断言以与空间无关的 anchoredPositionX 为主，left 只留一条作渲染层证据。",
+  "asserts": [
+    {
+      "kind": "control",
+      "name": "LOCO",
+      "field": "anchoredPositionX",
+      "equals": 100,
+      "at": 0
+    },
+    {
+      "kind": "control",
+      "name": "LOCO",
+      "field": "left",
+      "equals": -540,
+      "at": 0
+    },
+    {
+      "kind": "control",
+      "name": "LOCO",
+      "field": "anchoredPositionY",
+      "equals": 400,
+      "at": 0
+    },
+    {
+      "kind": "control",
+      "name": "WAGON",
+      "field": "sizeDeltaX",
+      "equals": 120,
+      "at": 0
+    },
+    {
+      "kind": "control",
+      "name": "LOCO",
+      "field": "anchoredPositionX",
+      "equals": 250,
+      "at": 0.48
+    },
+    {
+      "kind": "control",
+      "name": "LOCO",
+      "field": "left",
+      "equals": -390,
+      "at": 0.48
+    },
+    {
+      "kind": "control",
+      "name": "WAGON",
+      "field": "sizeDeltaX",
+      "equals": 180,
+      "at": 0.48
+    },
+    {
+      "kind": "log",
+      "contains": "M0 move k=15",
+      "at": 0.48
+    },
+    {
+      "kind": "control",
+      "name": "LOCO",
+      "field": "anchoredPositionX",
+      "equals": 400,
+      "at": 0.98
+    },
+    {
+      "kind": "control",
+      "name": "LOCO",
+      "field": "left",
+      "equals": -240,
+      "at": 0.98
+    },
+    {
+      "kind": "control",
+      "name": "WAGON",
+      "field": "sizeDeltaX",
+      "equals": 240,
+      "at": 0.98
+    },
+    {
+      "kind": "lua",
+      "at": 0.98,
+      "source": "local loco = query.control('LOCO')\nassert(loco ~= nil, 'missing LOCO')\nassert(loco.active == true, 'LOCO not active')\nlocal wagon = query.control('WAGON')\nassert(wagon ~= nil, 'missing WAGON')\nassert(wagon.active == true, 'WAGON not active')\nassert(query.logContains('M0 move k=30'), 'no k=30 log')\nassert(query.logContains('M0 writeback x='), 'no writeback log')"
+    }
+  ]
+}

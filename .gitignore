@@ -32,3 +32,6 @@ tools/variants/
 # ── 杂项 ──
 .DS_Store
 *.tmp
+
+# transient playtest captures (screenshots/logs), not committed
+records/_screen/
