@@ -6,7 +6,7 @@
   "dt": 0.03333333333333333,
   "playerCount": 1,
   "events": [],
-  "_note": "几何空间：v6 不再改挂载点的锚点/中心（v5.3 那处改动导致真机卡死，已回退），所以子控件 box 坐标 = offX − W/2；断言以与空间无关的 anchoredPositionX 为主，left 只留一条作渲染层证据。",
+  "_note": "几何空间：v8 自建容器钉在画布原点（拉伸锚点轴不参与 pivot，公式修正后容器 left=0）⇒ 子控件 box 坐标 = 画布左下角坐标，left == anchoredPositionX。",
   "asserts": [
     {
       "kind": "control",
@@ -19,7 +19,7 @@
       "kind": "control",
       "name": "LOCO",
       "field": "left",
-      "equals": -540,
+      "equals": 100,
       "at": 0
     },
     {
@@ -47,7 +47,7 @@
       "kind": "control",
       "name": "LOCO",
       "field": "left",
-      "equals": -390,
+      "equals": 250,
       "at": 0.48
     },
     {
@@ -73,7 +73,7 @@
       "kind": "control",
       "name": "LOCO",
       "field": "left",
-      "equals": -240,
+      "equals": 400,
       "at": 0.98
     },
     {

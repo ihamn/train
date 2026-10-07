@@ -329,7 +329,7 @@
       "canvasId": "mobile-16-9",
       "selectedId": "n3",
       "root": {
-        "id": "n5",
+        "id": "n6",
         "kind": "server-container",
         "name": "客户端控件模板",
         "guid": 1073742300,
@@ -785,6 +785,154 @@
             "horizontalAlignment": "Left",
             "verticalAlignment": "Middle",
             "text": ""
+          },
+          {
+            "id": "n5",
+            "kind": "container",
+            "name": "M0_CONT",
+            "guid": 1073742005,
+            "giaRelatedGuids": [],
+            "active": true,
+            "visible": true,
+            "canControllerFocus": false,
+            "syncAllDevices": true,
+            "giaRaw": {},
+            "transformByPlatform": {
+              "KEYBOARD": {
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rotation": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "anchorMin": {
+                  "x": 0,
+                  "y": 0
+                },
+                "anchorMax": {
+                  "x": 0,
+                  "y": 0
+                },
+                "offset": {
+                  "x": 0,
+                  "y": 0
+                },
+                "size": {
+                  "x": 100,
+                  "y": 100
+                },
+                "pivot": {
+                  "x": 0.5,
+                  "y": 0.5
+                }
+              },
+              "TOUCHSCREEN": {
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rotation": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "anchorMin": {
+                  "x": 0,
+                  "y": 0
+                },
+                "anchorMax": {
+                  "x": 0,
+                  "y": 0
+                },
+                "offset": {
+                  "x": 0,
+                  "y": 0
+                },
+                "size": {
+                  "x": 100,
+                  "y": 100
+                },
+                "pivot": {
+                  "x": 0.5,
+                  "y": 0.5
+                }
+              },
+              "CONTROLLER_CONSOLE": {
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rotation": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "anchorMin": {
+                  "x": 0,
+                  "y": 0
+                },
+                "anchorMax": {
+                  "x": 0,
+                  "y": 0
+                },
+                "offset": {
+                  "x": 0,
+                  "y": 0
+                },
+                "size": {
+                  "x": 100,
+                  "y": 100
+                },
+                "pivot": {
+                  "x": 0.5,
+                  "y": 0.5
+                }
+              },
+              "CONTROLLER_MOBILE": {
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rotation": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "anchorMin": {
+                  "x": 0,
+                  "y": 0
+                },
+                "anchorMax": {
+                  "x": 0,
+                  "y": 0
+                },
+                "offset": {
+                  "x": 0,
+                  "y": 0
+                },
+                "size": {
+                  "x": 100,
+                  "y": 100
+                },
+                "pivot": {
+                  "x": 0.5,
+                  "y": 0.5
+                }
+              }
+            },
+            "children": [],
+            "scriptMappingIds": [],
+            "isolateNavigation": false,
+            "disableKeyEventPassthrough": false,
+            "disableCursorEventPassthrough": false,
+            "showCursor": false
           }
         ],
         "scriptMappingIds": []
@@ -795,7 +943,7 @@
         "id": "1073742200",
         "guid": 1073742200,
         "path": "spike.lua",
-        "source": "-- workspace/train/spike.lua\n-- 千星「列车」M0 平台前提探针 —— v5：改用**本工程 zuma 已验证的真机模式**\n--\n-- 为什么从\"摆控件 + 按名字找\"改成\"运行时按模板建\"：\n--   1) 本工程的 UI 架构是**运行时实例化**（zuma.lua：InstantiateClientUIControl ×9，\n--      GetChild/FindChild ×0），界面布局里不摆具名控件 ⇒ 按名字找必然 not-found；\n--   2) 真机契约里可见性/图片相关字段大量**只读**（visible/imageId/imageSource/imageType），\n--      必须走 SetVisible / SetImage；\n--   3) 位置与尺寸在真机上用的是方法式 `SetAnchoredPosition` / `SetSizeDelta`\n--      （zuma.lua 用了 6/8 次；字段式 `.anchoredPositionX =` 0 次 ⇒ 未经验证）。\n--\n-- 本文件里每条真机结论都来自本工程的实战记录（zuma.lua 注释，2026-09-25 真机）：\n--   · game.InstantiateClientUIControl 在 OnInit 阶段返回 nil，只有 OnStart 及之后成功\n--   · script:EnableUpdate 不开 = 没有 OnUpdate（冒号写法是对的）\n--   · GetClientUIRoots() 返回\"实际显示的客户端控件容器画布中的默认容器节点\"，\n--     为 0 表示运行时没有可见画布（容器没进界面布局 / 初始可见没勾 / 玩家应用布局不对）\n--   · 挂载点 0×0 会把自己的子控件全部裁掉 → 表现是\"脚本全跑通、屏幕全空\"，需 SetSizeDelta\n--   · 动态创建的图片控件**不继承模板图**，不 SetImage 就画成 \"?\"\n--   · 模板索引是 2^30 起的大数字，可用 typeof() 探针自动识别（建完即销毁）\n--   · 平台上限：单控件组 1000 / 单屏 10000\n--   · 画布尺寸在真机是浮点，别用 string.format('%d')\n--\n-- 素材号 100001–100006 是**真实的官方素材号**（基础形状：方块/圆/三角/四角星/五角星/圆环），\n-- 见 D:\\moniji\\千星素材号实测表.md。\n\nlocal FRAME_COUNT = 6        -- F0..F5（六帧叠放，切换可见性）\nlocal FRAME_INTERVAL = 0.12  -- 目标换帧间隔（秒），落地为整数 tick 分频\nlocal MOVE_PER_TICK = 10     -- 车头每帧右移像素\nlocal GROW_PER_TICK = 4      -- 车厢每帧变宽像素\n\nlocal parts = {}             -- 名字 -> 控件（自己持引用，永不按名字找）\nlocal frames = {}\nlocal loco = nil\nlocal wagon = nil\nlocal hud = nil\nlocal missing = {}\nlocal tick = 0\nlocal idx = 0\nlocal ticksPerFrame = 0\nlocal canvasW, canvasH = 1280, 720\nlocal noteWriteOnce = {}\n\nlocal function note(what)\n  missing[#missing + 1] = what\nend\n\n-- 写一次失败就报一行，之后不再刷屏\nlocal function try(label, fn)\n  local ok, err = pcall(fn)\n  if not ok and not noteWriteOnce[label] then\n    noteWriteOnce[label] = true\n    print(\"M0 writefail \" .. label .. \" err=\" .. tostring(err))\n  end\n  return ok\nend\n\n-- 只读字段（visible 等）写会报；统一走方法。SetActive 失败退回 SetVisible。\nlocal function show_only(c, on)\n  if c == nil then return end\n  if not try(\"SetActive\", function() c:SetActive(on) end) then\n    try(\"SetVisible\", function() c:SetVisible(on) end)\n  end\nend\n\n-- 自动认客户端控件模板：从 2^30 起扫，用 typeof 判类型，探针建完即销毁（不占控件数）\nlocal function detect_templates(root)\n  local found = {}\n  if not (typeof and game.InstantiateClientUIControl and game.DestroyClientUIControl) then\n    print(\"M0 detect SKIPPED (typeof/Instantiate/Destroy 不全)\")\n    return found\n  end\n  local BASE = 1073741824 -- 2^30：真机\"客户端控件模板索引\"的空间\n  -- ⚠ 2026-10-06 真机卡死后收窄：只扫两个**已被实测确认**的窄窗口，认全就收工。\n  --   真机实测点：图片 1073741852、文本框 1073741851（本工程 zuma 的模板）；\n  --   模拟器/新建模板工程：1073742003/2004、1073742102/2101。\n  --   上一版扫 2^30+1..+512（60~500 次建/销毁）嫌疑很大，这里改成 ~25 个索引上限。\n  local ranges = { { 1073741845, 1073741870 }, { 1073741995, 1073742320 } }\n  local probes, errs = 0, 0\n  for r = 1, #ranges do\n    for i = ranges[r][1], ranges[r][2] do\n      if found.image and found.text then break end\n      local ok, c = pcall(game.InstantiateClientUIControl, i, root)\n      if ok and c then\n        probes = probes + 1\n        local t = tostring(typeof(c))\n        if not found.image and t:find(\"Image\", 1, true) then\n          found.image = i\n          found.imageType = t\n        end\n        if not found.text and t:find(\"TextBox\", 1, true) then\n          found.text = i\n          found.textType = t\n        end\n        pcall(game.DestroyClientUIControl, c)\n      else\n        errs = errs + 1\n      end\n    end\n  end\n  print(\"M0 detect image=\" .. tostring(found.image) .. \" (\" .. tostring(found.imageType) .. \")\"\n    .. \" text=\" .. tostring(found.text) .. \" (\" .. tostring(found.textType) .. \")\"\n    .. \" probes=\" .. probes .. \" errs=\" .. errs)\n  return found\nend\n\n-- 几何一律显式钉死，且不依赖模板/挂载点的默认值。\n-- mode：'lb' 固定左下角（锚点/中心都 (0,0)，SetAnchoredPosition = 画布左下角坐标）\n--       'stretch' 双向铺满父矩形（offset 0、size 0）\n--       'stretch-x' 水平铺满、纵向固定（SetAnchoredPosition.y 仍是底边距离）\n-- 为什么要钉：模拟器与真机都实测过，运行时建出来的控件几何会跟着模板默认值飘。\nlocal function pin_geometry(c, mode, x, y, w, h)\n  try(\"anchorMin\", function() c:SetAnchorMin(0, 0) end)\n  if mode == 'stretch' then\n    try(\"anchorMax\", function() c:SetAnchorMax(1, 1) end)\n    try(\"pivot\", function() c:SetPivot(0, 0) end)\n    try(\"SetSizeDelta\", function() c:SetSizeDelta(0, 0) end)\n    try(\"SetAnchoredPosition\", function() c:SetAnchoredPosition(0, 0) end)\n  elseif mode == 'stretch-x' then\n    try(\"anchorMax\", function() c:SetAnchorMax(1, 0) end)\n    try(\"pivot\", function() c:SetPivot(0, 0) end)\n    try(\"SetSizeDelta\", function() c:SetSizeDelta(0, h) end)\n    try(\"SetAnchoredPosition\", function() c:SetAnchoredPosition(0, y) end)\n  else\n    try(\"anchorMax\", function() c:SetAnchorMax(0, 0) end)\n    try(\"pivot\", function() c:SetPivot(0, 0) end)\n    try(\"SetSizeDelta\", function() c:SetSizeDelta(w, h) end)\n    try(\"SetAnchoredPosition\", function() c:SetAnchoredPosition(x, y) end)\n  end\nend\n\n-- 建一个图片控件：动态创建**不继承模板图**，所以必须显式 SetImage\nlocal function new_image(prefab, name, artId, mode, x, y, w, h)\n  local ok, c = pcall(game.InstantiateClientUIControl, prefab, parts.STAGE)\n  if not ok or c == nil then\n    note(name)\n    return nil\n  end\n  try(\"name\", function() c.name = name end)\n  pin_geometry(c, mode, x, y, w, h)\n  try(\"SetImage\", function() c:SetImage(Enum.ImageSource.StaticReference, artId) end)\n  show_only(c, true)\n  parts[name] = c\n  return c\nend\n\nlocal function new_text(prefab, name, x, y, w, h, text)\n  local ok, c = pcall(game.InstantiateClientUIControl, prefab, parts.STAGE)\n  if not ok or c == nil then\n    note(name)\n    return nil\n  end\n  try(\"name\", function() c.name = name end)\n  pin_geometry(c, 'lb', x, y, w, h)\n  try(\"text\", function() c.text = text end)\n  show_only(c, true)\n  parts[name] = c\n  return c\nend\n\nlocal function apply_frame(i)\n  for k = 1, FRAME_COUNT do\n    show_only(frames[k], k - 1 == i)\n  end\n  if hud ~= nil then\n    try(\"hud.text\", function() hud.text = \"M0 frame=\" .. i end)\n  end\n  print(\"M0 frame idx=\" .. i)\nend\n\nfunction OnInit()\n  -- 第一行就要说话：日志里看不到这行 = 脚本根本没跑起来（映射没挂上 / 容器不可见）\n  print(\"M0 boot\")\n  -- 真机结论：EnableUpdate 不开就没有 OnUpdate；冒号写法正确\n  local okColon, errColon = pcall(function() script:EnableUpdate(true) end)\n  print(\"M0 enableUpdate colon=\" .. tostring(okColon) .. \" err=\" .. tostring(errColon))\n  if not okColon then\n    local okDot, errDot = pcall(function() script.EnableUpdate(script, true) end)\n    print(\"M0 enableUpdate dot(self)=\" .. tostring(okDot) .. \" err=\" .. tostring(errDot))\n  end\nend\n\nfunction OnStart()\n  local root = script.object\n  if root == nil then\n    print(\"M0 mount=nil -> 脚本必须挂在客户端控件上（不能挂主屏）\")\n    return\n  end\n\n  -- 画布（真机是浮点，别用 %d）\n  local cw, ch = game.GetUICanvasSize()\n  canvasW = cw or 1280\n  canvasH = ch or 720\n  print(\"M0 canvas=\" .. tostring(cw) .. \"x\" .. tostring(ch))\n\n  -- 运行时到底认不认这层 UI：0 = 没有可见画布（容器没进界面布局 / 初始可见没勾）\n  local roots = game.GetClientUIRoots()\n  print(\"M0 roots=\" .. #roots)\n  for i = 1, #roots do\n    print(\"M0 root[\" .. i .. \"] name=\" .. tostring(roots[i].name))\n  end\n  print(\"M0 mount name=\" .. tostring(root.name) .. \" prefab=\" .. tostring(root.prefabIndex))\n\n  -- 挂载点：**只读地打印它的几何**，除了 SetSizeDelta 之外不再改动它。\n  -- ⚠ 2026-10-06 真机卡死后回退：上一版还对挂载点做了 SetAnchorMin/SetAnchorMax/SetPivot/\n  --   SetAnchoredPosition（挂载点很可能是 zuma 自己的容器），并给满屏元素加了拉伸锚点 ——\n  --   这两处是\"v5 跑得好好的 → v5.3 卡死\"之间唯一的新增变量，已全部回退。\n  --   zuma.lua 的真机做法里只对容器做 SetAnchoredPosition(0,0)+SetSizeDelta(w,h)，\n  --   这里先只保留 SetSizeDelta，把它自己的锚点/中心/位置留原样。\n  print(\"M0 mount type=\" .. tostring(typeof(root))\n    .. \" name='\" .. tostring(root.name) .. \"'\"\n    .. \" prefab=\" .. tostring(root.prefabIndex)\n    .. \" size=\" .. tostring(root.sizeDeltaX) .. \"x\" .. tostring(root.sizeDeltaY)\n    .. \" pos=\" .. tostring(root.anchoredPositionX) .. \",\" .. tostring(root.anchoredPositionY)\n    .. \" scale=\" .. tostring(root.localScaleX) .. \"x\" .. tostring(root.localScaleY)\n    .. \" active=\" .. tostring(root.active) .. \" visible=\" .. tostring(root.visible)\n    .. \" inHierarchy=\" .. tostring(root.activeInHierarchy))\n  show_only(root, true)\n  try(\"root.SetSizeDelta\", function() root:SetSizeDelta(canvasW, canvasH) end)\n  print(\"M0 mount after size=\" .. tostring(root.sizeDeltaX) .. \"x\" .. tostring(root.sizeDeltaY))\n\n  -- 自动认模板（用户不用填任何变量）\n  local tpl = detect_templates(root)\n  if tpl.image == nil or tpl.text == nil then\n    print(\"M0 detect failed -> 屏幕空白的可能原因：\")\n    print(\"   ① 模板要「存为模板」：界面控件组库 → 客户端控件模板 → 添加客户端控件 → 存为模板\")\n    print(\"   ② 或把编辑器里点开控件看到的大数字（形如 1073741xxx）填进脚本变量\")\n    return\n  end\n\n  -- 建控件前先定义 pin_geometry 用到的锚点/中心策略见该函数注释\n  parts.STAGE = root\n\n  -- 背景与轨道：显式尺寸（v5 的形态，真机跑通过、不卡；只是会被挂载点裁切）\n  -- ⚠ 拉伸锚点在 v5.3 引入后真机卡死，已回退，不要再改回 stretch\n  new_image(tpl.image, \"BG\", 100001, 'lb', 0, 0, canvasW, canvasH)\n  new_image(tpl.image, \"BALLAST\", 100001, 'lb', 0, 300, canvasW, 90)\n  new_image(tpl.image, \"RAIL_HI\", 100001, 'lb', 0, 370, canvasW, 8)\n  new_image(tpl.image, \"RAIL_LO\", 100001, 'lb', 0, 320, canvasW, 8)\n  for i = 0, 5 do\n    new_image(tpl.image, \"TIE_\" .. i, 100001, 'lb', 130 + 180 * i, 300, 12, 90)\n  end\n  wagon = new_image(tpl.image, \"WAGON\", 100003, 'lb', 320, 400, 120, 70)\n  loco = new_image(tpl.image, \"LOCO\", 100002, 'lb', 100, 400, 200, 70)\n  for i = 0, FRAME_COUNT - 1 do\n    frames[i + 1] = new_image(tpl.image, \"F\" .. i, 100001 + i, 'lb', 900, 430, 140, 140)\n  end\n  hud = new_text(tpl.text, \"HUD\", 20, 640, 600, 40, \"M0 frame=0\")\n\n  if #missing > 0 then\n    print(\"M0 missing list=\" .. table.concat(missing, \",\"))\n  end\n\n  tick, idx, ticksPerFrame = 0, 0, 0\n  apply_frame(0)\n  print(\"M0 start built=\" .. tostring(#frames + 9) .. \" missing=\" .. #missing)\nend\n\nfunction OnUpdate(dt)\n  tick = tick + 1\n\n  -- 存活证据：OnUpdate 到底有没有被调用（真机结论：EnableUpdate 不开就没有）\n  if tick == 1 or tick % 30 == 0 then\n    print(\"M0 update tick=\" .. tick .. \" loco=\" .. tostring(loco ~= nil))\n  end\n\n  if loco == nil then\n    return\n  end\n\n  -- 换帧用整数 tick 分频（0.12 / (1/30) = 3.6，累加秒数会踩浮点毛刺，实测会早 1 帧）\n  if ticksPerFrame == 0 then\n    ticksPerFrame = math.max(1, math.floor(FRAME_INTERVAL / dt + 0.5))\n  end\n  local nextIdx = math.floor(tick / ticksPerFrame) % FRAME_COUNT\n  if nextIdx ~= idx then\n    idx = nextIdx\n    apply_frame(idx)\n  end\n\n  -- 位置/尺寸用方法式（真机 zuma.lua 验证过的写法）；坐标 = 画布左下角（锚点/中心已钉死 0,0）\n  local wantX = 100 + MOVE_PER_TICK * tick\n  local wantW = 120 + GROW_PER_TICK * tick\n  try(\"loco.SetAnchoredPosition\", function() loco:SetAnchoredPosition(wantX, 400) end)\n  try(\"wagon.SetSizeDelta\", function() wagon:SetSizeDelta(wantW, 70) end)\n\n  -- 写回校验：证明方法式写入在真机真的生效\n  if tick == 1 or tick % 30 == 0 then\n    local gx = \"?\"\n    local okx, vx = pcall(function() return loco.anchoredPositionX end)\n    if okx then gx = tostring(vx) end\n    local gw = \"?\"\n    local okw, vw = pcall(function() return wagon.sizeDeltaX end)\n    if okw then gw = tostring(vw) end\n    print(\"M0 writeback x=\" .. gx .. \" want=\" .. tostring(wantX))\n    print(\"M0 writeback w=\" .. gw .. \" want=\" .. tostring(wantW))\n  end\n\n  if tick % 15 == 0 then\n    print(\"M0 move k=\" .. tick)\n  end\nend\n",
+        "source": "--[[ ===========================================================================\n  spike.lua v8 —— M0 收口的「修复验证」版：**自建容器 + 按实测几何补偿**\n\n  真机只读探针（2026-10-07）取到的事实：\n    · 挂载点 script.object = ClientUIContainerControl，name=''，prefabIndex=1073741846\n      sizeDelta = 380×1080，GetAnchorMin.x = 0，GetAnchorMax.x = 1（**水平拉伸**），GetPivot = 0.5\n      ⇒ 解析矩形 2060×1080、左下角 (−1030,−540) ⇒ 与画布(1680×900)的可见交集只有左下角一块\n      ⇒ 这既是 v5「有东西但偏了」的原因，也是 v5.3 试图\"钉挂载点\"却触发无响应的现场\n\n  v8 的两条动作（对应 docs/tech-architecture.md §7 规则 1）：\n    ① **自建容器**：InstantiateClientUIControl(1073741846, 挂载点) —— 容器模板索引是真机实测的\n    ② **只钉自建容器**：锚点 (0,0)/(0,0)、pivot (0,0)、size = 画布尺寸、\n       位置 = **画布原点 − 挂载点左下角**（挂载点原点在屏幕外，必须补偿，否则整块还是偏的）\n    ③ 15 个控件全挂在自建容器下 ⇒ 坐标 = 干净的画布坐标\n    ④ **一个动作都不碰挂载点**（不 SetAnchor*/SetPivot/SetAnchoredPosition/SetSizeDelta）\n\n  几何补偿的算式（括号里是 2026-10-07 真机实测值，用于自检）：\n    mW = canvasW*(anchorMaxX−anchorMinX) + sizeDeltaX      → 1680*(1−0)+380 = 2060\n    mH = canvasH*(anchorMaxY−anchorMinY) + sizeDeltaY      → 900*0+1080     = 1080（y 锚点假设 0/0）\n    mountLeft   = anchorMinX*canvasW + posX − mW*pivotX    → 0+0−1030 = −1030\n    mountBottom = anchorMinY*canvasH + posY − mH*pivotY    → 0+0−540  = −540 （pivotY 假设 0.5）\n    containerPos = (−mountLeft, −mountBottom)              → (+1030, +540)\n  真机读不到 y 分量（GetAnchorMin/GetPivot 无参只返回 x），所以 y 锚点/pivot 是**假设**；\n  但同一套算式在模拟器里能**复现**实测值（模拟器挂载点 1280×720、锚点 0/1、pivot 0.5 ⇒\n  算出 mountLeft=−640，与实测 `STAGE.left=−640` 一致）⇒ 算式本身是对的，\n  真机若看到整体上下偏移，只需按日志里的 `M0 calc` 行改一个假设值即可。\n=========================================================================== ]]\n\nlocal FRAME_COUNT = 6\nlocal FRAME_INTERVAL = 0.12   -- 每帧停留秒数（v5 真机已验证的换帧节奏）\nlocal MOVE_PER_TICK = 10      -- 车头每 tick 前进像素\nlocal GROW_PER_TICK = 4       -- 车厢每 tick 变宽像素\n\n-- 真机实测索引（只读探针 2026-10-07）\nlocal TPL_DEVICE = { image = 1073741852, text = 1073741851, container = 1073741846 }\n-- 模拟器工程的模板索引在这两个窄窗口里（认全即停）\nlocal TPL_SCAN = { { 1073741845, 1073741870 }, { 1073741995, 1073742320 } }\n\nlocal parts, frames, missing = {}, {}, {}\nlocal loco, wagon, hud = nil, nil, nil\nlocal canvasW, canvasH = 1280, 720\nlocal tick, idx, ticksPerFrame = 0, 0, 0\n\nlocal function note(n) missing[#missing + 1] = n end\n\nlocal function try(label, fn)\n  local ok, err = pcall(fn)\n  if not ok then print(\"M0 writefail \" .. label .. \" -> \" .. tostring(err)) end\n  return ok\nend\n\nlocal function read_num(obj, field)\n  local ok, v = pcall(function() return obj[field] end)\n  if ok and type(v) == \"number\" then return v end\n  return nil\nend\n\nlocal function show_only(c, on)\n  if c == nil then return end\n  try(\"setActive\", function() c:SetActive(on) end)\n  try(\"setVisible\", function() c:SetVisible(on) end)\nend\n\n-- 只用于**我们自己建的控件**：显式钉死几何，不依赖模板默认锚点/中心\nlocal function pin(c, x, y, w, h)\n  try(\"anchorMin\", function() c:SetAnchorMin(0, 0) end)\n  try(\"anchorMax\", function() c:SetAnchorMax(0, 0) end)\n  try(\"pivot\", function() c:SetPivot(0, 0) end)\n  try(\"SetSizeDelta\", function() c:SetSizeDelta(w, h) end)\n  try(\"SetAnchoredPosition\", function() c:SetAnchoredPosition(x, y) end)\nend\n\nlocal function new_image(prefab, name, artId, x, y, w, h)\n  local ok, c = pcall(game.InstantiateClientUIControl, prefab, parts.STAGE)\n  if not ok or c == nil then\n    note(name)\n    return nil\n  end\n  try(\"name\", function() c.name = name end)\n  pin(c, x, y, w, h)\n  try(\"SetImage\", function() c:SetImage(Enum.ImageSource.StaticReference, artId) end)\n  show_only(c, true)\n  parts[name] = c\n  return c\nend\n\nlocal function new_text(prefab, name, x, y, w, h, text)\n  local ok, c = pcall(game.InstantiateClientUIControl, prefab, parts.STAGE)\n  if not ok or c == nil then\n    note(name)\n    return nil\n  end\n  try(\"name\", function() c.name = name end)\n  pin(c, x, y, w, h)\n  try(\"text\", function() c.text = text end)\n  show_only(c, true)\n  parts[name] = c\n  return c\nend\n\n-- 读挂载点几何（**只读**），算出它的左下角相对于画布的位置\n-- 返回：mW, mH, left, bottom, 诊断字符串\nlocal function measure_mount(root)\n  local aMinX, aMaxX, pivotX = 0, 1, 0.5\n  local posX = read_num(root, \"anchoredPositionX\") or 0\n  local posY = read_num(root, \"anchoredPositionY\") or 0\n  local sizeX = read_num(root, \"sizeDeltaX\") or 0\n  local sizeY = read_num(root, \"sizeDeltaY\") or 0\n\n  -- 尝试用带轴参数的方式读 y 分量（真机是否支持未知，读到就用，读不到就保留假设）\n  local function try_axis(method, axis, label)\n    local ok, v = pcall(function()\n      local f = root[method]\n      if f == nil then return nil end\n      return f(root, axis)\n    end)\n    if ok and type(v) == \"number\" then\n      print(\"M0 axis \" .. label .. \"=\" .. tostring(v))\n      return v\n    end\n    return nil\n  end\n  local yMin = try_axis(\"GetAnchorMin\", 1, \"anchorMinY@1\") or try_axis(\"GetAnchorMin\", \"y\", \"anchorMinY@y\")\n  local yMax = try_axis(\"GetAnchorMax\", 1, \"anchorMaxY@1\") or try_axis(\"GetAnchorMax\", \"y\", \"anchorMaxY@y\")\n  local yPivot = try_axis(\"GetPivot\", 1, \"pivotY@1\") or try_axis(\"GetPivot\", \"y\", \"pivotY@y\")\n\n  local okMin, vMinX = pcall(function() return root:GetAnchorMin() end)\n  if okMin and type(vMinX) == \"number\" then aMinX = vMinX end\n  local okMax, vMaxX = pcall(function() return root:GetAnchorMax() end)\n  if okMax and type(vMaxX) == \"number\" then aMaxX = vMaxX end\n  local okPiv, vPivX = pcall(function() return root:GetPivot() end)\n  if okPiv and type(vPivX) == \"number\" then pivotX = vPivX end\n\n  local aMinY = yMin or 0\n  local aMaxY = yMax or 0\n  local pivotY = yPivot or 0.5\n  local assumed = (yMin == nil or yMax == nil or yPivot == nil)\n\n  -- ★ 拉伸轴（aMin ≠ aMax）上 **pivot 不参与**：矩形 = [aMin*W + pos, aMax*W + pos + sizeDelta]\n  --   只有\"点锚点\"（aMin == aMax）才需要 pos − size*pivot。\n  --   这条是模拟器实测逼出来的：挂载点 anchor 0→1（拉伸）、pivot 0.5、sizeDelta 0×0，\n  --   按 pivot 减半会算出 left=−640，而实测 `STAGE.left = 0`（它本身就是画布矩形）。\n  local mW = (aMaxX - aMinX) * canvasW + sizeX\n  local mH = (aMaxY - aMinY) * canvasH + sizeY\n  local left\n  if aMaxX ~= aMinX then\n    left = aMinX * canvasW + posX\n  else\n    left = aMinX * canvasW + posX - mW * pivotX\n  end\n  local bottom\n  if aMaxY ~= aMinY then\n    bottom = aMinY * canvasH + posY\n  else\n    bottom = aMinY * canvasH + posY - mH * pivotY\n  end\n\n  local diag = \"aMin=\" .. tostring(aMinX) .. \",\" .. tostring(aMinY)\n    .. \" aMax=\" .. tostring(aMaxX) .. \",\" .. tostring(aMaxY)\n    .. \" pivot=\" .. tostring(pivotX) .. \",\" .. tostring(pivotY)\n    .. \" size=\" .. tostring(sizeX) .. \"x\" .. tostring(sizeY)\n    .. \" assumedY=\" .. tostring(assumed)\n  return mW, mH, left, bottom, diag\nend\n\n-- 认模板：先信真机实测索引（不扫），不成立才做窄窗口兜底\n-- ⚠ 这里必须用**挂载点**当实例化父级：此时自建容器还不存在（parts.STAGE 仍为 nil），\n--   传 nil 会让每一次实例化都失败（v8 首测踩到：probes=355 errs=355）。\nlocal function instantiable(prefab, parent)\n  local ok, c = pcall(game.InstantiateClientUIControl, prefab, parent)\n  if not ok or c == nil then return nil end\n  return c\nend\n\nlocal function kind_of(c)\n  local ok, t = pcall(function() return typeof(c) end)\n  if ok then return tostring(t) end\n  return \"?\"\nend\n\nlocal function detect_templates(parent)\n  local found = { image = nil, text = nil, container = nil }\n  local probes, errs = 0, 0\n\n  local function claim(prefab, parent)\n    probes = probes + 1\n    local c = instantiable(prefab, parent)\n    if c == nil then\n      errs = errs + 1\n      return nil\n    end\n    local t = kind_of(c)\n    pcall(function() game.DestroyClientUIControl(c) end)\n    if t == \"ClientUIImageControl\" then return \"image\" end\n    if t == \"ClientUITextBoxControl\" then return \"text\" end\n    if t == \"ClientUIContainerControl\" then return \"container\" end\n    return nil\n  end\n\n  local known = { { \"image\", TPL_DEVICE.image }, { \"text\", TPL_DEVICE.text }, { \"container\", TPL_DEVICE.container } }\n  for i = 1, #known do\n    local kind = claim(known[i][2], parent)\n    if kind ~= nil and found[kind] == nil then found[kind] = known[i][2] end\n  end\n\n  if found.image == nil or found.text == nil or found.container == nil then\n    for w = 1, #TPL_SCAN do\n      local i = TPL_SCAN[w][1]\n      while i <= TPL_SCAN[w][2] do\n        if found.image ~= nil and found.text ~= nil and found.container ~= nil then break end\n        local kind = claim(i, parent)\n        if kind ~= nil and found[kind] == nil then found[kind] = i end\n        i = i + 1\n      end\n    end\n  end\n\n  print(\"M0 tpl using image=\" .. tostring(found.image) .. \" text=\" .. tostring(found.text)\n    .. \" container=\" .. tostring(found.container) .. \" probes=\" .. probes .. \" errs=\" .. errs)\n  return found\nend\n\nlocal function apply_frame(i)\n  for k = 1, FRAME_COUNT do\n    show_only(frames[k], k - 1 == i)\n  end\n  if hud ~= nil then\n    try(\"hud.text\", function() hud.text = \"M0 frame=\" .. i end)\n  end\n  print(\"M0 frame idx=\" .. i)\nend\n\nfunction OnInit()\n  print(\"M0 boot\")\n  local okColon, errColon = pcall(function() script:EnableUpdate(true) end)\n  print(\"M0 enableUpdate colon=\" .. tostring(okColon) .. \" err=\" .. tostring(errColon))\n  if not okColon then\n    local okDot, errDot = pcall(function() script.EnableUpdate(script, true) end)\n    print(\"M0 enableUpdate dot(self)=\" .. tostring(okDot) .. \" err=\" .. tostring(errDot))\n  end\nend\n\nfunction OnStart()\n  local root = script.object\n  if root == nil then\n    print(\"M0 mount=nil -> 脚本没挂在客户端控件上\")\n    return\n  end\n\n  local cw, ch = game.GetUICanvasSize()\n  canvasW = cw or 1280\n  canvasH = ch or 720\n  print(\"M0 canvas=\" .. tostring(cw) .. \"x\" .. tostring(ch))\n\n  local roots = game.GetClientUIRoots()\n  print(\"M0 roots=\" .. tostring(#roots))\n\n  -- 挂载点：**只读地记录**（这一版一个字都不写它）\n  print(\"M0 mount untouched type=\" .. tostring(typeof(root))\n    .. \" name='\" .. tostring(root.name) .. \"'\"\n    .. \" prefab=\" .. tostring(root.prefabIndex)\n    .. \" size=\" .. tostring(root.sizeDeltaX) .. \"x\" .. tostring(root.sizeDeltaY)\n    .. \" pos=\" .. tostring(root.anchoredPositionX) .. \",\" .. tostring(root.anchoredPositionY)\n    .. \" scale=\" .. tostring(root.localScaleX) .. \"x\" .. tostring(root.localScaleY))\n\n  local mW, mH, mLeft, mBottom, diag = measure_mount(root)\n  print(\"M0 calc mountWxH=\" .. tostring(mW) .. \"x\" .. tostring(mH)\n    .. \" mountLeftBottom=\" .. tostring(mLeft) .. \",\" .. tostring(mBottom)\n    .. \" containerPos=\" .. tostring(-mLeft) .. \",\" .. tostring(-mBottom)\n    .. \" | \" .. diag)\n\n  local tpl = detect_templates(root)\n  if tpl.image == nil or tpl.text == nil or tpl.container == nil then\n    print(\"M0 detect failed (image/text/container 必须都能实例化) -> 不建控件\")\n    return\n  end\n\n  -- ① 自建容器（挂载点只作为它的父级，不被写）\n  local okC, cont = pcall(game.InstantiateClientUIControl, tpl.container, root)\n  if not okC or cont == nil then\n    print(\"M0 own container failed -> 不建控件（绝不用挂载点当布局父级，也不改它的几何）\")\n    return\n  end\n  try(\"container.name\", function() cont.name = \"M0_ROOT\" end)\n  -- ② 把容器左下角顶到画布左下角：位置 = 画布原点 − 挂载点左下角\n  try(\"container.anchorMin\", function() cont:SetAnchorMin(0, 0) end)\n  try(\"container.anchorMax\", function() cont:SetAnchorMax(0, 0) end)\n  try(\"container.pivot\", function() cont:SetPivot(0, 0) end)\n  try(\"container.SetSizeDelta\", function() cont:SetSizeDelta(canvasW, canvasH) end)\n  try(\"container.SetAnchoredPosition\", function() cont:SetAnchoredPosition(-mLeft, -mBottom) end)\n  show_only(cont, true)\n  parts.STAGE = cont\n  print(\"M0 root built type=\" .. tostring(typeof(cont))\n    .. \" size=\" .. tostring(cont.sizeDeltaX) .. \"x\" .. tostring(cont.sizeDeltaY)\n    .. \" pos=\" .. tostring(cont.anchoredPositionX) .. \",\" .. tostring(cont.anchoredPositionY))\n\n  -- ③ 坐标 = 画布左下角\n  new_image(tpl.image, \"BG\", 100001, 0, 0, canvasW, canvasH)\n  new_image(tpl.image, \"BALLAST\", 100001, 0, 300, canvasW, 90)\n  new_image(tpl.image, \"RAIL_HI\", 100001, 0, 370, canvasW, 8)\n  new_image(tpl.image, \"RAIL_LO\", 100001, 0, 320, canvasW, 8)\n  for i = 0, 5 do\n    new_image(tpl.image, \"TIE_\" .. i, 100001, 130 + 180 * i, 300, 12, 90)\n  end\n  wagon = new_image(tpl.image, \"WAGON\", 100003, 320, 400, 120, 70)\n  loco = new_image(tpl.image, \"LOCO\", 100002, 100, 400, 200, 70)\n  for i = 0, FRAME_COUNT - 1 do\n    frames[i + 1] = new_image(tpl.image, \"F\" .. i, 100001 + i, 900, 430, 140, 140)\n  end\n  hud = new_text(tpl.text, \"HUD\", 20, 640, 600, 40, \"M0 frame=0\")\n\n  if #missing > 0 then\n    print(\"M0 missing list=\" .. table.concat(missing, \",\"))\n  end\n\n  tick, idx, ticksPerFrame = 0, 0, 0\n  apply_frame(0)\n  print(\"M0 start built=\" .. tostring(#frames + 9) .. \" missing=\" .. #missing)\n\n  -- ④ 收尾再读一次挂载点：证明它自始至终没被我们改过\n  print(\"M0 mount after size=\" .. tostring(root.sizeDeltaX) .. \"x\" .. tostring(root.sizeDeltaY)\n    .. \" pos=\" .. tostring(root.anchoredPositionX) .. \",\" .. tostring(root.anchoredPositionY))\nend\n\nfunction OnUpdate(dt)\n  tick = tick + 1\n\n  if tick == 1 or tick % 30 == 0 then\n    print(\"M0 update tick=\" .. tick .. \" loco=\" .. tostring(loco ~= nil))\n  end\n\n  if loco == nil then\n    return\n  end\n\n  if ticksPerFrame == 0 then\n    ticksPerFrame = math.max(1, math.floor(FRAME_INTERVAL / dt + 0.5))\n  end\n  local nextIdx = math.floor(tick / ticksPerFrame) % FRAME_COUNT\n  if nextIdx ~= idx then\n    idx = nextIdx\n    apply_frame(idx)\n  end\n\n  local wantX = 100 + MOVE_PER_TICK * tick\n  local wantW = 120 + GROW_PER_TICK * tick\n  try(\"loco.SetAnchoredPosition\", function() loco:SetAnchoredPosition(wantX, 400) end)\n  try(\"wagon.SetSizeDelta\", function() wagon:SetSizeDelta(wantW, 70) end)\n\n  if tick == 1 or tick % 30 == 0 then\n    local gx, gw = \"?\", \"?\"\n    local okx, vx = pcall(function() return loco.anchoredPositionX end)\n    if okx then gx = tostring(vx) end\n    local okw, vw = pcall(function() return wagon.sizeDeltaX end)\n    if okw then gw = tostring(vw) end\n    print(\"M0 writeback x=\" .. gx .. \" want=\" .. tostring(wantX))\n    print(\"M0 writeback w=\" .. gw .. \" want=\" .. tostring(wantW))\n  end\n\n  if tick % 15 == 0 then\n    print(\"M0 move k=\" .. tick)\n  end\nend\n",
         "controlId": "n1",
         "controlAsset": "server-control-template"
       }

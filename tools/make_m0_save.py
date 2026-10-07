@@ -214,10 +214,17 @@ def build_client_project():
         outlineColor=0x33000000, horizontalAlignment="Left", verticalAlignment="Middle",
         text="",
     )
+    # 容器模板：v8 要"自建容器"当布局父级（真机上这个模板索引是 1073741846），
+    # 模拟器里没有对应模板就没法测这条路径。
+    cont = make_node(
+        "container", "M0_CONT", (0, 0), (0, 0), (0, 0), (100, 100), pivot=(0.5, 0.5),
+        isolateNavigation=False, disableKeyEventPassthrough=False,
+        disableCursorEventPassthrough=False, showCursor=False,
+    )
     # 模板工程里根是 server-container，顶层子节点各是一个模板
     root = make_node("server-container", "客户端控件模板", (0, 0), (1, 1), (0, 0), (0, 0), pivot=(0.5, 0.5))
     root["guid"] = 1073742300
-    root["children"] = [img, txt]
+    root["children"] = [img, txt, cont]
     return {
         "layoutSchemaVersion": 2,
         "version": 1,

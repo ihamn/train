@@ -130,6 +130,10 @@ qxqy_studio_play { "action": "runCase", "args": { "case": <tests/m0-frames.case.
 | 客户端 `script` 对象能否挂自定义字段 | **不能（模拟器实测）**：`script._tick = 1` 报 `cannot set _tick, no such field` ⇒ 逐帧计数只能用**模块级局部变量** |
 | 脚本体在存档里的位置 | **`assets.scripts[].source`**（不是顶层 `scripts`）。`spike.lua` 只是**映射路径**，运行时取的是存档内联源码 ⇒ **改脚本必须重新生成存档 / 在千星保存关卡** |
 | Lua 5.1 语法限制 | 内层匿名函数**不是 vararg**，在其中使用外层 `...` 会报 `cannot use '...' outside a vararg function`（`probe_readonly.lua` 实测踩到） |
+| **拉伸锚点轴不参与 pivot**（Unity 规则） | 矩形 = `[aMin*W + pos, aMax*W + pos + sizeDelta]`；只有**点锚点**（aMin == aMax）才用 `pos − size*pivot`。踩坑记录：模拟器挂载点 anchor 0→1、pivot 0.5、sizeDelta 0×0，按"减半个尺寸"算出 `left=−640`，**实测 `STAGE.left=0`**（拉伸矩形就是父矩形） |
+| 读锚点/中心的 **y 分量** | `GetAnchorMin(1)` / `GetAnchorMax(1)` / `GetPivot(1)` **能读到 y**（轴参数 1 = y；模拟器实测 `0.0 / 1.0 / 0.5`）⇒ 几何算式不必靠假设 |
+| 画布原点约定（模拟器 vs 真机） | **一致**：画布左下角 = 父空间原点。模拟器实测"满画布拉伸容器 `left=0`、`width=画布宽`"，与 zuma 真机 `area:SetAnchoredPosition(0,0)+SetSizeDelta(w,h)` 落在画布上的行为同构 |
+| 运行时自建控件的布局空间 | 子控件坐标相对**父矩形左下角**；父矩形 = 挂载点矩形，而挂载点矩形**不一定是画布矩形**（真机实测 2060×1080 vs 画布 1680×900）⇒ 自建容器必须按 `canvasOrigin − mountBottomLeft` 补偿（`spike.lua` v8 的 `measure_mount`） |
 
 ## 7. 真机操作硬性规则（2026-10-06 客户端无响应事故后新增，必须遵守）
 
