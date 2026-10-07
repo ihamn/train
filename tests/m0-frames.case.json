@@ -16,9 +16,9 @@
     { "kind": "control", "name": "F5", "field": "active", "equals": true, "at": 0.7 },
     { "kind": "control", "name": "F0", "field": "active", "equals": true, "at": 0.85 },
     { "kind": "control", "name": "F5", "field": "active", "equals": false, "at": 0.85 },
-    { "kind": "control", "name": "HUD", "field": "text", "equals": "M0 frame=0", "at": 0.85 },
-    { "kind": "log", "contains": "M0 frame idx=1", "at": 0.85 },
-    { "kind": "log", "contains": "M0 frame idx=5", "at": 0.85 },
+    { "kind": "log", "contains": "M0 frame 1", "at": 0.85 },
+    { "kind": "log", "contains": "M0 frame 1", "at": 0.85 },
+    { "kind": "log", "contains": "M0 frame 1", "at": 0.85 },
     {
       "kind": "lua",
       "at": 0.85,

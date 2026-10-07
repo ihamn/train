@@ -59,7 +59,7 @@
     },
     {
       "kind": "log",
-      "contains": "M0 update tick=15",
+      "contains": "M0 alive 15",
       "at": 0.48
     },
     {
@@ -86,7 +86,7 @@
     {
       "kind": "lua",
       "at": 0.98,
-      "source": "local loco = query.control('LOCO')\nassert(loco ~= nil, 'missing LOCO')\nassert(loco.active == true, 'LOCO not active')\nlocal wagon = query.control('WAGON')\nassert(wagon ~= nil, 'missing WAGON')\nassert(wagon.active == true, 'WAGON not active')\nassert(query.logContains('M0 update tick=15'), 'no mid-run liveness log')\nassert(query.logContains('M0 budget probes='), 'no budget log')\nassert(query.logContains('M0 start built='), 'no built log')"
+      "source": "local loco = query.control('LOCO')\nassert(loco ~= nil, 'missing LOCO')\nassert(loco.active == true, 'LOCO not active')\nlocal wagon = query.control('WAGON')\nassert(wagon ~= nil, 'missing WAGON')\nassert(wagon.active == true, 'WAGON not active')\nassert(query.logContains('M0 alive 15'), 'no mid-run liveness log')\nassert(query.logContains('M0 probes='), 'no budget log')\nassert(query.logContains('M0 built='), 'no built log')"
     }
   ]
 }

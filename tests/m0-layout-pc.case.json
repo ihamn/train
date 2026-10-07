@@ -10,7 +10,7 @@
     {
       "kind": "lua",
       "at": 0,
-      "source": "local alwaysOn = {'BG','BALLAST','RAIL_HI','RAIL_LO','TIE_0','TIE_1','TIE_2','TIE_3','TIE_4','TIE_5','LOCO','WAGON','HUD'}\nlocal frameNames = {'F0','F1','F2','F3','F4','F5'}\nlocal bad = {}\nfor i = 1, #alwaysOn do\n  local c = query.control(alwaysOn[i])\n  if c == nil then bad[#bad + 1] = alwaysOn[i] .. '(missing)'\n  elseif c.active ~= true then bad[#bad + 1] = alwaysOn[i] .. '(inactive)' end\nend\nlocal activeFrames = 0\nfor i = 1, #frameNames do\n  local c = query.control(frameNames[i])\n  if c == nil then bad[#bad + 1] = frameNames[i] .. '(missing)'\n  elseif c.active then activeFrames = activeFrames + 1 end\nend\nif activeFrames ~= 1 then bad[#bad + 1] = 'activeFrames=' .. activeFrames end\nassert(#bad == 0, 'bad controls: ' .. table.concat(bad, ','))"
+      "source": "local alwaysOn = {'BG','BALLAST','RAIL_HI','RAIL_LO','TIE_0','TIE_1','TIE_2','TIE_3','TIE_4','TIE_5','LOCO','WAGON','HUD_L0','HUD_L1','HUD_L2','HUD_L3'}\nlocal frameNames = {'F0','F1','F2','F3','F4','F5'}\nlocal bad = {}\nfor i = 1, #alwaysOn do\n  local c = query.control(alwaysOn[i])\n  if c == nil then bad[#bad + 1] = alwaysOn[i] .. '(missing)'\n  elseif c.active ~= true then bad[#bad + 1] = alwaysOn[i] .. '(inactive)' end\nend\nlocal activeFrames = 0\nfor i = 1, #frameNames do\n  local c = query.control(frameNames[i])\n  if c == nil then bad[#bad + 1] = frameNames[i] .. '(missing)'\n  elseif c.active then activeFrames = activeFrames + 1 end\nend\nif activeFrames ~= 1 then bad[#bad + 1] = 'activeFrames=' .. activeFrames end\nassert(#bad == 0, 'bad controls: ' .. table.concat(bad, ','))"
     },
     {
       "kind": "control",

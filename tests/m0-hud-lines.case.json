@@ -1,0 +1,26 @@
+{
+  "format": "qxqy-autotest",
+  "version": 1,
+  "name": "m0-hud-lines",
+  "canvasId": "mobile-16-9",
+  "dt": 0.03333333333333333,
+  "playerCount": 1,
+  "events": [],
+  "_note": "多行 HUD 的行距契约：文本框没有行间距参数（官方编辑器文档/客户端 API 文档/模拟器 schema 三处都没有），所以行距只能由'多个文本框 + y 差'实现。本用例把这条契约钉死：HUD_L0..L3 必须存在且各自 active，y 必须等差（差 = 30），字号必须一致（22）。等差是相对量，不受模板锚点/中心点影响。",
+  "asserts": [
+    { "kind": "control", "name": "HUD_L0", "field": "anchoredPositionY", "equals": 660, "at": 0 },
+    { "kind": "control", "name": "HUD_L1", "field": "anchoredPositionY", "equals": 630, "at": 0 },
+    { "kind": "control", "name": "HUD_L2", "field": "anchoredPositionY", "equals": 600, "at": 0 },
+    { "kind": "control", "name": "HUD_L3", "field": "anchoredPositionY", "equals": 570, "at": 0 },
+    { "kind": "control", "name": "HUD_L0", "field": "fontSize", "equals": 22, "at": 0 },
+    { "kind": "control", "name": "HUD_L3", "field": "fontSize", "equals": 22, "at": 0 },
+    { "kind": "control", "name": "HUD_L0", "field": "active", "equals": true, "at": 0 },
+    { "kind": "control", "name": "HUD_L3", "field": "active", "equals": true, "at": 0 },
+    { "kind": "control", "name": "HUD_L0", "field": "text", "equals": "GEAR +2   SPEED 068", "at": 0 },
+    {
+      "kind": "lua",
+      "at": 0,
+      "source": "local names = {'HUD_L0','HUD_L1','HUD_L2','HUD_L3'}\nfor i = 1, #names do\n  local c = query.control(names[i])\n  assert(c ~= nil, names[i] .. ' missing')\n  assert(c.active == true, names[i] .. ' inactive')\nend\nassert(query.logContains('M0 hud lines=4'), 'no hud lines log')\nassert(query.logContains('M0 built='), 'no built log')"
+    }
+  ]
+}

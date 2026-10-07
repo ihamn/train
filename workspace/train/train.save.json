@@ -510,8 +510,8 @@
                   "y": 100
                 },
                 "pivot": {
-                  "x": 0.5,
-                  "y": 0.5
+                  "x": 0,
+                  "y": 0
                 }
               },
               "TOUCHSCREEN": {
@@ -542,8 +542,8 @@
                   "y": 100
                 },
                 "pivot": {
-                  "x": 0.5,
-                  "y": 0.5
+                  "x": 0,
+                  "y": 0
                 }
               },
               "CONTROLLER_CONSOLE": {
@@ -574,8 +574,8 @@
                   "y": 100
                 },
                 "pivot": {
-                  "x": 0.5,
-                  "y": 0.5
+                  "x": 0,
+                  "y": 0
                 }
               },
               "CONTROLLER_MOBILE": {
@@ -606,8 +606,8 @@
                   "y": 100
                 },
                 "pivot": {
-                  "x": 0.5,
-                  "y": 0.5
+                  "x": 0,
+                  "y": 0
                 }
               }
             },
@@ -672,8 +672,8 @@
                   "y": 40
                 },
                 "pivot": {
-                  "x": 0.5,
-                  "y": 0.5
+                  "x": 0,
+                  "y": 0
                 }
               },
               "TOUCHSCREEN": {
@@ -704,8 +704,8 @@
                   "y": 40
                 },
                 "pivot": {
-                  "x": 0.5,
-                  "y": 0.5
+                  "x": 0,
+                  "y": 0
                 }
               },
               "CONTROLLER_CONSOLE": {
@@ -736,8 +736,8 @@
                   "y": 40
                 },
                 "pivot": {
-                  "x": 0.5,
-                  "y": 0.5
+                  "x": 0,
+                  "y": 0
                 }
               },
               "CONTROLLER_MOBILE": {
@@ -768,8 +768,8 @@
                   "y": 40
                 },
                 "pivot": {
-                  "x": 0.5,
-                  "y": 0.5
+                  "x": 0,
+                  "y": 0
                 }
               }
             },
@@ -826,8 +826,8 @@
                   "y": 100
                 },
                 "pivot": {
-                  "x": 0.5,
-                  "y": 0.5
+                  "x": 0,
+                  "y": 0
                 }
               },
               "TOUCHSCREEN": {
@@ -858,8 +858,8 @@
                   "y": 100
                 },
                 "pivot": {
-                  "x": 0.5,
-                  "y": 0.5
+                  "x": 0,
+                  "y": 0
                 }
               },
               "CONTROLLER_CONSOLE": {
@@ -890,8 +890,8 @@
                   "y": 100
                 },
                 "pivot": {
-                  "x": 0.5,
-                  "y": 0.5
+                  "x": 0,
+                  "y": 0
                 }
               },
               "CONTROLLER_MOBILE": {
@@ -922,8 +922,8 @@
                   "y": 100
                 },
                 "pivot": {
-                  "x": 0.5,
-                  "y": 0.5
+                  "x": 0,
+                  "y": 0
                 }
               }
             },
@@ -943,7 +943,7 @@
         "id": "1073742200",
         "guid": 1073742200,
         "path": "spike.lua",
-        "source": "--[[ ===========================================================================\n  spike.lua v9 —— M0 收口的「有界」版本\n\n  v8 的真机事故（2026-10-07 客户端无响应）之后，本版把所有**可能卡死的结构**换成有界版本：\n\n  ① 模板索引**写死**，不再扫描\n     来源：2026-10-07 真机只读探针实测\n       容器 = 1073741846（挂载点\"容器节点\"自己的模板索引）\n       图片 = 1073741852、文本框 = 1073741851（zuma 工程的单控件模板）\n     ⚠ 三个索引任一不可用 ⇒ **只打日志、直接返回**，不换区间、不重试\n  ② 探测有界：写死候选表（每类 ≤2 个，合计 ≤6 次），每个实例化都配 Destroy 并计数\n  ③ 魔数上限：总实例化预算 = 3(探测) + 1(容器) + 19(控件) = 23，超出即停止\n  ④ OnUpdate 看门狗：tick > 300（约 5 秒）即 EnableUpdate(false) 并停止一切写入（自毁）\n  ⑤ 建控件过程中任何一次失败 ⇒ 停止后续建造并打日志\n  ⑥ **不碰挂载点几何**（不 SetAnchor*/SetPivot/SetAnchoredPosition/SetSizeDelta）\n  ⑦ 不使用**带轴参数的方法调用**（v8 里 GetAnchorMin(1) 这类是首要嫌疑，已全删；\n     y 分量改为尝试读**字段** anchorMinY/anchorMaxY/pivotY —— 字段读失败只是 nil，不会挂）\n\n  阶梯式验证（docs/tech-architecture.md §7、records/playtest.md 第七轮）：\n    台阶②（默认 USE_OWN_CONTAINER=false）：控件直接挂挂载点下 —— 真机已验证安全（v5），代价是坐标偏\n    台阶③（USE_OWN_CONTAINER=true）：再加自建容器 —— v8 死在这一步，本版去掉嫌疑调用后重试\n=========================================================================== ]]\n\n-- ★ 台阶开关：先跑\"已验证安全\"的②，绿了再翻 true 试③\nlocal USE_OWN_CONTAINER = false\n\nlocal FRAME_COUNT = 6\nlocal FRAME_INTERVAL = 0.12\nlocal MOVE_PER_TICK = 10\nlocal GROW_PER_TICK = 4\nlocal MAX_TICKS = 300\nlocal MAX_PROBES = 6            -- 候选表合计上限（3 类 × 2 候选）\n-- 控件数量：18 个图片（BG/道砟/双轨/6 轨枕/车厢/车头/6 帧）+ 1 个文本框 = 19，再加可能的自建容器 = 20\n-- （教训：v5/v6 里的 `#frames + 9 = 15` 是**错算术**，实际上限必须按真实数量给，否则会被截断）\nlocal MAX_BUILD = 20\n\n-- 写死的候选索引（无区间扫描）：[1] = 真机实测（2026-10-07 只读探针），\n-- [2] = 模拟器工程（生成器分配，用于无头回归）。每类最多试 2 个，合计探测 ≤6 次，\n-- 每次建完立即销毁并计数，总数打进日志。\nlocal TPL_CAND = {\n  image = { 1073741852, 1073742003 },\n  text = { 1073741851, 1073742004 },\n  container = { 1073741846, 1073742005 },\n}\n\nlocal parts, frames, missing = {}, {}, {}\nlocal loco, wagon, hud = nil, nil, nil\nlocal canvasW, canvasH = 1280, 720\nlocal tick, idx, ticksPerFrame = 0, 0, 0\nlocal n_probe, n_destroy, n_build = 0, 0, 0\nlocal alive = true\n\nlocal function note(n) missing[#missing + 1] = n end\n\nlocal function try(label, fn)\n  local ok, err = pcall(fn)\n  if not ok then print(\"M0 writefail \" .. label .. \" -> \" .. tostring(err)) end\n  return ok\nend\n\nlocal function read_num(obj, field)\n  local ok, v = pcall(function() return obj[field] end)\n  if ok and type(v) == \"number\" then return v end\n  return nil\nend\n\nlocal function show_only(c, on)\n  if c == nil then return end\n  try(\"setActive\", function() c:SetActive(on) end)\n  try(\"setVisible\", function() c:SetVisible(on) end)\nend\n\nlocal function pin(c, x, y, w, h)\n  try(\"anchorMin\", function() c:SetAnchorMin(0, 0) end)\n  try(\"anchorMax\", function() c:SetAnchorMax(0, 0) end)\n  try(\"pivot\", function() c:SetPivot(0, 0) end)\n  try(\"SetSizeDelta\", function() c:SetSizeDelta(w, h) end)\n  try(\"SetAnchoredPosition\", function() c:SetAnchoredPosition(x, y) end)\nend\n\nlocal function new_image(prefab, name, artId, x, y, w, h)\n  if n_build >= MAX_BUILD then\n    note(name .. \"(budget)\")\n    return nil\n  end\n  local ok, c = pcall(game.InstantiateClientUIControl, prefab, parts.STAGE)\n  if not ok or c == nil then\n    note(name)\n    print(\"M0 build abort at \" .. name .. \" (instantiate failed)\")\n    alive = false\n    return nil\n  end\n  n_build = n_build + 1\n  try(\"name\", function() c.name = name end)\n  pin(c, x, y, w, h)\n  try(\"SetImage\", function() c:SetImage(Enum.ImageSource.StaticReference, artId) end)\n  show_only(c, true)\n  parts[name] = c\n  return c\nend\n\nlocal function new_text(prefab, name, x, y, w, h, text)\n  if n_build >= MAX_BUILD then\n    note(name .. \"(budget)\")\n    return nil\n  end\n  local ok, c = pcall(game.InstantiateClientUIControl, prefab, parts.STAGE)\n  if not ok or c == nil then\n    note(name)\n    print(\"M0 build abort at \" .. name .. \" (instantiate failed)\")\n    alive = false\n    return nil\n  end\n  n_build = n_build + 1\n  try(\"name\", function() c.name = name end)\n  pin(c, x, y, w, h)\n  try(\"text\", function() c.text = text end)\n  show_only(c, true)\n  parts[name] = c\n  return c\nend\n\n-- 有界探测：只试写死的 3 个索引，每个建完立刻销毁并计数\nlocal function probe_fixed_prefab(prefab, parent)\n  if n_probe >= MAX_PROBES then return nil end\n  n_probe = n_probe + 1\n  local ok, c = pcall(game.InstantiateClientUIControl, prefab, parent)\n  if not ok or c == nil then return nil end\n  local okT, t = pcall(function() return typeof(c) end)\n  local kind = okT and tostring(t) or \"?\"\n  local okD = pcall(function() game.DestroyClientUIControl(c) end)\n  if okD then n_destroy = n_destroy + 1 end\n  if kind == \"ClientUIImageControl\" then return \"image\" end\n  if kind == \"ClientUITextBoxControl\" then return \"text\" end\n  if kind == \"ClientUIContainerControl\" then return \"container\" end\n  return nil\nend\n\nlocal function apply_frame(i)\n  for k = 1, FRAME_COUNT do\n    show_only(frames[k], k - 1 == i)\n  end\n  if hud ~= nil then\n    try(\"hud.text\", function() hud.text = \"M0 frame=\" .. i end)\n  end\nend\n\nfunction OnInit()\n  print(\"M0 boot\")\n  local okColon, errColon = pcall(function() script:EnableUpdate(true) end)\n  print(\"M0 enableUpdate colon=\" .. tostring(okColon) .. \" err=\" .. tostring(errColon))\n  if not okColon then\n    local okDot, errDot = pcall(function() script.EnableUpdate(script, true) end)\n    print(\"M0 enableUpdate dot(self)=\" .. tostring(okDot) .. \" err=\" .. tostring(errDot))\n  end\nend\n\nfunction OnStart()\n  local root = script.object\n  if root == nil then\n    print(\"M0 mount=nil -> 脚本没挂在客户端控件上\")\n    return\n  end\n\n  local cw, ch = game.GetUICanvasSize()\n  canvasW = cw or 1280\n  canvasH = ch or 720\n  print(\"M0 canvas=\" .. tostring(cw) .. \"x\" .. tostring(ch))\n  print(\"M0 roots=\" .. tostring(#game.GetClientUIRoots()))\n  print(\"M0 mode=\" .. (USE_OWN_CONTAINER and \"own-container\" or \"mount-children\"))\n\n  print(\"M0 mount untouched type=\" .. tostring(typeof(root))\n    .. \" name='\" .. tostring(root.name) .. \"'\"\n    .. \" prefab=\" .. tostring(root.prefabIndex)\n    .. \" size=\" .. tostring(root.sizeDeltaX) .. \"x\" .. tostring(root.sizeDeltaY)\n    .. \" pos=\" .. tostring(root.anchoredPositionX) .. \",\" .. tostring(root.anchoredPositionY))\n\n  -- y 分量：只试字段（读不到是 nil，不会挂），不再用带轴参数的方法调用\n  local aMinY = read_num(root, \"anchorMinY\")\n  local aMaxY = read_num(root, \"anchorMaxY\")\n  local pivY = read_num(root, \"pivotY\")\n  print(\"M0 yfields anchorMinY=\" .. tostring(aMinY) .. \" anchorMaxY=\" .. tostring(aMaxY)\n    .. \" pivotY=\" .. tostring(pivY) .. \" (nil=不可读，用 0/0/0.5 假设)\")\n\n  local found = {}\n  local kinds = { \"image\", \"text\", \"container\" }\n  for i = 1, #kinds do\n    local kind = kinds[i]\n    local cands = TPL_CAND[kind]\n    for c = 1, #cands do\n      if found[kind] == nil and n_probe < MAX_PROBES then\n        local got = probe_fixed_prefab(cands[c], root)\n        if got == kind then found[kind] = cands[c] end\n      end\n    end\n  end\n  print(\"M0 probes=\" .. n_probe .. \" destroyed=\" .. n_destroy\n    .. \" -> image=\" .. tostring(found.image) .. \" text=\" .. tostring(found.text)\n    .. \" container=\" .. tostring(found.container))\n  if found.image == nil or found.text == nil then\n    print(\"M0 abort: 写死的模板索引不可用（不扫描、不重试）\")\n    alive = false\n    return\n  end\n\n  parts.STAGE = root\n  if USE_OWN_CONTAINER then\n    if found.container == nil then\n      print(\"M0 abort: 需要容器模板但不可用\")\n      alive = false\n      return\n    end\n    local okC, cont = pcall(game.InstantiateClientUIControl, found.container, root)\n    if not okC or cont == nil then\n      print(\"M0 abort: 自建容器失败\")\n      alive = false\n      return\n    end\n    n_build = n_build + 1\n    try(\"container.name\", function() cont.name = \"M0_ROOT\" end)\n    -- 坐标补偿：只读**已验证安全**的读法 —— 无参 GetAnchorMin/GetAnchorMax/GetPivot（真机只读探针跑过）\n    -- 加字段 sizeDeltaX/Y（真机可读）与可选的 anchorMinY/anchorMaxY/pivotY 字段。\n    -- 拉伸轴（aMin ≠ aMax）上 pivot 不参与：矩形 = [aMin*W + pos, aMax*W + pos + sizeDelta]。\n    local aMinX, aMaxX, pivX = 0, 1, 0.5\n    local okA, vA = pcall(function() return root:GetAnchorMin() end)\n    if okA and type(vA) == \"number\" then aMinX = vA end\n    local okB, vB = pcall(function() return root:GetAnchorMax() end)\n    if okB and type(vB) == \"number\" then aMaxX = vB end\n    local okP, vP = pcall(function() return root:GetPivot() end)\n    if okP and type(vP) == \"number\" then pivX = vP end\n    local aMinY = read_num(root, \"anchorMinY\") or 0\n    local aMaxY = read_num(root, \"anchorMaxY\") or 0\n    local pivY = read_num(root, \"pivotY\") or 0.5\n    local sizeX = read_num(root, \"sizeDeltaX\") or 0\n    local sizeY = read_num(root, \"sizeDeltaY\") or 0\n    local posX = read_num(root, \"anchoredPositionX\") or 0\n    local posY = read_num(root, \"anchoredPositionY\") or 0\n    local mW = (aMaxX - aMinX) * canvasW + sizeX\n    local mH = (aMaxY - aMinY) * canvasH + sizeY\n    local mLeft, mBottom\n    if aMaxX ~= aMinX then mLeft = aMinX * canvasW + posX else mLeft = aMinX * canvasW + posX - mW * pivX end\n    if aMaxY ~= aMinY then mBottom = aMinY * canvasH + posY else mBottom = aMinY * canvasH + posY - mH * pivY end\n    print(\"M0 calc mountWxH=\" .. tostring(mW) .. \"x\" .. tostring(mH)\n      .. \" mountLeftBottom=\" .. tostring(mLeft) .. \",\" .. tostring(mBottom)\n      .. \" containerPos=\" .. tostring(-mLeft) .. \",\" .. tostring(-mBottom)\n      .. \" | aMin=\" .. tostring(aMinX) .. \",\" .. tostring(aMinY)\n      .. \" aMax=\" .. tostring(aMaxX) .. \",\" .. tostring(aMaxY)\n      .. \" pivot=\" .. tostring(pivX) .. \",\" .. tostring(pivY))\n    try(\"container.anchorMin\", function() cont:SetAnchorMin(0, 0) end)\n    try(\"container.anchorMax\", function() cont:SetAnchorMax(0, 0) end)\n    try(\"container.pivot\", function() cont:SetPivot(0, 0) end)\n    try(\"container.SetSizeDelta\", function() cont:SetSizeDelta(canvasW, canvasH) end)\n    try(\"container.SetAnchoredPosition\", function() cont:SetAnchoredPosition(-mLeft, -mBottom) end)\n    show_only(cont, true)\n    parts.STAGE = cont\n    print(\"M0 own root type=\" .. tostring(typeof(cont))\n      .. \" size=\" .. tostring(cont.sizeDeltaX) .. \"x\" .. tostring(cont.sizeDeltaY)\n      .. \" pos=\" .. tostring(cont.anchoredPositionX) .. \",\" .. tostring(cont.anchoredPositionY))\n  end\n\n  new_image(found.image, \"BG\", 100001, 0, 0, canvasW, canvasH)\n  new_image(found.image, \"BALLAST\", 100001, 0, 300, canvasW, 90)\n  new_image(found.image, \"RAIL_HI\", 100001, 0, 370, canvasW, 8)\n  new_image(found.image, \"RAIL_LO\", 100001, 0, 320, canvasW, 8)\n  for i = 0, 5 do\n    new_image(found.image, \"TIE_\" .. i, 100001, 130 + 180 * i, 300, 12, 90)\n  end\n  wagon = new_image(found.image, \"WAGON\", 100003, 320, 400, 120, 70)\n  loco = new_image(found.image, \"LOCO\", 100002, 100, 400, 200, 70)\n  for i = 0, FRAME_COUNT - 1 do\n    frames[i + 1] = new_image(found.image, \"F\" .. i, 100001 + i, 900, 430, 140, 140)\n  end\n  hud = new_text(found.text, \"HUD\", 20, 640, 600, 40, \"M0 frame=0\")\n\n  tick, idx, ticksPerFrame = 0, 0, 0\n  apply_frame(0)\n  print(\"M0 budget probes=\" .. n_probe .. \" destroyed=\" .. n_destroy .. \" built=\" .. n_build\n    .. \" (cap \" .. (MAX_PROBES + 1 + MAX_BUILD) .. \")\")\n  print(\"M0 start built=\" .. tostring(n_build) .. \" missing=\" .. #missing\n    .. (#missing > 0 and (\" list=\" .. table.concat(missing, \",\")) or \"\"))\n  print(\"M0 mount after size=\" .. tostring(root.sizeDeltaX) .. \"x\" .. tostring(root.sizeDeltaY)\n    .. \" pos=\" .. tostring(root.anchoredPositionX) .. \",\" .. tostring(root.anchoredPositionY))\nend\n\nfunction OnUpdate(dt)\n  if not alive then return end\n  tick = tick + 1\n\n  if tick > MAX_TICKS then\n    print(\"M0 watchdog stop at tick=\" .. tick .. \" (self-disable)\")\n    pcall(function() script:EnableUpdate(false) end)\n    alive = false\n    return\n  end\n\n  if loco == nil then return end\n\n  if ticksPerFrame == 0 then\n    ticksPerFrame = math.max(1, math.floor(FRAME_INTERVAL / dt + 0.5))\n  end\n  local nextIdx = math.floor(tick / ticksPerFrame) % FRAME_COUNT\n  if nextIdx ~= idx then\n    idx = nextIdx\n    apply_frame(idx)\n    print(\"M0 frame idx=\" .. idx)\n  end\n\n  local wantX = 100 + MOVE_PER_TICK * tick\n  local wantW = 120 + GROW_PER_TICK * tick\n  try(\"loco.SetAnchoredPosition\", function() loco:SetAnchoredPosition(wantX, 400) end)\n  try(\"wagon.SetSizeDelta\", function() wagon:SetSizeDelta(wantW, 70) end)\n\n  if tick == 1 or tick % 15 == 0 then\n    local gx, gw = \"?\", \"?\"\n    local okx, vx = pcall(function() return loco.anchoredPositionX end)\n    if okx then gx = tostring(vx) end\n    local okw, vw = pcall(function() return wagon.sizeDeltaX end)\n    if okw then gw = tostring(vw) end\n    print(\"M0 update tick=\" .. tick .. \" x=\" .. gx .. \"/\" .. tostring(wantX)\n      .. \" w=\" .. gw .. \"/\" .. tostring(wantW))\n  end\nend\n",
+        "source": "--[[ ===========================================================================\n  spike.lua v10 —— 「脏检查 + 节流 + 日志纪律」版（卡死机制修正后的版本）\n\n  ★ 卡死机制（2026-10-07 由 zuma.lua 第 2276–2280 行作者原话 + 另一个 AI 追查确认）：\n    动效不要无条件每帧调 API —— 引擎会把每次调用记进日志，实测 36,000 → 59,000 条，\n    **客户端被自己的日志拖死**（所以我们那几次卡死连 dump 都没留下：日志管道被灌死了）。\n    zuma.lua 整份 5,289 行里 `SetAnchoredPosition` 只有 6 处，且都在包装函数里，\n    条件是「**值变了才写**」+「**位置取整**」。\n\n  本版三条纪律（缺一不可）：\n    ① **脏检查**：位置/尺寸/文本只在**值真的变了**时才写；位置取整（去掉浮点抖动）\n    ② **节流**：写操作每 3 帧才尝试一次（≈10Hz）；换帧只在帧号变化时切\n    ③ **日志纪律**：全程只有 boot / 几行结构信息 / alive×3 / stop —— 绝不每帧打日志\n\n  其它沿用 v9 的有界护栏：索引写死候选表（每类 ≤2、合计 ≤6 次探测，建完即销毁并计数）、\n  总预算上限、看门狗自毁（tick > 300）、失败即返回不重试、不碰挂载点几何、\n  **不调 SetAnchorMin/SetAnchorMax/SetPivot**（锚点/中心是编辑器侧属性，运行时改它们没意义；\n  zuma.lua 全量扫描里 0 次使用）。\n\n  HUD 用**多文本框排版**：文本框没有\"行间距\"参数（官方编辑器文档/客户端 API 文档/模拟器 schema\n  三处都没有），所以行距 = 我们自己给的 y 差（相对量，不受模板锚点/中心影响）。\n=========================================================================== ]]\n\nlocal USE_OWN_CONTAINER = false\n\nlocal FRAME_COUNT = 6\nlocal FRAME_INTERVAL = 0.12\nlocal MOVE_PER_TICK = 10\nlocal GROW_PER_TICK = 4\nlocal MAX_TICKS = 300\nlocal WRITE_EVERY = 3              -- 写操作节流：每 3 帧一次（≈10Hz）\nlocal ALIVE_AT = { 15, 60, 150 }   -- 只在这三个 tick 各打一行存活日志（不打第 4 行）\nlocal MAX_PROBES = 6\nlocal MAX_BUILD = 24\n\n-- 多文本框 HUD：行距 = y 差\nlocal HUD_X, HUD_Y0 = 20, 660\nlocal HUD_W, HUD_H = 420, 26\nlocal HUD_LINE_GAP = 30\nlocal HUD_FONT_SIZE = 22\nlocal HUD_LINES = 4\n\n-- 写死的候选索引（真机实测 [1] / 模拟器工程 [2]），无区间扫描\nlocal TPL_CAND = {\n  image = { 1073741852, 1073742003 },\n  text = { 1073741851, 1073742004 },\n  container = { 1073741846, 1073742005 },\n}\n\nlocal parts, frames, missing = {}, {}, {}\nlocal loco, wagon, hud = nil, nil, nil\nlocal hud_lines = {}\nlocal canvasW, canvasH = 1280, 720\nlocal tick, idx, ticksPerFrame = 0, 0, 0\nlocal n_probe, n_destroy, n_build = 0, 0, 0\nlocal alive = true\n-- 脏检查缓存（只在变化时写 API）\nlocal lastx, lasty, lastw = nil, nil, nil\n\nlocal function note(n) missing[#missing + 1] = n end\n\nlocal function try(label, fn)\n  local ok, err = pcall(fn)\n  if not ok then print(\"M0 writefail \" .. label .. \" -> \" .. tostring(err)) end\n  return ok\nend\n\nlocal function read_num(obj, field)\n  local ok, v = pcall(function() return obj[field] end)\n  if ok and type(v) == \"number\" then return v end\n  return nil\nend\n\nlocal function show_only(c, on)\n  if c == nil then return end\n  try(\"setActive\", function() c:SetActive(on) end)\n  try(\"setVisible\", function() c:SetVisible(on) end)\nend\n\n-- 只改\"位置 + 尺寸\"（锚点/中心是编辑器属性，这里不碰）\nlocal function place(c, x, y, w, h)\n  try(\"SetSizeDelta\", function() c:SetSizeDelta(w, h) end)\n  try(\"SetAnchoredPosition\", function() c:SetAnchoredPosition(x, y) end)\nend\n\nlocal function new_image(prefab, name, artId, x, y, w, h)\n  if n_build >= MAX_BUILD then\n    note(name .. \"(budget)\")\n    return nil\n  end\n  local ok, c = pcall(game.InstantiateClientUIControl, prefab, parts.STAGE)\n  if not ok or c == nil then\n    note(name)\n    print(\"M0 build abort at \" .. name)\n    alive = false\n    return nil\n  end\n  n_build = n_build + 1\n  try(\"name\", function() c.name = name end)\n  place(c, x, y, w, h)\n  try(\"SetImage\", function() c:SetImage(Enum.ImageSource.StaticReference, artId) end)\n  show_only(c, true)\n  parts[name] = c\n  return c\nend\n\nlocal function new_text(prefab, name, x, y, w, h, text)\n  if n_build >= MAX_BUILD then\n    note(name .. \"(budget)\")\n    return nil\n  end\n  local ok, c = pcall(game.InstantiateClientUIControl, prefab, parts.STAGE)\n  if not ok or c == nil then\n    note(name)\n    print(\"M0 build abort at \" .. name)\n    alive = false\n    return nil\n  end\n  n_build = n_build + 1\n  try(\"name\", function() c.name = name end)\n  place(c, x, y, w, h)\n  try(\"text\", function() c.text = text end)\n  show_only(c, true)\n  parts[name] = c\n  return c\nend\n\nlocal function probe_fixed_prefab(prefab, parent)\n  if n_probe >= MAX_PROBES then return nil end\n  n_probe = n_probe + 1\n  local ok, c = pcall(game.InstantiateClientUIControl, prefab, parent)\n  if not ok or c == nil then return nil end\n  local okT, t = pcall(function() return typeof(c) end)\n  local kind = okT and tostring(t) or \"?\"\n  local okD = pcall(function() game.DestroyClientUIControl(c) end)\n  if okD then n_destroy = n_destroy + 1 end\n  if kind == \"ClientUIImageControl\" then return \"image\" end\n  if kind == \"ClientUITextBoxControl\" then return \"text\" end\n  if kind == \"ClientUIContainerControl\" then return \"container\" end\n  return nil\nend\n\n-- 换帧：只在帧号变化时切换（不是每帧都写 active）\nlocal n_frame_log = 0   -- 换帧留痕上限：只记前 3 次（日志纪律：全程行数有界）\nlocal function apply_frame(i)\n  for k = 1, FRAME_COUNT do\n    show_only(frames[k], k - 1 == i)\n  end\n  if hud_lines[3] ~= nil then\n    try(\"hud2\", function() hud_lines[3].text = \"FRAME \" .. i .. \" / \" .. FRAME_COUNT end)\n  end\n  if n_frame_log < 3 then\n    n_frame_log = n_frame_log + 1\n    print(\"M0 frame \" .. i)\n  end\nend\n\nfunction OnInit()\n  print(\"M0 boot\")\n  local okColon, errColon = pcall(function() script:EnableUpdate(true) end)\n  if not okColon then\n    local okDot, errDot = pcall(function() script.EnableUpdate(script, true) end)\n    if not okDot then print(\"M0 enableUpdate failed \" .. tostring(errDot)) end\n  end\nend\n\nfunction OnStart()\n  local root = script.object\n  if root == nil then\n    print(\"M0 mount=nil\")\n    return\n  end\n\n  local cw, ch = game.GetUICanvasSize()\n  canvasW = cw or 1280\n  canvasH = ch or 720\n  print(\"M0 canvas=\" .. tostring(cw) .. \"x\" .. tostring(ch)\n    .. \" mode=\" .. (USE_OWN_CONTAINER and \"own\" or \"mount\"))\n  print(\"M0 mount type=\" .. tostring(typeof(root))\n    .. \" name='\" .. tostring(root.name) .. \"'\"\n    .. \" prefab=\" .. tostring(root.prefabIndex)\n    .. \" size=\" .. tostring(root.sizeDeltaX) .. \"x\" .. tostring(root.sizeDeltaY)\n    .. \" pos=\" .. tostring(root.anchoredPositionX) .. \",\" .. tostring(root.anchoredPositionY))\n\n  local found = {}\n  local kinds = { \"image\", \"text\", \"container\" }\n  for i = 1, #kinds do\n    local kind = kinds[i]\n    local cands = TPL_CAND[kind]\n    for c = 1, #cands do\n      if found[kind] == nil and n_probe < MAX_PROBES then\n        local got = probe_fixed_prefab(cands[c], root)\n        if got == kind then found[kind] = cands[c] end\n      end\n    end\n  end\n  print(\"M0 probes=\" .. n_probe .. \" destroyed=\" .. n_destroy\n    .. \" image=\" .. tostring(found.image) .. \" text=\" .. tostring(found.text))\n  if found.image == nil or found.text == nil then\n    print(\"M0 abort: 写死的模板索引不可用（不扫描、不重试）\")\n    alive = false\n    return\n  end\n\n  parts.STAGE = root\n  if USE_OWN_CONTAINER then\n    if found.container == nil then\n      print(\"M0 abort: no container template\")\n      alive = false\n      return\n    end\n    local okC, cont = pcall(game.InstantiateClientUIControl, found.container, root)\n    if not okC or cont == nil then\n      print(\"M0 abort: own container failed\")\n      alive = false\n      return\n    end\n    n_build = n_build + 1\n    try(\"container.name\", function() cont.name = \"M0_ROOT\" end)\n    place(cont, 0, 0, canvasW, canvasH)\n    show_only(cont, true)\n    parts.STAGE = cont\n  end\n\n  new_image(found.image, \"BG\", 100001, 0, 0, canvasW, canvasH)\n  new_image(found.image, \"BALLAST\", 100001, 0, 300, canvasW, 90)\n  new_image(found.image, \"RAIL_HI\", 100001, 0, 370, canvasW, 8)\n  new_image(found.image, \"RAIL_LO\", 100001, 0, 320, canvasW, 8)\n  for i = 0, 5 do\n    new_image(found.image, \"TIE_\" .. i, 100001, 130 + 180 * i, 300, 12, 90)\n  end\n  wagon = new_image(found.image, \"WAGON\", 100003, 320, 400, 120, 70)\n  loco = new_image(found.image, \"LOCO\", 100002, 100, 400, 200, 70)\n  for i = 0, FRAME_COUNT - 1 do\n    frames[i + 1] = new_image(found.image, \"F\" .. i, 100001 + i, 900, 430, 140, 140)\n  end\n\n  hud_lines = {}\n  for i = 0, HUD_LINES - 1 do\n    local t = new_text(found.text, \"HUD_L\" .. i, HUD_X, HUD_Y0 - i * HUD_LINE_GAP, HUD_W, HUD_H, \"\")\n    if t ~= nil then\n      try(\"hud.fontSize\", function() t.fontSize = HUD_FONT_SIZE end)\n      hud_lines[i + 1] = t\n    end\n  end\n  hud = hud_lines[1]\n  if hud_lines[1] ~= nil then\n    try(\"hud0\", function() hud_lines[1].text = \"GEAR +2   SPEED 068\" end)\n  end\n  if hud_lines[2] ~= nil then\n    try(\"hud1\", function() hud_lines[2].text = \"AXLE 40%  TEMP OK\" end)\n  end\n  if hud_lines[4] ~= nil then\n    try(\"hud3\", function() hud_lines[4].text = \"LINE GAP \" .. HUD_LINE_GAP .. \"px by y diff\" end)\n  end\n  print(\"M0 hud lines=\" .. #hud_lines .. \" gap=\" .. HUD_LINE_GAP .. \" y0=\" .. HUD_Y0)\n\n  tick, idx, ticksPerFrame = 0, 0, 0\n  lastx, lasty, lastw = nil, nil, nil\n  apply_frame(0)\n  print(\"M0 built=\" .. tostring(n_build) .. \" missing=\" .. #missing\n    .. \" cap=\" .. tostring(MAX_PROBES + 1 + MAX_BUILD))\nend\n\nfunction OnUpdate(dt)\n  if not alive then return end\n  tick = tick + 1\n\n  -- 看门狗：无论 EnableUpdate 是否生效，靠 tick 自毁\n  if tick > MAX_TICKS then\n    print(\"M0 stop tick=\" .. tick)\n    pcall(function() script:EnableUpdate(false) end)\n    alive = false\n    return\n  end\n\n  -- 日志纪律：全程只有这几行\n  if tick == ALIVE_AT[1] or tick == ALIVE_AT[2] or tick == ALIVE_AT[3] then\n    print(\"M0 alive \" .. tick)\n  end\n\n  if loco == nil then return end\n  if tick % WRITE_EVERY ~= 0 then return end        -- ② 节流\n\n  if ticksPerFrame == 0 then\n    ticksPerFrame = math.max(1, math.floor(FRAME_INTERVAL / dt + 0.5))\n  end\n  local nextIdx = math.floor(tick / ticksPerFrame) % FRAME_COUNT\n  if nextIdx ~= idx then                            -- ① 脏检查\n    idx = nextIdx\n    apply_frame(idx)\n  end\n\n  -- ① 脏检查 + 取整：值没变就不调 API（这就是 zuma 的做法）\n  local wantX = math.floor(100 + MOVE_PER_TICK * tick + 0.5)\n  local wantY = 400\n  local wantW = math.floor(120 + GROW_PER_TICK * tick + 0.5)\n  if lastx ~= wantX or lasty ~= wantY then\n    lastx, lasty = wantX, wantY\n    try(\"loco.pos\", function() loco:SetAnchoredPosition(wantX, wantY) end)\n  end\n  if lastw ~= wantW then\n    lastw = wantW\n    try(\"wagon.size\", function() wagon:SetSizeDelta(wantW, 70) end)\n  end\nend\n",
         "controlId": "n1",
         "controlAsset": "server-control-template"
       }

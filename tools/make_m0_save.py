@@ -199,7 +199,7 @@ def build_client_project():
     就得在这里放两个单控件模板：M0_IMG（图片）与 M0_TEXT（文本框）。
     """
     img = make_node(
-        "image", "M0_IMG", (0, 0), (0, 0), (0, 0), (100, 100), pivot=(0.5, 0.5),
+        "image", "M0_IMG", (0, 0), (0, 0), (0, 0), (100, 100), pivot=(0, 0),
         imageSource="StaticReference", imageId=100001, imageColor=C_FRAME,
         enableMask=False, enableSoftEdge=False, softEdgeMode="Percentage",
         softEdgeWidthX=8, softEdgeWidthY=8, horizontalSoftRange=85, verticalSoftRange=85,
@@ -208,7 +208,7 @@ def build_client_project():
         fillAmount=1, reverseMaskArea=False,
     )
     txt = make_node(
-        "textbox", "M0_TEXT", (0, 0), (0, 0), (0, 0), (200, 40), pivot=(0.5, 0.5),
+        "textbox", "M0_TEXT", (0, 0), (0, 0), (0, 0), (200, 40), pivot=(0, 0),
         fontSize=24, adaptiveFontSize=False, minimumFontSize=20,
         fontColor=0xFFFFFFFF, bgColor=0x00000000, enableOutline=True,
         outlineColor=0x33000000, horizontalAlignment="Left", verticalAlignment="Middle",
@@ -217,7 +217,7 @@ def build_client_project():
     # 容器模板：v8 要"自建容器"当布局父级（真机上这个模板索引是 1073741846），
     # 模拟器里没有对应模板就没法测这条路径。
     cont = make_node(
-        "container", "M0_CONT", (0, 0), (0, 0), (0, 0), (100, 100), pivot=(0.5, 0.5),
+        "container", "M0_CONT", (0, 0), (0, 0), (0, 0), (100, 100), pivot=(0, 0),
         isolateNavigation=False, disableKeyEventPassthrough=False,
         disableCursorEventPassthrough=False, showCursor=False,
     )
