@@ -1,45 +1,54 @@
 --[[ ===========================================================================
-  spike.lua v8 —— M0 收口的「修复验证」版：**自建容器 + 按实测几何补偿**
+  spike.lua v9 —— M0 收口的「有界」版本
 
-  真机只读探针（2026-10-07）取到的事实：
-    · 挂载点 script.object = ClientUIContainerControl，name=''，prefabIndex=1073741846
-      sizeDelta = 380×1080，GetAnchorMin.x = 0，GetAnchorMax.x = 1（**水平拉伸**），GetPivot = 0.5
-      ⇒ 解析矩形 2060×1080、左下角 (−1030,−540) ⇒ 与画布(1680×900)的可见交集只有左下角一块
-      ⇒ 这既是 v5「有东西但偏了」的原因，也是 v5.3 试图"钉挂载点"却触发无响应的现场
+  v8 的真机事故（2026-10-07 客户端无响应）之后，本版把所有**可能卡死的结构**换成有界版本：
 
-  v8 的两条动作（对应 docs/tech-architecture.md §7 规则 1）：
-    ① **自建容器**：InstantiateClientUIControl(1073741846, 挂载点) —— 容器模板索引是真机实测的
-    ② **只钉自建容器**：锚点 (0,0)/(0,0)、pivot (0,0)、size = 画布尺寸、
-       位置 = **画布原点 − 挂载点左下角**（挂载点原点在屏幕外，必须补偿，否则整块还是偏的）
-    ③ 15 个控件全挂在自建容器下 ⇒ 坐标 = 干净的画布坐标
-    ④ **一个动作都不碰挂载点**（不 SetAnchor*/SetPivot/SetAnchoredPosition/SetSizeDelta）
+  ① 模板索引**写死**，不再扫描
+     来源：2026-10-07 真机只读探针实测
+       容器 = 1073741846（挂载点"容器节点"自己的模板索引）
+       图片 = 1073741852、文本框 = 1073741851（zuma 工程的单控件模板）
+     ⚠ 三个索引任一不可用 ⇒ **只打日志、直接返回**，不换区间、不重试
+  ② 探测有界：写死候选表（每类 ≤2 个，合计 ≤6 次），每个实例化都配 Destroy 并计数
+  ③ 魔数上限：总实例化预算 = 3(探测) + 1(容器) + 19(控件) = 23，超出即停止
+  ④ OnUpdate 看门狗：tick > 300（约 5 秒）即 EnableUpdate(false) 并停止一切写入（自毁）
+  ⑤ 建控件过程中任何一次失败 ⇒ 停止后续建造并打日志
+  ⑥ **不碰挂载点几何**（不 SetAnchor*/SetPivot/SetAnchoredPosition/SetSizeDelta）
+  ⑦ 不使用**带轴参数的方法调用**（v8 里 GetAnchorMin(1) 这类是首要嫌疑，已全删；
+     y 分量改为尝试读**字段** anchorMinY/anchorMaxY/pivotY —— 字段读失败只是 nil，不会挂）
 
-  几何补偿的算式（括号里是 2026-10-07 真机实测值，用于自检）：
-    mW = canvasW*(anchorMaxX−anchorMinX) + sizeDeltaX      → 1680*(1−0)+380 = 2060
-    mH = canvasH*(anchorMaxY−anchorMinY) + sizeDeltaY      → 900*0+1080     = 1080（y 锚点假设 0/0）
-    mountLeft   = anchorMinX*canvasW + posX − mW*pivotX    → 0+0−1030 = −1030
-    mountBottom = anchorMinY*canvasH + posY − mH*pivotY    → 0+0−540  = −540 （pivotY 假设 0.5）
-    containerPos = (−mountLeft, −mountBottom)              → (+1030, +540)
-  真机读不到 y 分量（GetAnchorMin/GetPivot 无参只返回 x），所以 y 锚点/pivot 是**假设**；
-  但同一套算式在模拟器里能**复现**实测值（模拟器挂载点 1280×720、锚点 0/1、pivot 0.5 ⇒
-  算出 mountLeft=−640，与实测 `STAGE.left=−640` 一致）⇒ 算式本身是对的，
-  真机若看到整体上下偏移，只需按日志里的 `M0 calc` 行改一个假设值即可。
+  阶梯式验证（docs/tech-architecture.md §7、records/playtest.md 第七轮）：
+    台阶②（默认 USE_OWN_CONTAINER=false）：控件直接挂挂载点下 —— 真机已验证安全（v5），代价是坐标偏
+    台阶③（USE_OWN_CONTAINER=true）：再加自建容器 —— v8 死在这一步，本版去掉嫌疑调用后重试
 =========================================================================== ]]
 
-local FRAME_COUNT = 6
-local FRAME_INTERVAL = 0.12   -- 每帧停留秒数（v5 真机已验证的换帧节奏）
-local MOVE_PER_TICK = 10      -- 车头每 tick 前进像素
-local GROW_PER_TICK = 4       -- 车厢每 tick 变宽像素
+-- ★ 台阶开关：先跑"已验证安全"的②，绿了再翻 true 试③
+local USE_OWN_CONTAINER = false
 
--- 真机实测索引（只读探针 2026-10-07）
-local TPL_DEVICE = { image = 1073741852, text = 1073741851, container = 1073741846 }
--- 模拟器工程的模板索引在这两个窄窗口里（认全即停）
-local TPL_SCAN = { { 1073741845, 1073741870 }, { 1073741995, 1073742320 } }
+local FRAME_COUNT = 6
+local FRAME_INTERVAL = 0.12
+local MOVE_PER_TICK = 10
+local GROW_PER_TICK = 4
+local MAX_TICKS = 300
+local MAX_PROBES = 6            -- 候选表合计上限（3 类 × 2 候选）
+-- 控件数量：18 个图片（BG/道砟/双轨/6 轨枕/车厢/车头/6 帧）+ 1 个文本框 = 19，再加可能的自建容器 = 20
+-- （教训：v5/v6 里的 `#frames + 9 = 15` 是**错算术**，实际上限必须按真实数量给，否则会被截断）
+local MAX_BUILD = 20
+
+-- 写死的候选索引（无区间扫描）：[1] = 真机实测（2026-10-07 只读探针），
+-- [2] = 模拟器工程（生成器分配，用于无头回归）。每类最多试 2 个，合计探测 ≤6 次，
+-- 每次建完立即销毁并计数，总数打进日志。
+local TPL_CAND = {
+  image = { 1073741852, 1073742003 },
+  text = { 1073741851, 1073742004 },
+  container = { 1073741846, 1073742005 },
+}
 
 local parts, frames, missing = {}, {}, {}
 local loco, wagon, hud = nil, nil, nil
 local canvasW, canvasH = 1280, 720
 local tick, idx, ticksPerFrame = 0, 0, 0
+local n_probe, n_destroy, n_build = 0, 0, 0
+local alive = true
 
 local function note(n) missing[#missing + 1] = n end
 
@@ -61,7 +70,6 @@ local function show_only(c, on)
   try("setVisible", function() c:SetVisible(on) end)
 end
 
--- 只用于**我们自己建的控件**：显式钉死几何，不依赖模板默认锚点/中心
 local function pin(c, x, y, w, h)
   try("anchorMin", function() c:SetAnchorMin(0, 0) end)
   try("anchorMax", function() c:SetAnchorMax(0, 0) end)
@@ -71,11 +79,18 @@ local function pin(c, x, y, w, h)
 end
 
 local function new_image(prefab, name, artId, x, y, w, h)
+  if n_build >= MAX_BUILD then
+    note(name .. "(budget)")
+    return nil
+  end
   local ok, c = pcall(game.InstantiateClientUIControl, prefab, parts.STAGE)
   if not ok or c == nil then
     note(name)
+    print("M0 build abort at " .. name .. " (instantiate failed)")
+    alive = false
     return nil
   end
+  n_build = n_build + 1
   try("name", function() c.name = name end)
   pin(c, x, y, w, h)
   try("SetImage", function() c:SetImage(Enum.ImageSource.StaticReference, artId) end)
@@ -85,11 +100,18 @@ local function new_image(prefab, name, artId, x, y, w, h)
 end
 
 local function new_text(prefab, name, x, y, w, h, text)
+  if n_build >= MAX_BUILD then
+    note(name .. "(budget)")
+    return nil
+  end
   local ok, c = pcall(game.InstantiateClientUIControl, prefab, parts.STAGE)
   if not ok or c == nil then
     note(name)
+    print("M0 build abort at " .. name .. " (instantiate failed)")
+    alive = false
     return nil
   end
+  n_build = n_build + 1
   try("name", function() c.name = name end)
   pin(c, x, y, w, h)
   try("text", function() c.text = text end)
@@ -98,126 +120,20 @@ local function new_text(prefab, name, x, y, w, h, text)
   return c
 end
 
--- 读挂载点几何（**只读**），算出它的左下角相对于画布的位置
--- 返回：mW, mH, left, bottom, 诊断字符串
-local function measure_mount(root)
-  local aMinX, aMaxX, pivotX = 0, 1, 0.5
-  local posX = read_num(root, "anchoredPositionX") or 0
-  local posY = read_num(root, "anchoredPositionY") or 0
-  local sizeX = read_num(root, "sizeDeltaX") or 0
-  local sizeY = read_num(root, "sizeDeltaY") or 0
-
-  -- 尝试用带轴参数的方式读 y 分量（真机是否支持未知，读到就用，读不到就保留假设）
-  local function try_axis(method, axis, label)
-    local ok, v = pcall(function()
-      local f = root[method]
-      if f == nil then return nil end
-      return f(root, axis)
-    end)
-    if ok and type(v) == "number" then
-      print("M0 axis " .. label .. "=" .. tostring(v))
-      return v
-    end
-    return nil
-  end
-  local yMin = try_axis("GetAnchorMin", 1, "anchorMinY@1") or try_axis("GetAnchorMin", "y", "anchorMinY@y")
-  local yMax = try_axis("GetAnchorMax", 1, "anchorMaxY@1") or try_axis("GetAnchorMax", "y", "anchorMaxY@y")
-  local yPivot = try_axis("GetPivot", 1, "pivotY@1") or try_axis("GetPivot", "y", "pivotY@y")
-
-  local okMin, vMinX = pcall(function() return root:GetAnchorMin() end)
-  if okMin and type(vMinX) == "number" then aMinX = vMinX end
-  local okMax, vMaxX = pcall(function() return root:GetAnchorMax() end)
-  if okMax and type(vMaxX) == "number" then aMaxX = vMaxX end
-  local okPiv, vPivX = pcall(function() return root:GetPivot() end)
-  if okPiv and type(vPivX) == "number" then pivotX = vPivX end
-
-  local aMinY = yMin or 0
-  local aMaxY = yMax or 0
-  local pivotY = yPivot or 0.5
-  local assumed = (yMin == nil or yMax == nil or yPivot == nil)
-
-  -- ★ 拉伸轴（aMin ≠ aMax）上 **pivot 不参与**：矩形 = [aMin*W + pos, aMax*W + pos + sizeDelta]
-  --   只有"点锚点"（aMin == aMax）才需要 pos − size*pivot。
-  --   这条是模拟器实测逼出来的：挂载点 anchor 0→1（拉伸）、pivot 0.5、sizeDelta 0×0，
-  --   按 pivot 减半会算出 left=−640，而实测 `STAGE.left = 0`（它本身就是画布矩形）。
-  local mW = (aMaxX - aMinX) * canvasW + sizeX
-  local mH = (aMaxY - aMinY) * canvasH + sizeY
-  local left
-  if aMaxX ~= aMinX then
-    left = aMinX * canvasW + posX
-  else
-    left = aMinX * canvasW + posX - mW * pivotX
-  end
-  local bottom
-  if aMaxY ~= aMinY then
-    bottom = aMinY * canvasH + posY
-  else
-    bottom = aMinY * canvasH + posY - mH * pivotY
-  end
-
-  local diag = "aMin=" .. tostring(aMinX) .. "," .. tostring(aMinY)
-    .. " aMax=" .. tostring(aMaxX) .. "," .. tostring(aMaxY)
-    .. " pivot=" .. tostring(pivotX) .. "," .. tostring(pivotY)
-    .. " size=" .. tostring(sizeX) .. "x" .. tostring(sizeY)
-    .. " assumedY=" .. tostring(assumed)
-  return mW, mH, left, bottom, diag
-end
-
--- 认模板：先信真机实测索引（不扫），不成立才做窄窗口兜底
--- ⚠ 这里必须用**挂载点**当实例化父级：此时自建容器还不存在（parts.STAGE 仍为 nil），
---   传 nil 会让每一次实例化都失败（v8 首测踩到：probes=355 errs=355）。
-local function instantiable(prefab, parent)
+-- 有界探测：只试写死的 3 个索引，每个建完立刻销毁并计数
+local function probe_fixed_prefab(prefab, parent)
+  if n_probe >= MAX_PROBES then return nil end
+  n_probe = n_probe + 1
   local ok, c = pcall(game.InstantiateClientUIControl, prefab, parent)
   if not ok or c == nil then return nil end
-  return c
-end
-
-local function kind_of(c)
-  local ok, t = pcall(function() return typeof(c) end)
-  if ok then return tostring(t) end
-  return "?"
-end
-
-local function detect_templates(parent)
-  local found = { image = nil, text = nil, container = nil }
-  local probes, errs = 0, 0
-
-  local function claim(prefab, parent)
-    probes = probes + 1
-    local c = instantiable(prefab, parent)
-    if c == nil then
-      errs = errs + 1
-      return nil
-    end
-    local t = kind_of(c)
-    pcall(function() game.DestroyClientUIControl(c) end)
-    if t == "ClientUIImageControl" then return "image" end
-    if t == "ClientUITextBoxControl" then return "text" end
-    if t == "ClientUIContainerControl" then return "container" end
-    return nil
-  end
-
-  local known = { { "image", TPL_DEVICE.image }, { "text", TPL_DEVICE.text }, { "container", TPL_DEVICE.container } }
-  for i = 1, #known do
-    local kind = claim(known[i][2], parent)
-    if kind ~= nil and found[kind] == nil then found[kind] = known[i][2] end
-  end
-
-  if found.image == nil or found.text == nil or found.container == nil then
-    for w = 1, #TPL_SCAN do
-      local i = TPL_SCAN[w][1]
-      while i <= TPL_SCAN[w][2] do
-        if found.image ~= nil and found.text ~= nil and found.container ~= nil then break end
-        local kind = claim(i, parent)
-        if kind ~= nil and found[kind] == nil then found[kind] = i end
-        i = i + 1
-      end
-    end
-  end
-
-  print("M0 tpl using image=" .. tostring(found.image) .. " text=" .. tostring(found.text)
-    .. " container=" .. tostring(found.container) .. " probes=" .. probes .. " errs=" .. errs)
-  return found
+  local okT, t = pcall(function() return typeof(c) end)
+  local kind = okT and tostring(t) or "?"
+  local okD = pcall(function() game.DestroyClientUIControl(c) end)
+  if okD then n_destroy = n_destroy + 1 end
+  if kind == "ClientUIImageControl" then return "image" end
+  if kind == "ClientUITextBoxControl" then return "text" end
+  if kind == "ClientUIContainerControl" then return "container" end
+  return nil
 end
 
 local function apply_frame(i)
@@ -227,7 +143,6 @@ local function apply_frame(i)
   if hud ~= nil then
     try("hud.text", function() hud.text = "M0 frame=" .. i end)
   end
-  print("M0 frame idx=" .. i)
 end
 
 function OnInit()
@@ -251,87 +166,134 @@ function OnStart()
   canvasW = cw or 1280
   canvasH = ch or 720
   print("M0 canvas=" .. tostring(cw) .. "x" .. tostring(ch))
+  print("M0 roots=" .. tostring(#game.GetClientUIRoots()))
+  print("M0 mode=" .. (USE_OWN_CONTAINER and "own-container" or "mount-children"))
 
-  local roots = game.GetClientUIRoots()
-  print("M0 roots=" .. tostring(#roots))
-
-  -- 挂载点：**只读地记录**（这一版一个字都不写它）
   print("M0 mount untouched type=" .. tostring(typeof(root))
     .. " name='" .. tostring(root.name) .. "'"
     .. " prefab=" .. tostring(root.prefabIndex)
     .. " size=" .. tostring(root.sizeDeltaX) .. "x" .. tostring(root.sizeDeltaY)
-    .. " pos=" .. tostring(root.anchoredPositionX) .. "," .. tostring(root.anchoredPositionY)
-    .. " scale=" .. tostring(root.localScaleX) .. "x" .. tostring(root.localScaleY))
+    .. " pos=" .. tostring(root.anchoredPositionX) .. "," .. tostring(root.anchoredPositionY))
 
-  local mW, mH, mLeft, mBottom, diag = measure_mount(root)
-  print("M0 calc mountWxH=" .. tostring(mW) .. "x" .. tostring(mH)
-    .. " mountLeftBottom=" .. tostring(mLeft) .. "," .. tostring(mBottom)
-    .. " containerPos=" .. tostring(-mLeft) .. "," .. tostring(-mBottom)
-    .. " | " .. diag)
+  -- y 分量：只试字段（读不到是 nil，不会挂），不再用带轴参数的方法调用
+  local aMinY = read_num(root, "anchorMinY")
+  local aMaxY = read_num(root, "anchorMaxY")
+  local pivY = read_num(root, "pivotY")
+  print("M0 yfields anchorMinY=" .. tostring(aMinY) .. " anchorMaxY=" .. tostring(aMaxY)
+    .. " pivotY=" .. tostring(pivY) .. " (nil=不可读，用 0/0/0.5 假设)")
 
-  local tpl = detect_templates(root)
-  if tpl.image == nil or tpl.text == nil or tpl.container == nil then
-    print("M0 detect failed (image/text/container 必须都能实例化) -> 不建控件")
+  local found = {}
+  local kinds = { "image", "text", "container" }
+  for i = 1, #kinds do
+    local kind = kinds[i]
+    local cands = TPL_CAND[kind]
+    for c = 1, #cands do
+      if found[kind] == nil and n_probe < MAX_PROBES then
+        local got = probe_fixed_prefab(cands[c], root)
+        if got == kind then found[kind] = cands[c] end
+      end
+    end
+  end
+  print("M0 probes=" .. n_probe .. " destroyed=" .. n_destroy
+    .. " -> image=" .. tostring(found.image) .. " text=" .. tostring(found.text)
+    .. " container=" .. tostring(found.container))
+  if found.image == nil or found.text == nil then
+    print("M0 abort: 写死的模板索引不可用（不扫描、不重试）")
+    alive = false
     return
   end
 
-  -- ① 自建容器（挂载点只作为它的父级，不被写）
-  local okC, cont = pcall(game.InstantiateClientUIControl, tpl.container, root)
-  if not okC or cont == nil then
-    print("M0 own container failed -> 不建控件（绝不用挂载点当布局父级，也不改它的几何）")
-    return
+  parts.STAGE = root
+  if USE_OWN_CONTAINER then
+    if found.container == nil then
+      print("M0 abort: 需要容器模板但不可用")
+      alive = false
+      return
+    end
+    local okC, cont = pcall(game.InstantiateClientUIControl, found.container, root)
+    if not okC or cont == nil then
+      print("M0 abort: 自建容器失败")
+      alive = false
+      return
+    end
+    n_build = n_build + 1
+    try("container.name", function() cont.name = "M0_ROOT" end)
+    -- 坐标补偿：只读**已验证安全**的读法 —— 无参 GetAnchorMin/GetAnchorMax/GetPivot（真机只读探针跑过）
+    -- 加字段 sizeDeltaX/Y（真机可读）与可选的 anchorMinY/anchorMaxY/pivotY 字段。
+    -- 拉伸轴（aMin ≠ aMax）上 pivot 不参与：矩形 = [aMin*W + pos, aMax*W + pos + sizeDelta]。
+    local aMinX, aMaxX, pivX = 0, 1, 0.5
+    local okA, vA = pcall(function() return root:GetAnchorMin() end)
+    if okA and type(vA) == "number" then aMinX = vA end
+    local okB, vB = pcall(function() return root:GetAnchorMax() end)
+    if okB and type(vB) == "number" then aMaxX = vB end
+    local okP, vP = pcall(function() return root:GetPivot() end)
+    if okP and type(vP) == "number" then pivX = vP end
+    local aMinY = read_num(root, "anchorMinY") or 0
+    local aMaxY = read_num(root, "anchorMaxY") or 0
+    local pivY = read_num(root, "pivotY") or 0.5
+    local sizeX = read_num(root, "sizeDeltaX") or 0
+    local sizeY = read_num(root, "sizeDeltaY") or 0
+    local posX = read_num(root, "anchoredPositionX") or 0
+    local posY = read_num(root, "anchoredPositionY") or 0
+    local mW = (aMaxX - aMinX) * canvasW + sizeX
+    local mH = (aMaxY - aMinY) * canvasH + sizeY
+    local mLeft, mBottom
+    if aMaxX ~= aMinX then mLeft = aMinX * canvasW + posX else mLeft = aMinX * canvasW + posX - mW * pivX end
+    if aMaxY ~= aMinY then mBottom = aMinY * canvasH + posY else mBottom = aMinY * canvasH + posY - mH * pivY end
+    print("M0 calc mountWxH=" .. tostring(mW) .. "x" .. tostring(mH)
+      .. " mountLeftBottom=" .. tostring(mLeft) .. "," .. tostring(mBottom)
+      .. " containerPos=" .. tostring(-mLeft) .. "," .. tostring(-mBottom)
+      .. " | aMin=" .. tostring(aMinX) .. "," .. tostring(aMinY)
+      .. " aMax=" .. tostring(aMaxX) .. "," .. tostring(aMaxY)
+      .. " pivot=" .. tostring(pivX) .. "," .. tostring(pivY))
+    try("container.anchorMin", function() cont:SetAnchorMin(0, 0) end)
+    try("container.anchorMax", function() cont:SetAnchorMax(0, 0) end)
+    try("container.pivot", function() cont:SetPivot(0, 0) end)
+    try("container.SetSizeDelta", function() cont:SetSizeDelta(canvasW, canvasH) end)
+    try("container.SetAnchoredPosition", function() cont:SetAnchoredPosition(-mLeft, -mBottom) end)
+    show_only(cont, true)
+    parts.STAGE = cont
+    print("M0 own root type=" .. tostring(typeof(cont))
+      .. " size=" .. tostring(cont.sizeDeltaX) .. "x" .. tostring(cont.sizeDeltaY)
+      .. " pos=" .. tostring(cont.anchoredPositionX) .. "," .. tostring(cont.anchoredPositionY))
   end
-  try("container.name", function() cont.name = "M0_ROOT" end)
-  -- ② 把容器左下角顶到画布左下角：位置 = 画布原点 − 挂载点左下角
-  try("container.anchorMin", function() cont:SetAnchorMin(0, 0) end)
-  try("container.anchorMax", function() cont:SetAnchorMax(0, 0) end)
-  try("container.pivot", function() cont:SetPivot(0, 0) end)
-  try("container.SetSizeDelta", function() cont:SetSizeDelta(canvasW, canvasH) end)
-  try("container.SetAnchoredPosition", function() cont:SetAnchoredPosition(-mLeft, -mBottom) end)
-  show_only(cont, true)
-  parts.STAGE = cont
-  print("M0 root built type=" .. tostring(typeof(cont))
-    .. " size=" .. tostring(cont.sizeDeltaX) .. "x" .. tostring(cont.sizeDeltaY)
-    .. " pos=" .. tostring(cont.anchoredPositionX) .. "," .. tostring(cont.anchoredPositionY))
 
-  -- ③ 坐标 = 画布左下角
-  new_image(tpl.image, "BG", 100001, 0, 0, canvasW, canvasH)
-  new_image(tpl.image, "BALLAST", 100001, 0, 300, canvasW, 90)
-  new_image(tpl.image, "RAIL_HI", 100001, 0, 370, canvasW, 8)
-  new_image(tpl.image, "RAIL_LO", 100001, 0, 320, canvasW, 8)
+  new_image(found.image, "BG", 100001, 0, 0, canvasW, canvasH)
+  new_image(found.image, "BALLAST", 100001, 0, 300, canvasW, 90)
+  new_image(found.image, "RAIL_HI", 100001, 0, 370, canvasW, 8)
+  new_image(found.image, "RAIL_LO", 100001, 0, 320, canvasW, 8)
   for i = 0, 5 do
-    new_image(tpl.image, "TIE_" .. i, 100001, 130 + 180 * i, 300, 12, 90)
+    new_image(found.image, "TIE_" .. i, 100001, 130 + 180 * i, 300, 12, 90)
   end
-  wagon = new_image(tpl.image, "WAGON", 100003, 320, 400, 120, 70)
-  loco = new_image(tpl.image, "LOCO", 100002, 100, 400, 200, 70)
+  wagon = new_image(found.image, "WAGON", 100003, 320, 400, 120, 70)
+  loco = new_image(found.image, "LOCO", 100002, 100, 400, 200, 70)
   for i = 0, FRAME_COUNT - 1 do
-    frames[i + 1] = new_image(tpl.image, "F" .. i, 100001 + i, 900, 430, 140, 140)
+    frames[i + 1] = new_image(found.image, "F" .. i, 100001 + i, 900, 430, 140, 140)
   end
-  hud = new_text(tpl.text, "HUD", 20, 640, 600, 40, "M0 frame=0")
-
-  if #missing > 0 then
-    print("M0 missing list=" .. table.concat(missing, ","))
-  end
+  hud = new_text(found.text, "HUD", 20, 640, 600, 40, "M0 frame=0")
 
   tick, idx, ticksPerFrame = 0, 0, 0
   apply_frame(0)
-  print("M0 start built=" .. tostring(#frames + 9) .. " missing=" .. #missing)
-
-  -- ④ 收尾再读一次挂载点：证明它自始至终没被我们改过
+  print("M0 budget probes=" .. n_probe .. " destroyed=" .. n_destroy .. " built=" .. n_build
+    .. " (cap " .. (MAX_PROBES + 1 + MAX_BUILD) .. ")")
+  print("M0 start built=" .. tostring(n_build) .. " missing=" .. #missing
+    .. (#missing > 0 and (" list=" .. table.concat(missing, ",")) or ""))
   print("M0 mount after size=" .. tostring(root.sizeDeltaX) .. "x" .. tostring(root.sizeDeltaY)
     .. " pos=" .. tostring(root.anchoredPositionX) .. "," .. tostring(root.anchoredPositionY))
 end
 
 function OnUpdate(dt)
+  if not alive then return end
   tick = tick + 1
 
-  if tick == 1 or tick % 30 == 0 then
-    print("M0 update tick=" .. tick .. " loco=" .. tostring(loco ~= nil))
-  end
-
-  if loco == nil then
+  if tick > MAX_TICKS then
+    print("M0 watchdog stop at tick=" .. tick .. " (self-disable)")
+    pcall(function() script:EnableUpdate(false) end)
+    alive = false
     return
   end
+
+  if loco == nil then return end
 
   if ticksPerFrame == 0 then
     ticksPerFrame = math.max(1, math.floor(FRAME_INTERVAL / dt + 0.5))
@@ -340,6 +302,7 @@ function OnUpdate(dt)
   if nextIdx ~= idx then
     idx = nextIdx
     apply_frame(idx)
+    print("M0 frame idx=" .. idx)
   end
 
   local wantX = 100 + MOVE_PER_TICK * tick
@@ -347,17 +310,13 @@ function OnUpdate(dt)
   try("loco.SetAnchoredPosition", function() loco:SetAnchoredPosition(wantX, 400) end)
   try("wagon.SetSizeDelta", function() wagon:SetSizeDelta(wantW, 70) end)
 
-  if tick == 1 or tick % 30 == 0 then
+  if tick == 1 or tick % 15 == 0 then
     local gx, gw = "?", "?"
     local okx, vx = pcall(function() return loco.anchoredPositionX end)
     if okx then gx = tostring(vx) end
     local okw, vw = pcall(function() return wagon.sizeDeltaX end)
     if okw then gw = tostring(vw) end
-    print("M0 writeback x=" .. gx .. " want=" .. tostring(wantX))
-    print("M0 writeback w=" .. gw .. " want=" .. tostring(wantW))
-  end
-
-  if tick % 15 == 0 then
-    print("M0 move k=" .. tick)
+    print("M0 update tick=" .. tick .. " x=" .. gx .. "/" .. tostring(wantX)
+      .. " w=" .. gw .. "/" .. tostring(wantW))
   end
 end

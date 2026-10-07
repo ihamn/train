@@ -158,3 +158,15 @@ qxqy_studio_play { "action": "runCase", "args": { "case": <tests/m0-frames.case.
    并确认有回滚路径（本仓库的存档与导出物都能重放）。
 7. **事故证据包**：`records/support-2026-10-06/`（`output_log.txt`、`output_log.txt.last`、
    两张截图、客户端脚本日志、`报告.md`）。同类问题直接复用，不必重新收集。
+8. **模板索引写死，不扫区间**：索引来源是"导入/建成后读一次"（真机只读探针实测：
+   容器 `1073741846`、图片 `1073741852`、文本 `1073741851`）。真要试，只试**写死的候选表**
+   （`spike.lua` 的 `TPL_CAND`：每类 ≤2 个，合计 ≤6 次），**禁止 `while` 靠条件收敛**。
+9. **建了必须销毁 + 计数**：每次探测实例化都配 `DestroyClientUIControl`，并把
+   `probes/destroyed/built` 打进日志；总实例化预算写死（当前 `cap 27`），超限即停。
+10. **看门狗自毁**：`OnUpdate` 里 `tick > 300`（约 5 秒）就 `EnableUpdate(false)` 并停止一切写入，
+    保证最坏情况只跑 5 秒。
+11. **探测失败就放弃**：索引不可用 ⇒ 只打日志返回，**不重试、不换区间**。探针的目的是回答一个问题，
+    不是一定要成功；卡死的探针等于没探。
+12. **不用带轴参数的方法调用**：`GetAnchorMin(1)` 这种在模拟器可用，真机原生绑定未验证
+    （v8 首要嫌疑）。读 y 分量优先试**字段**（`anchorMinY/anchorMaxY/pivotY`，读不到只是 `nil`），
+    无参 `GetAnchorMin()/GetAnchorMax()/GetPivot()` 是**真机已验证安全**的读法。
