@@ -42,6 +42,7 @@ local rows, heat, lastS = {}, {}, {}
 local bw, bh, rowStep = 0, 0, 0
 local ROWS_PER_TICK = 2                 -- 分帧建：每帧建几行（27 行 ⇒ 约 14 帧建完）
 local buildNext = 0                     -- 下一个要建的行号（0..ROWS）
+local said_built = false                -- 建完只报一次（防止每帧重复打日志）
 local baseX0, baseY0 = 0, 0             -- OnStart 算好的基准（分帧建时用）
 
 local function say(s) if print then pcall(print, "TR " .. s) end end
@@ -208,7 +209,9 @@ function OnUpdate(dt)
   if dt == nil or dt <= 0 then return end
 
   -- ① 建行阶段：每帧建 ROWS_PER_TICK 个（分帧建，避免启动期爆发）
-  if buildNext <= ROWS then
+  --    注意用 `<`：buildNext == ROWS 表示建完了，必须让后续动画分支接管，
+  --    否则会每帧重复打日志（= 又踩"日志风暴"那条坑）。
+  if buildNext < ROWS then
     for k = 1, ROWS_PER_TICK do
       local r = buildNext
       if r < ROWS then
@@ -221,7 +224,8 @@ function OnUpdate(dt)
         buildNext = buildNext + 1
       end
     end
-    if buildNext >= ROWS then
+    if buildNext >= ROWS and not said_built then
+      said_built = true
       say("rowsBuilt=" .. builds .. " rowStep=" .. rowStep .. " fails=" .. fails)
     end
     return
