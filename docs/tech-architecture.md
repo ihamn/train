@@ -117,6 +117,11 @@ qxqy_studio_play { "action": "runCase", "args": { "case": <tests/m0-frames.case.
 | 事项 | 状态 |
 |---|---|
 | 3D 实体 + 运动器沿轨移动 | **不适用 / 已移除** —— 本工程是全 UI 控件实现（2D+Lua），不用 3D 实体，也没有运动器路线（用户 2026-10-07 明确） |
+| 挂载点（`script.object`）的真实几何 | **2026-10-07 真机只读探针取证**：`ClientUIContainerControl`、`name=''`、`prefabIndex=1073741846`（**模板实例**）、`sizeDelta=380×1080`、`GetAnchorMin.x=0`、`GetAnchorMax.x=1`（**水平拉伸**）、`GetPivot=0.5`、scale=1 ⇒ 解析矩形 2060×1080、左下角 (−1030,−540)，画布只有 x∈[0,1030] y∈[0,540] 的交集可见 ⇒ **这就是"UI 只盖住左下角"的根因** |
+| 用挂载点当布局父级 | **不可行** —— 它的矩形不是画布矩形（见上）。正确做法：用 `InstantiateClientUIControl` 自建容器，只钉**自己的容器**几何，绝不改挂载点（§7 规则 1） |
+| `GetClientUIRoots()==0` 的含义 | **不等于"没有 UI"** —— 2026-10-07 真机实测 `roots=0`，而客户端 UI 确实渲染在关卡画面上 ⇒ zuma 工程注释里那条判据不能当"有没有 UI"使用 |
+| 容器控件可读字段 | 容器上**只有** `active/visible/activeInHierarchy/prefabIndex/sizeDeltaX,Y/anchoredPositionX,Y/localScaleX,Y` 可读；`parent/childCount/rotationZ/interactable/imageType/imageSource/imageId/text` 均为 `nil`（字段集随控件类型不同） |
+| `GetAnchorMin/GetAnchorMax/GetPivot` 的返回 | 方法**可调**；**无参只返回 x 分量**（`0.0 / 1.0 / 0.5`）。要 y 分量需传轴参数（未验证） |
 | 界面控件叠在 3D 画面上（M0 前提④） | **叠加成立／范围未解**（2026-10-06）：客户端 UI 确实画在关卡画面上，但只盖住左下角，裁定为挂载点几何问题，证据待取 |
 | 单网格 65,535 顶点 / 运行时 1,000 实体 / 控件预算 | `unknown` —— 模拟器不模拟这些上限；真机实测的是 **单控件组 1000 / 单屏 10000**（zuma 工程记录） |
 | 官方素材真实 `imageId` 的显示 | **部分成立**：`100001–100006` 是**真实的官方素材号**（基础形状），`SetImage` 真机无报错、UI 已出现；逐项可见性受挂载点裁切影响，未逐项确认 |
