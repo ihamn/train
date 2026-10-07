@@ -1,0 +1,51 @@
+{
+  "format": "qxqy-autotest",
+  "version": 1,
+  "name": "fire-v56",
+  "canvasId": "mobile-16-9",
+  "dt": 0.03333333333333333,
+  "playerCount": 1,
+  "events": [],
+  "_note": "像素火 v55（B 档高密度）：32×54 格、FONT=10、SIZE_K=1.20、rowStep=11。验的是可在模拟器查清的部分：行数/行距/无写失败/有耗时汇总。真机渲染细节（缝与清晰度）只能真机看。",
+  "asserts": [
+    {
+      "kind": "log",
+      "contains": "TR boot fire_v56 densB cols=32 rows=54",
+      "at": 0
+    },
+    {
+      "kind": "log",
+      "contains": "TR rowsBuilt=54",
+      "at": 3
+    },
+    {
+      "kind": "control",
+      "name": "FROW0",
+      "field": "anchoredPositionY",
+      "equals": 635,
+      "at": 3
+    },
+    {
+      "kind": "control",
+      "name": "FROW53",
+      "field": "anchoredPositionY",
+      "equals": 52,
+      "at": 3
+    },
+    {
+      "kind": "lua",
+      "at": 3,
+      "source": "local n = 0\nfor i = 0, 53 do\n  local c = query.control('FROW' .. i)\n  assert(c ~= nil, 'FROW' .. i .. ' missing')\n  assert(c.active == true, 'FROW' .. i .. ' inactive')\n  n = n + 1\nend\nassert(n == 54, 'expected 54 rows, got ' .. n)\nassert(query.logContains('rowStep=11'), 'rowStep must be 11')\nassert(query.logContains('fails=0'), 'fails must be 0')\nassert(not query.logContains('文本长度超出限制'), 'text length limit hit')"
+    },
+    {
+      "kind": "log",
+      "contains": "TR density=v56_B",
+      "at": 11
+    },
+    {
+      "kind": "lua",
+      "at": 11,
+      "source": "assert(query.logContains('TR density=v56_B'), 'no density summary')\nassert(query.logContains('ms/update='), 'no ms measurement')\nassert(query.logContains('rebuilt/update='), 'no rebuilt/update')\nassert(query.logContains('fails=0'), 'fails must stay 0')"
+    }
+  ]
+}
