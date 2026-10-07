@@ -22,7 +22,7 @@
     {
       "kind": "lua",
       "at": 0.85,
-      "source": "local names = {'F0','F1','F2','F3','F4','F5'}\nlocal activeCount = 0\nfor i = 1, #names do\n  local c = query.control(names[i])\n  assert(c ~= nil, 'missing ' .. names[i])\n  assert(c.kind == 'image', names[i] .. ' kind=' .. tostring(c.kind))\n  if c.active then activeCount = activeCount + 1 end\nend\nassert(activeCount == 1, 'expected exactly 1 active frame, got ' .. activeCount)\nassert(query.logContains('M0 frame idx=0'), 'no frame 0 log')"
+      "source": "local names = {'F0','F1','F2','F3','F4','F5'}\nlocal activeCount = 0\nfor i = 1, #names do\n  local c = query.control(names[i])\n  assert(c ~= nil, 'missing ' .. names[i])\n  assert(c.kind == 'image', names[i] .. ' kind=' .. tostring(c.kind))\n  if c.active then activeCount = activeCount + 1 end\nend\nassert(activeCount == 1, 'expected exactly 1 active frame, got ' .. activeCount)\nassert(query.logContains('M0 frame 0'), 'no frame 0 log')"
     }
   ]
 }
