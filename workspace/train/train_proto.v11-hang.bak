@@ -1,0 +1,113 @@
+-- train_proto.lua —— 「无噪声」版：能看见原型，但**日志最多 ~10 行**
+--
+-- 为什么改：上一版会打印"每个控件一行 + 每次失败一行"。如果某个方法**每帧失败**，
+--   就是 60 行/秒 ⇒ 5 秒 300 行 ⇒ 日志看着像"爆了"。
+-- 本版规矩：
+--   ① 失败**只计数不逐条打**（结束时一行 `TR fails=n`）
+--   ② 控件建成**只打一行合计**（不逐个打）
+--   ③ 动画阶段**完全不打印**
+--   ④ 硬上限 `tick > 180` 直接 return（**不依赖 EnableUpdate 生效**），并在这一刻打唯一一行 `TR stop`
+--   ⑤ 只用 zuma.lua 里扫出来的**已验证方法**（绝不碰 SetAnchorMin/SetAnchorMax/SetPivot）
+
+local PRE_IMAGE = 1073741852
+local PRE_TEXT  = 1073741851
+local ART_SQ, ART_CI, ART_OT, ART_AL = 100001, 100002, 100006, 100000
+
+local HARD_TICKS = 180
+local MAX_BUILD = 24
+local MOVE_PER_TICK = 6
+
+local host, W, H = nil, 1680, 900
+local tick, built, fails, alive = 0, 0, 0, true
+local queue, loco, hud = {}, nil, nil
+
+local function say(s) if print then pcall(print, "TR " .. s) end end
+local function t(fn) local ok = pcall(fn); if not ok then fails = fails + 1 end; return ok end
+
+local function mk(name, prefab, artId, color, text, ox, oy, w, h, fs)
+  if built >= MAX_BUILD then return nil end
+  local ok, c = pcall(game.InstantiateClientUIControl, prefab, host)
+  if not ok or c == nil then alive = false; return nil end
+  built = built + 1
+  t(function() c.name = name end)
+  t(function() c:SetSizeDelta(w, h) end)          -- ★ 尺寸必须显式设
+  t(function() c:SetAnchoredPosition(ox, oy) end) -- ★ 位置只用这个方法
+  if artId ~= nil then t(function() c:SetImage(Enum.ImageSource.StaticReference, artId) end) end
+  if color ~= nil then t(function() c.imageColor = color end) end
+  if text ~= nil then
+    t(function() c.text = text end)
+    t(function() c.fontSize = fs or 24 end)
+    t(function() c.fontColor = 4294967295 end)
+  end
+  t(function() c:SetActive(true) end)
+  t(function() c:SetVisible(true) end)            -- ★ 可见性只能调方法
+  return c
+end
+
+local function plan()
+  local cx, cy = 0, 0                 -- 位置一律**相对画布中心**（y 向上）
+  local y0 = -H * 0.20
+  queue = {
+    { "BG", PRE_IMAGE, ART_SQ, 4279242762, nil, cx, cy, W, H },
+    { "RAIL_HI", PRE_IMAGE, ART_SQ, 4283782485, nil, cx, y0 + 26, W * 0.9, 8 },
+    { "RAIL_LO", PRE_IMAGE, ART_SQ, 4283782485, nil, cx, y0 - 26, W * 0.9, 8 },
+    { "TIE_0", PRE_IMAGE, ART_SQ, 4286611584, nil, -420, y0, 12, 96 },
+    { "TIE_1", PRE_IMAGE, ART_SQ, 4286611584, nil, -240, y0, 12, 96 },
+    { "TIE_2", PRE_IMAGE, ART_SQ, 4286611584, nil, -60, y0, 12, 96 },
+    { "TIE_3", PRE_IMAGE, ART_SQ, 4286611584, nil, 120, y0, 12, 96 },
+    { "TIE_4", PRE_IMAGE, ART_SQ, 4286611584, nil, 300, y0, 12, 96 },
+    { "WAGON", PRE_IMAGE, ART_OT, 4288256409, nil, 60, y0 + 60, 170, 84 },
+    { "WAGON2", PRE_IMAGE, ART_OT, 4288256409, nil, 270, y0 + 60, 170, 84 },
+    { "LOCO", PRE_IMAGE, ART_CI, 4294901760, nil, -320, y0 + 60, 220, 92 },
+    { "F0", PRE_IMAGE, ART_AL, 4294967040, nil, -520, y0 + 170, 96, 96 },
+    { "F1", PRE_IMAGE, ART_OT, 4278255360, nil, -380, y0 + 170, 96, 96 },
+    { "F2", PRE_IMAGE, ART_SQ, 4294967295, nil, -240, y0 + 170, 96, 96 }
+  }
+end
+
+function OnInit()
+  say("boot")
+  t(function() script:EnableUpdate(true) end)
+end
+
+function OnStart()
+  host = script.object
+  if host == nil then say("no host"); alive = false; return end
+  local ok, cw, ch = pcall(game.GetUICanvasSize)
+  if ok and type(cw) == "number" and type(ch) == "number" then W, H = cw, ch end
+  -- 启动期**只打一行**，不建任何控件（避免爆发）
+  say("start canvas=" .. tostring(W) .. "x" .. tostring(H) .. " host=" .. tostring(typeof(host)))
+  plan()
+end
+
+function OnUpdate(dt)
+  if not alive then return end
+  tick = tick + 1
+  if tick > HARD_TICKS then                       -- ④ 硬上限：不依赖任何 API
+    say("stop tick=" .. tick .. " built=" .. built .. " fails=" .. fails)
+    alive = false
+    return
+  end
+  if dt == nil or dt <= 0 then return end
+
+  -- 分帧建（每帧 2 个）⇒ 不爆发
+  if #queue > 0 then
+    for k = 1, 2 do
+      local s = table.remove(queue, 1)
+      if s == nil then break end
+      local c = mk(s[1], s[2], s[3], s[4], s[5], s[6], s[7], s[8], s[9])
+      if s[1] == "LOCO" then loco = c end
+    end
+    if #queue == 0 then
+      say("built=" .. built .. " fails=" .. fails)   -- ② 只打一行合计
+      hud = mk("HUD", PRE_TEXT, nil, nil, "TR running", 0, H * 0.5 - 70, 520, 44, 24)
+    end
+    return
+  end
+
+  -- 动画（③ 完全不打印）
+  if loco ~= nil then
+    local x = -320 + MOVE_PER_TICK * math.min(tick, 140)
+    t(function() loco:SetAnchoredPosition(x, -H * 0.20 + 60) end)
+  end
+end

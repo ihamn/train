@@ -1,0 +1,14 @@
+{
+  "format": "qxqy-autotest",
+  "version": 1,
+  "name": "m0-shot-f4",
+  "dt": 0.03333333333333333,
+  "playerCount": 1,
+  "events": [],
+  "asserts": [
+    { "kind": "control", "name": "F4", "field": "active", "equals": true, "at": 0.62 },
+    { "kind": "control", "name": "F3", "field": "active", "equals": false, "at": 0.62 },
+    { "kind": "control", "name": "LOCO", "field": "left", "equals": 290, "at": 0.62 },
+    { "kind": "control", "name": "WAGON", "field": "sizeDeltaX", "equals": 196, "at": 0.62 }
+  ]
+}

@@ -1,0 +1,127 @@
+{
+  "save": "D:\\train\\workspace\\train\\train.save.json",
+  "outDir": "D:\\train\\workspace\\train\\export",
+  "artifacts": [
+    {
+      "file": "列车 M0 探针 · 服务器控件模板.gia",
+      "bytes": 14558,
+      "warnings": [
+        "当前服务器控件 GIA 不包含 1 个 Lua 脚本的源码；请使用「资产包 GIA 整合包」，或另行导入脚本包并核对挂载。",
+        "客户端控件容器: 新服务端控件模板写入显式空 Info.related，避免跨沙箱复用伴生资源 GUID 产生无法加载的索引。",
+        "HUD: 垂直居中按推定值导出，尚待实机确认。"
+      ]
+    },
+    {
+      "file": "列车 M0 探针 · 脚本.gia",
+      "bytes": 7346,
+      "warnings": [
+        "脚本挂载关系不进入 GIA：官方 script.gia 只含映射（ID/名称/路径/源码），导入后需重新挂载。"
+      ]
+    },
+    {
+      "file": "列车 M0 探针 · 整合包.gia",
+      "bytes": 25726,
+      "warnings": [
+        "整合包把服务端 UIControlGroup 与客户端 UIControlTemplate 并排写入同一 GIA 的 Root.graph；导入时拆回两类资产，模板边界、脚本映射与控件挂载关系会保留。",
+        "客户端控件容器: 新服务端控件模板写入显式空 Info.related，避免跨沙箱复用伴生资源 GUID 产生无法加载的索引。",
+        "HUD: 垂直居中按推定值导出，尚待实机确认。",
+        "Lua实例化面板: 新客户端控件模板写入显式空 Info.related，避免跨沙箱复用伴生资源 GUID 产生无法加载的索引。"
+      ]
+    }
+  ],
+  "warnings": [
+    "当前服务器控件 GIA 不包含 1 个 Lua 脚本的源码；请使用「资产包 GIA 整合包」，或另行导入脚本包并核对挂载。",
+    "客户端控件容器: 新服务端控件模板写入显式空 Info.related，避免跨沙箱复用伴生资源 GUID 产生无法加载的索引。",
+    "HUD: 垂直居中按推定值导出，尚待实机确认。",
+    "客户端控件模板仍是默认「Lua实例化面板」，未改动且当前未显示，已从资产包 GIA 中省略。",
+    "脚本挂载关系不进入 GIA：官方 script.gia 只含映射（ID/名称/路径/源码），导入后需重新挂载。",
+    "整合包把服务端 UIControlGroup 与客户端 UIControlTemplate 并排写入同一 GIA 的 Root.graph；导入时拆回两类资产，模板边界、脚本映射与控件挂载关系会保留。",
+    "客户端控件容器: 新服务端控件模板写入显式空 Info.related，避免跨沙箱复用伴生资源 GUID 产生无法加载的索引。",
+    "HUD: 垂直居中按推定值导出，尚待实机确认。",
+    "Lua实例化面板: 新客户端控件模板写入显式空 Info.related，避免跨沙箱复用伴生资源 GUID 产生无法加载的索引。"
+  ],
+  "roundtrip": [
+    {
+      "gia": "列车 M0 探针 · 服务器控件模板.gia",
+      "purpose": "资产包里的控制类 GIA",
+      "names": [
+        "STAGE",
+        "HUD",
+        "F0",
+        "F1",
+        "F2",
+        "F3",
+        "F4",
+        "F5",
+        "LOCO",
+        "WAGON",
+        "TIE_0",
+        "TIE_1",
+        "TIE_2",
+        "TIE_3",
+        "TIE_4",
+        "TIE_5",
+        "RAIL_HI",
+        "RAIL_LO",
+        "BALLAST",
+        "BG"
+      ],
+      "missing": [],
+      "extra": [],
+      "warnings": [
+        "GIA 导入为已验证 UI 字段的语义导入；未知 protobuf 字段不会进入 Authoring JSON。"
+      ],
+      "script": null
+    },
+    {
+      "gia": "列车 M0 探针 · 脚本.gia",
+      "purpose": "资产包里的脚本 GIA",
+      "controls": null,
+      "script": {
+        "path": "spike.lua",
+        "controlId": "",
+        "controlAsset": "",
+        "sourceSame": true
+      },
+      "warnings": []
+    },
+    {
+      "gia": "列车 M0 探针 · 整合包.gia",
+      "purpose": "整合包（推荐导入千星用这个）",
+      "names": [
+        "STAGE",
+        "HUD",
+        "F0",
+        "F1",
+        "F2",
+        "F3",
+        "F4",
+        "F5",
+        "LOCO",
+        "WAGON",
+        "TIE_0",
+        "TIE_1",
+        "TIE_2",
+        "TIE_3",
+        "TIE_4",
+        "TIE_5",
+        "RAIL_HI",
+        "RAIL_LO",
+        "BALLAST",
+        "BG"
+      ],
+      "missing": [],
+      "extra": [],
+      "warnings": [
+        "GIA 导入为已验证 UI 字段的语义导入；未知 protobuf 字段不会进入 Authoring JSON。",
+        "整合包已拆回「UI控件-服务端」与「UI控件-客户端」；客户端模板边界已保留。"
+      ],
+      "script": {
+        "path": "spike.lua",
+        "controlId": "n1",
+        "controlAsset": "server-control-template",
+        "sourceSame": true
+      }
+    }
+  ]
+}

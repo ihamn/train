@@ -1,0 +1,6 @@
+﻿-- spike.lua —— 临时停用（2026-10-06 真机卡死后的安全占位）
+-- 只打一行日志：不建控件、不改几何、不开启逐帧更新。真正的探针版本在工作区里，
+-- 等确认游戏稳定后再由 AI 推送回来。
+function OnInit()
+  print("M0 disabled (safe placeholder)")
+end

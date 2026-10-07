@@ -1,0 +1,2816 @@
+[2026-10-06 20:37:37.996] Start Custom Log: 
+
+[2026-10-06 20:37:37.996] PC REL build: ENABLE_REAL_ASYNC_LOAD default=ON, disable_switch(60001)=0, result=1
+Experimental AsyncLoad is enabled by code switch
+EngineCodeSwitch 62000 is Off, NEGATIVE Object Array Enabled if AysncLoad is Enabled
+EngineCodeSwitch 64007 is Off, POSITIVE Object Array Enabled if AysncLoad is Enabled
+mimalloc version: 315
+
+[2026-10-06 20:37:37.996] End Custom Log
+
+[2026-10-06 20:37:37.996] MultiThreadStackTrace init success!
+Set new unhandled exception filter 00007FF677791640 to replace 00007FF6788D4558
+GCGMAH active
+Initialize engine version: 2017.4.30f1 (0)
+Initialize display manager (Display count: 1)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.1]
+    Renderer: NVIDIA GeForce GTX 1660 SUPER (ID=0x21c4)
+    Vendor:   NVIDIA
+    VRAM:     5966 MB
+    Driver:   32.0.15.9144
+[2026-10-06 20:37:40.047] create job queue 7
+<RI> Initializing input.
+<RI> Input initialized.
+Set new unhandled exception filter 00007FF677791640 to replace 000000000040FE80
+<RI> Initialized touch support.
+[2026-10-06 20:37:41.828] [AsyncLoad] MHYLoadThreadWorker domain attach 0000025BA0108EC0.
+[2026-10-06 20:37:41.828] [AsyncLoad] MHYLoadThreadWorker domain attach 0000025BA0108EC0.
+[2026-10-06 20:37:41.828] [AsyncLoad] MHYLoadThreadWorker domain attach 0000025BA0108EC0.
+[2026-10-06 20:37:41.828] [AsyncLoad] MHYLoadThreadWorker domain attach 0000025BA0108EC0.
+UnloadTime: 7.901700 ms
+[2026-10-06 20:37:45.580] Genshin Start Log: GameManager Awake - NowTimeStamp:1791290259
+[2026-10-06 20:37:45.581] Genshin Start Log: GameManager Start - NowTimeStamp:1791290259
+[2026-10-06 20:37:45.581] Genshin Start Log: GameManager InitGame - NowTimeStamp:1791290259
+[2026-10-06 20:37:45.586] Load DownloadPref: {"resCategoryStatusDict":{"0":1,"1":1,"1001002":1,"2001002":1,"1001003":1,"2001003":1,"1001004":1,"2001004":1,"1001005":1,"2001005":1,"1001006":1,"2001006":1,"1001007":1,"2001007":1,"1001008":1,"2001008":1,"1001009":1,"2001009":1,"1001010":1,"2001010":1,"1001011":1,"2001011":1,"1001012":1,"2001012":1,"1001013":1,"2001013":1,"1001014":1,"2001014":1,"1001015":1,"2001015":1,"1001016":1,"2001016":1,"1001017":1,"2001017":1,"1002001":1,"2002001":1,"1002002":1,"2002002":1,"1002003":1,"2002003":1,"1002004":1,"2002004":1,"1002005":1,"2002005":1,"1002006":1,"2002006":1,"1002007":1,"2002007":1,"1002008":1,"2002008":1,"1002009":1,"2002009":1,"1002010":1,"2002010":1,"1002011":1,"2002011":1,"1002012":1,"2002012":1,"1002013":1,"2002013":1,"1002014":1,"2002014":1,"1002015":1,"2002015":1,"1002016":1,"2002016":1,"1002017":1,"2002017":1,"1002018":1,"2002018":1,"1002019":1,"2002019":1,"1002020":1,"2002020":1,"1002021":1,"2002021":1,"1002022":1,"2002022":1,"1002023":1,"2002023":1,"1002024":1,"2002024":1,"1002025":1,"2002025":1,"1002026":1,"2002026":1,"1002027":1,"2002027":1,"1002028":1,"2002028":1,"1002029":1,"2002029":1,"1002030":1,"2002030":1,"1002031":1,"2002031":1,"1002032":1,"2002032":1,"1002033":1,"2002033":1,"1002052":1,"2002052":1,"3003001":1,"4003001":1,"3003002":1,"4003002":1,"3003003":1,"4003003":1,"3003004":1,"4003004":1,"3003005":1,"4003005":1,"3003006":1,"4003006":1,"3003007":1,"4003007":1,"3003008":1,"4003008":1,"3003009":1,"4003009":1,"3003010":1,"4003010":1,"3003011":1,"4003011":1,"3003012":1,"4003012":1,"3003013":1,"4003013":1,"3003014":1,"4003014":1,"1005001":1,"2005001":1,"1001018":1,"2001018":1,"1001019":1,"2001019":1,"1001021":1,"2001021":1,"1001022":1,"2001022":1,"1001023":1,"2001023":1,"1001025":1,"2001025":1,"1001026":1,"2001026":1,"1001027":1,"2001027":1,"1001028":1,"2001028":1,"1001029":1,"2001029":1,"1001030":1,"2001030":1,"1001031":1,"2001031":1,"1001032":1,"2001032":1,"1001033":1,"2001033":1,"1002034":1,"2002034":1,"1002035":1,"2002035":1,"1002036":1,"2002036":1,"1002037":1,"2002037":1,"1002038":1,"2002038":1,"1002039":1,"2002039":1,"1002040":1,"2002040":1,"1002041":1,"2002041":1,"1002042":1,"2002042":1,"1002043":1,"2002043":1,"1002044":1,"2002044":1,"1002045":1,"2002045":1,"1002046":1,"2002046":1,"1002047":1,"2002047":1,"1002048":1,"2002048":1,"1002049":1,"2002049":1,"1002050":1,"2002050":1,"1002069":1,"2002069":1,"1002072":1,"2002072":1,"1002074":1,"2002074":1,"1002075":1,"2002075":1,"3003015":1,"4003015":1,"3003016":1,"4003016":1,"3003017":1,"4003017":1,"3003018":1,"4003018":1,"3003019":1,"4003019":1,"1001034":1,"2001034":1,"1002076":1,"2002076":1,"1001035":1,"2001035":1,"1001036":1,"2001036":1,"1001037":1,"2001037":1,"1001038":1,"2001038":1,"1001039":1,"2001039":1,"1002078":1,"2002078":1,"1001040":1,"2001040":1,"1002080":1,"2002080":1,"1004020":1,"2004020":1,"1002079":1,"2002079":1,"1001043":1,"2001043":1,"1001044":1,"2001044":1,"1002081":1,"2002081":1,"1001042":1,"2001042":1,"1004021":1,"2004021":1,"1001046":1,"2001046":1,"1001047":1,"2001047":1,"1004022":1,"2004022":1,"1005007":1,"2005007":1},"scriptVersion":"7.1.0","redownloadUselessVideo":false,"incrementVerify":true,"redownloadUselessAudio":false}
+[2026-10-06 20:37:45.605] IsBaseResVersionHashChanged=> baseResVersionHashInPersist = 201b945f3e9dd1cfcb3d9b7a3a1dac5e, md5 in streamingResVersion = 201b945f3e9dd1cfcb3d9b7a3a1dac5e
+[2026-10-06 20:37:45.680] ResCategoryStatus key=0 value=1
+[2026-10-06 20:37:45.680] ResCategoryStatus key=1 value=1
+[2026-10-06 20:37:45.680] ResCategoryStatus key=1001002 value=1
+[2026-10-06 20:37:45.680] ResCategoryStatus key=2001002 value=1
+[2026-10-06 20:37:45.680] ResCategoryStatus key=1001003 value=1
+[2026-10-06 20:37:45.680] ResCategoryStatus key=2001003 value=1
+[2026-10-06 20:37:45.680] ResCategoryStatus key=1001004 value=1
+[2026-10-06 20:37:45.680] ResCategoryStatus key=2001004 value=1
+[2026-10-06 20:37:45.680] ResCategoryStatus key=1001005 value=1
+[2026-10-06 20:37:45.680] ResCategoryStatus key=2001005 value=1
+[2026-10-06 20:37:45.680] ResCategoryStatus key=1001006 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=2001006 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=1001007 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=2001007 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=1001008 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=2001008 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=1001009 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=2001009 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=1001010 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=2001010 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=1001011 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=2001011 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=1001012 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=2001012 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=1001013 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=2001013 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=1001014 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=2001014 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=1001015 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=2001015 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=1001016 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=2001016 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=1001017 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=2001017 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=1002001 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=2002001 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=1002002 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=2002002 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=1002003 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=2002003 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=1002004 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=2002004 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=1002005 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=2002005 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=1002006 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=2002006 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=1002007 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=2002007 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=1002008 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=2002008 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=1002009 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=2002009 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=1002010 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=2002010 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=1002011 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=2002011 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=1002012 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=2002012 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=1002013 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=2002013 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=1002014 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=2002014 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=1002015 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=2002015 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=1002016 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=2002016 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=1002017 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=2002017 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=1002018 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=2002018 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=1002019 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=2002019 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=1002020 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=2002020 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=1002021 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=2002021 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=1002022 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=2002022 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=1002023 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=2002023 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=1002024 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=2002024 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=1002025 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=2002025 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=1002026 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=2002026 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=1002027 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=2002027 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=1002028 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=2002028 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=1002029 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=2002029 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=1002030 value=1
+[2026-10-06 20:37:45.681] ResCategoryStatus key=2002030 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=1002031 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=2002031 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=1002032 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=2002032 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=1002033 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=2002033 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=1002052 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=2002052 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=3003001 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=4003001 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=3003002 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=4003002 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=3003003 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=4003003 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=3003004 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=4003004 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=3003005 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=4003005 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=3003006 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=4003006 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=3003007 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=4003007 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=3003008 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=4003008 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=3003009 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=4003009 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=3003010 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=4003010 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=3003011 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=4003011 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=3003012 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=4003012 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=3003013 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=4003013 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=3003014 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=4003014 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=1005001 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=2005001 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=1001018 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=2001018 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=1001019 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=2001019 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=1001021 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=2001021 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=1001022 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=2001022 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=1001023 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=2001023 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=1001025 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=2001025 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=1001026 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=2001026 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=1001027 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=2001027 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=1001028 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=2001028 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=1001029 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=2001029 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=1001030 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=2001030 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=1001031 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=2001031 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=1001032 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=2001032 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=1001033 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=2001033 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=1002034 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=2002034 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=1002035 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=2002035 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=1002036 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=2002036 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=1002037 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=2002037 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=1002038 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=2002038 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=1002039 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=2002039 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=1002040 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=2002040 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=1002041 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=2002041 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=1002042 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=2002042 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=1002043 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=2002043 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=1002044 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=2002044 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=1002045 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=2002045 value=1
+[2026-10-06 20:37:45.682] ResCategoryStatus key=1002046 value=1
+[2026-10-06 20:37:45.683] ResCategoryStatus key=2002046 value=1
+[2026-10-06 20:37:45.683] ResCategoryStatus key=1002047 value=1
+[2026-10-06 20:37:45.683] ResCategoryStatus key=2002047 value=1
+[2026-10-06 20:37:45.683] ResCategoryStatus key=1002048 value=1
+[2026-10-06 20:37:45.683] ResCategoryStatus key=2002048 value=1
+[2026-10-06 20:37:45.683] ResCategoryStatus key=1002049 value=1
+[2026-10-06 20:37:45.683] ResCategoryStatus key=2002049 value=1
+[2026-10-06 20:37:45.683] ResCategoryStatus key=1002050 value=1
+[2026-10-06 20:37:45.683] ResCategoryStatus key=2002050 value=1
+[2026-10-06 20:37:45.683] ResCategoryStatus key=1002069 value=1
+[2026-10-06 20:37:45.683] ResCategoryStatus key=2002069 value=1
+[2026-10-06 20:37:45.683] ResCategoryStatus key=1002072 value=1
+[2026-10-06 20:37:45.683] ResCategoryStatus key=2002072 value=1
+[2026-10-06 20:37:45.683] ResCategoryStatus key=1002074 value=1
+[2026-10-06 20:37:45.683] ResCategoryStatus key=2002074 value=1
+[2026-10-06 20:37:45.683] ResCategoryStatus key=1002075 value=1
+[2026-10-06 20:37:45.683] ResCategoryStatus key=2002075 value=1
+[2026-10-06 20:37:45.683] ResCategoryStatus key=3003015 value=1
+[2026-10-06 20:37:45.683] ResCategoryStatus key=4003015 value=1
+[2026-10-06 20:37:45.683] ResCategoryStatus key=3003016 value=1
+[2026-10-06 20:37:45.683] ResCategoryStatus key=4003016 value=1
+[2026-10-06 20:37:45.683] ResCategoryStatus key=3003017 value=1
+[2026-10-06 20:37:45.683] ResCategoryStatus key=4003017 value=1
+[2026-10-06 20:37:45.683] ResCategoryStatus key=3003018 value=1
+[2026-10-06 20:37:45.683] ResCategoryStatus key=4003018 value=1
+[2026-10-06 20:37:45.683] ResCategoryStatus key=3003019 value=1
+[2026-10-06 20:37:45.683] ResCategoryStatus key=4003019 value=1
+[2026-10-06 20:37:45.683] ResCategoryStatus key=1001034 value=1
+[2026-10-06 20:37:45.683] ResCategoryStatus key=2001034 value=1
+[2026-10-06 20:37:45.683] ResCategoryStatus key=1002076 value=1
+[2026-10-06 20:37:45.683] ResCategoryStatus key=2002076 value=1
+[2026-10-06 20:37:45.683] ResCategoryStatus key=1001035 value=1
+[2026-10-06 20:37:45.683] ResCategoryStatus key=2001035 value=1
+[2026-10-06 20:37:45.683] ResCategoryStatus key=1001036 value=1
+[2026-10-06 20:37:45.683] ResCategoryStatus key=2001036 value=1
+[2026-10-06 20:37:45.683] ResCategoryStatus key=1001037 value=1
+[2026-10-06 20:37:45.683] ResCategoryStatus key=2001037 value=1
+[2026-10-06 20:37:45.683] ResCategoryStatus key=1001038 value=1
+[2026-10-06 20:37:45.683] ResCategoryStatus key=2001038 value=1
+[2026-10-06 20:37:45.683] ResCategoryStatus key=1001039 value=1
+[2026-10-06 20:37:45.683] ResCategoryStatus key=2001039 value=1
+[2026-10-06 20:37:45.683] ResCategoryStatus key=1002078 value=1
+[2026-10-06 20:37:45.683] ResCategoryStatus key=2002078 value=1
+[2026-10-06 20:37:45.683] ResCategoryStatus key=1001040 value=1
+[2026-10-06 20:37:45.683] ResCategoryStatus key=2001040 value=1
+[2026-10-06 20:37:45.683] ResCategoryStatus key=1002080 value=1
+[2026-10-06 20:37:45.683] ResCategoryStatus key=2002080 value=1
+[2026-10-06 20:37:45.683] ResCategoryStatus key=1004020 value=1
+[2026-10-06 20:37:45.683] ResCategoryStatus key=2004020 value=1
+[2026-10-06 20:37:45.683] ResCategoryStatus key=1002079 value=1
+[2026-10-06 20:37:45.683] ResCategoryStatus key=2002079 value=1
+[2026-10-06 20:37:45.683] ResCategoryStatus key=1001043 value=1
+[2026-10-06 20:37:45.683] ResCategoryStatus key=2001043 value=1
+[2026-10-06 20:37:45.683] ResCategoryStatus key=1001044 value=1
+[2026-10-06 20:37:45.683] ResCategoryStatus key=2001044 value=1
+[2026-10-06 20:37:45.683] ResCategoryStatus key=1002081 value=1
+[2026-10-06 20:37:45.683] ResCategoryStatus key=2002081 value=1
+[2026-10-06 20:37:45.683] ResCategoryStatus key=1001042 value=1
+[2026-10-06 20:37:45.683] ResCategoryStatus key=2001042 value=1
+[2026-10-06 20:37:45.683] ResCategoryStatus key=1004021 value=1
+[2026-10-06 20:37:45.683] ResCategoryStatus key=2004021 value=1
+[2026-10-06 20:37:45.683] ResCategoryStatus key=1001046 value=1
+[2026-10-06 20:37:45.683] ResCategoryStatus key=2001046 value=1
+[2026-10-06 20:37:45.683] ResCategoryStatus key=1001047 value=1
+[2026-10-06 20:37:45.683] ResCategoryStatus key=2001047 value=1
+[2026-10-06 20:37:45.683] ResCategoryStatus key=1004022 value=1
+[2026-10-06 20:37:45.683] ResCategoryStatus key=2004022 value=1
+[2026-10-06 20:37:45.683] ResCategoryStatus key=1005007 value=1
+[2026-10-06 20:37:45.683] ResCategoryStatus key=2005007 value=1
+[2026-10-06 20:37:45.683] 890.blk category=0 value=1
+[2026-10-06 20:37:45.683] 10101.blk category=0 value=1
+[2026-10-06 20:37:45.683] 10731.blk category=0 value=1
+[2026-10-06 20:37:45.683] 28170.blk category=0 value=1
+[2026-10-06 20:37:45.683] 35183.blk category=0 value=1
+[2026-10-06 20:37:45.683] 36686.blk category=0 value=1
+[2026-10-06 20:37:45.683] 51925.blk category=0 value=1
+[2026-10-06 20:37:45.683] 83908.blk category=0 value=1
+[2026-10-06 20:37:45.683] 86272.blk category=0 value=1
+[2026-10-06 20:37:45.683] 99246.blk category=0 value=1
+[2026-10-06 20:37:45.683] 100129.blk category=0 value=1
+[2026-10-06 20:37:45.683] 101087.blk category=0 value=1
+[2026-10-06 20:37:45.684] 109537.blk category=0 value=1
+[2026-10-06 20:37:45.684] 117909.blk category=0 value=1
+[2026-10-06 20:37:45.684] 119343.blk category=0 value=1
+[2026-10-06 20:37:45.684] 126204.blk category=0 value=1
+[2026-10-06 20:37:45.684] 166744.blk category=0 value=1
+[2026-10-06 20:37:45.684] 167628.blk category=0 value=1
+[2026-10-06 20:37:45.684] 178472.blk category=0 value=1
+[2026-10-06 20:37:45.684] 180705.blk category=0 value=1
+[2026-10-06 20:37:45.684] 183512.blk category=0 value=1
+[2026-10-06 20:37:45.684] 193472.blk category=0 value=1
+[2026-10-06 20:37:45.684] 197373.blk category=0 value=1
+[2026-10-06 20:37:45.684] 234154.blk category=0 value=1
+[2026-10-06 20:37:45.684] 238533.blk category=0 value=1
+[2026-10-06 20:37:45.684] 245536.blk category=0 value=1
+[2026-10-06 20:37:45.684] 246298.blk category=0 value=1
+[2026-10-06 20:37:45.684] 265660.blk category=0 value=1
+[2026-10-06 20:37:45.684] 268851.blk category=0 value=1
+[2026-10-06 20:37:45.684] 272924.blk category=0 value=1
+[2026-10-06 20:37:45.684] 293837.blk category=0 value=1
+[2026-10-06 20:37:45.684] 302998.blk category=0 value=1
+[2026-10-06 20:37:45.684] 310097.blk category=0 value=1
+[2026-10-06 20:37:45.684] 317038.blk category=0 value=1
+[2026-10-06 20:37:45.684] 325465.blk category=0 value=1
+[2026-10-06 20:37:45.684] 368496.blk category=0 value=1
+[2026-10-06 20:37:45.684] 387052.blk category=0 value=1
+[2026-10-06 20:37:45.684] 387796.blk category=0 value=1
+[2026-10-06 20:37:45.684] 391126.blk category=0 value=1
+[2026-10-06 20:37:45.684] 399133.blk category=0 value=1
+[2026-10-06 20:37:45.684] 408319.blk category=0 value=1
+[2026-10-06 20:37:45.684] 423813.blk category=0 value=1
+[2026-10-06 20:37:45.684] 426843.blk category=0 value=1
+[2026-10-06 20:37:45.684] 427320.blk category=0 value=1
+[2026-10-06 20:37:45.684] 438576.blk category=0 value=1
+[2026-10-06 20:37:45.684] 461509.blk category=0 value=1
+[2026-10-06 20:37:45.684] 461666.blk category=0 value=1
+[2026-10-06 20:37:45.684] 479145.blk category=0 value=1
+[2026-10-06 20:37:45.684] 480430.blk category=0 value=1
+[2026-10-06 20:37:45.684] 495653.blk category=0 value=1
+[2026-10-06 20:37:45.684] 499240.blk category=0 value=1
+[2026-10-06 20:37:45.684] 513978.blk category=0 value=1
+[2026-10-06 20:37:45.684] 532010.blk category=0 value=1
+[2026-10-06 20:37:45.684] 538044.blk category=0 value=1
+[2026-10-06 20:37:45.684] 538087.blk category=0 value=1
+[2026-10-06 20:37:45.684] 545743.blk category=0 value=1
+[2026-10-06 20:37:45.684] 562976.blk category=0 value=1
+[2026-10-06 20:37:45.684] 567597.blk category=0 value=1
+[2026-10-06 20:37:45.684] 590147.blk category=0 value=1
+[2026-10-06 20:37:45.684] 597596.blk category=0 value=1
+[2026-10-06 20:37:45.684] 601292.blk category=0 value=1
+[2026-10-06 20:37:45.684] 608556.blk category=0 value=1
+[2026-10-06 20:37:45.684] 612967.blk category=0 value=1
+[2026-10-06 20:37:45.684] 615796.blk category=0 value=1
+[2026-10-06 20:37:45.684] 624165.blk category=0 value=1
+[2026-10-06 20:37:45.684] 629840.blk category=0 value=1
+[2026-10-06 20:37:45.684] 630208.blk category=0 value=1
+[2026-10-06 20:37:45.684] 637927.blk category=0 value=1
+[2026-10-06 20:37:45.684] 655605.blk category=0 value=1
+[2026-10-06 20:37:45.684] 659316.blk category=0 value=1
+[2026-10-06 20:37:45.684] 672803.blk category=0 value=1
+[2026-10-06 20:37:45.685] 672879.blk category=0 value=1
+[2026-10-06 20:37:45.685] 673823.blk category=0 value=1
+[2026-10-06 20:37:45.685] 676204.blk category=0 value=1
+[2026-10-06 20:37:45.685] 682376.blk category=0 value=1
+[2026-10-06 20:37:45.685] 688372.blk category=0 value=1
+[2026-10-06 20:37:45.685] 691527.blk category=0 value=1
+[2026-10-06 20:37:45.685] 730246.blk category=0 value=1
+[2026-10-06 20:37:45.685] 753927.blk category=0 value=1
+[2026-10-06 20:37:45.685] 764509.blk category=0 value=1
+[2026-10-06 20:37:45.685] 792179.blk category=0 value=1
+[2026-10-06 20:37:45.685] 796472.blk category=0 value=1
+[2026-10-06 20:37:45.685] 809146.blk category=0 value=1
+[2026-10-06 20:37:45.685] 810547.blk category=0 value=1
+[2026-10-06 20:37:45.685] 824442.blk category=0 value=1
+[2026-10-06 20:37:45.685] 848440.blk category=0 value=1
+[2026-10-06 20:37:45.685] 850141.blk category=0 value=1
+[2026-10-06 20:37:45.685] 850201.blk category=0 value=1
+[2026-10-06 20:37:45.685] 858505.blk category=0 value=1
+[2026-10-06 20:37:45.685] 898878.blk category=0 value=1
+[2026-10-06 20:37:45.685] 943039.blk category=0 value=1
+[2026-10-06 20:37:45.685] 945879.blk category=0 value=1
+[2026-10-06 20:37:45.685] 952835.blk category=0 value=1
+[2026-10-06 20:37:45.685] 956267.blk category=0 value=1
+[2026-10-06 20:37:45.685] 976134.blk category=0 value=1
+[2026-10-06 20:37:45.685] 981562.blk category=0 value=1
+[2026-10-06 20:37:45.685] 985982.blk category=0 value=1
+[2026-10-06 20:37:45.685] 1008204.blk category=0 value=1
+[2026-10-06 20:37:45.685] 1014662.blk category=0 value=1
+[2026-10-06 20:37:45.685] 1039145.blk category=0 value=1
+[2026-10-06 20:37:45.685] 1066492.blk category=0 value=1
+[2026-10-06 20:37:45.685] 1090425.blk category=0 value=1
+[2026-10-06 20:37:45.685] 1091171.blk category=0 value=1
+[2026-10-06 20:37:45.685] 1093390.blk category=0 value=1
+[2026-10-06 20:37:45.685] 1102484.blk category=0 value=1
+[2026-10-06 20:37:45.685] 1116967.blk category=0 value=1
+[2026-10-06 20:37:45.685] 1122689.blk category=0 value=1
+[2026-10-06 20:37:45.685] 1127263.blk category=0 value=1
+[2026-10-06 20:37:45.685] 1136399.blk category=0 value=1
+[2026-10-06 20:37:45.685] 1145167.blk category=0 value=1
+[2026-10-06 20:37:45.685] 1145277.blk category=0 value=1
+[2026-10-06 20:37:45.685] 1177519.blk category=0 value=1
+[2026-10-06 20:37:45.685] 1241958.blk category=0 value=1
+[2026-10-06 20:37:45.685] 1243479.blk category=0 value=1
+[2026-10-06 20:37:45.685] 1248862.blk category=0 value=1
+[2026-10-06 20:37:45.685] 1270094.blk category=0 value=1
+[2026-10-06 20:37:45.685] 1271213.blk category=0 value=1
+[2026-10-06 20:37:45.685] 1291215.blk category=0 value=1
+[2026-10-06 20:37:45.685] 1291315.blk category=0 value=1
+[2026-10-06 20:37:45.685] 1296568.blk category=0 value=1
+[2026-10-06 20:37:45.685] 1301216.blk category=0 value=1
+[2026-10-06 20:37:45.685] 1334428.blk category=0 value=1
+[2026-10-06 20:37:45.685] 1352238.blk category=0 value=1
+[2026-10-06 20:37:45.685] 1358136.blk category=0 value=1
+[2026-10-06 20:37:45.685] 1363553.blk category=0 value=1
+[2026-10-06 20:37:45.685] 1374251.blk category=0 value=1
+[2026-10-06 20:37:45.685] 1384231.blk category=0 value=1
+[2026-10-06 20:37:45.685] 1390690.blk category=0 value=1
+[2026-10-06 20:37:45.685] 1400075.blk category=0 value=1
+[2026-10-06 20:37:45.685] 1403316.blk category=0 value=1
+[2026-10-06 20:37:45.685] 1407834.blk category=0 value=1
+[2026-10-06 20:37:45.685] 1409189.blk category=0 value=1
+[2026-10-06 20:37:45.686] 1424422.blk category=0 value=1
+[2026-10-06 20:37:45.686] 1459450.blk category=0 value=1
+[2026-10-06 20:37:45.686] 1463887.blk category=0 value=1
+[2026-10-06 20:37:45.686] 1472270.blk category=0 value=1
+[2026-10-06 20:37:45.686] 1487348.blk category=0 value=1
+[2026-10-06 20:37:45.686] 1491752.blk category=0 value=1
+[2026-10-06 20:37:45.686] 1492532.blk category=0 value=1
+[2026-10-06 20:37:45.686] 1519603.blk category=0 value=1
+[2026-10-06 20:37:45.686] 1529255.blk category=0 value=1
+[2026-10-06 20:37:45.686] 1535869.blk category=0 value=1
+[2026-10-06 20:37:45.686] 1540794.blk category=0 value=1
+[2026-10-06 20:37:45.686] 1543861.blk category=0 value=1
+[2026-10-06 20:37:45.686] 1549314.blk category=0 value=1
+[2026-10-06 20:37:45.686] 1552600.blk category=0 value=1
+[2026-10-06 20:37:45.686] 1558204.blk category=0 value=1
+[2026-10-06 20:37:45.686] 1561122.blk category=0 value=1
+[2026-10-06 20:37:45.686] 1563288.blk category=0 value=1
+[2026-10-06 20:37:45.686] 1621140.blk category=0 value=1
+[2026-10-06 20:37:45.686] 1645912.blk category=0 value=1
+[2026-10-06 20:37:45.686] 1651779.blk category=0 value=1
+[2026-10-06 20:37:45.686] 1654398.blk category=0 value=1
+[2026-10-06 20:37:45.686] 1662040.blk category=0 value=1
+[2026-10-06 20:37:45.686] 1672563.blk category=0 value=1
+[2026-10-06 20:37:45.686] 1690916.blk category=0 value=1
+[2026-10-06 20:37:45.686] 1706952.blk category=0 value=1
+[2026-10-06 20:37:45.686] 1720630.blk category=0 value=1
+[2026-10-06 20:37:45.686] 1725397.blk category=0 value=1
+[2026-10-06 20:37:45.686] 1729981.blk category=0 value=1
+[2026-10-06 20:37:45.686] 1734549.blk category=0 value=1
+[2026-10-06 20:37:45.686] 1739958.blk category=0 value=1
+[2026-10-06 20:37:45.686] 1744125.blk category=0 value=1
+[2026-10-06 20:37:45.686] 1787121.blk category=0 value=1
+[2026-10-06 20:37:45.686] 1811705.blk category=0 value=1
+[2026-10-06 20:37:45.686] 1820713.blk category=0 value=1
+[2026-10-06 20:37:45.686] 1826330.blk category=0 value=1
+[2026-10-06 20:37:45.686] 1832265.blk category=0 value=1
+[2026-10-06 20:37:45.686] 1862047.blk category=0 value=1
+[2026-10-06 20:37:45.686] 1880374.blk category=0 value=1
+[2026-10-06 20:37:45.686] 1892727.blk category=0 value=1
+[2026-10-06 20:37:45.686] 1921185.blk category=0 value=1
+[2026-10-06 20:37:45.686] 1948704.blk category=0 value=1
+[2026-10-06 20:37:45.686] 1969148.blk category=0 value=1
+[2026-10-06 20:37:45.686] 1979952.blk category=0 value=1
+[2026-10-06 20:37:45.686] 1984763.blk category=0 value=1
+[2026-10-06 20:37:45.686] 1985195.blk category=0 value=1
+[2026-10-06 20:37:45.686] 1985963.blk category=0 value=1
+[2026-10-06 20:37:45.686] 2032498.blk category=0 value=1
+[2026-10-06 20:37:45.686] 2046527.blk category=0 value=1
+[2026-10-06 20:37:45.686] 2050112.blk category=0 value=1
+[2026-10-06 20:37:45.686] 2051471.blk category=0 value=1
+[2026-10-06 20:37:45.686] 2076512.blk category=0 value=1
+[2026-10-06 20:37:45.686] 2094476.blk category=0 value=1
+[2026-10-06 20:37:45.686] 2108234.blk category=0 value=1
+[2026-10-06 20:37:45.686] 2116966.blk category=0 value=1
+[2026-10-06 20:37:45.686] 2135908.blk category=0 value=1
+[2026-10-06 20:37:45.687] 2147494.blk category=0 value=1
+[2026-10-06 20:37:45.687] 2168901.blk category=0 value=1
+[2026-10-06 20:37:45.687] 2171852.blk category=0 value=1
+[2026-10-06 20:37:45.687] 2184918.blk category=0 value=1
+[2026-10-06 20:37:45.687] 2185447.blk category=0 value=1
+[2026-10-06 20:37:45.687] 2186838.blk category=0 value=1
+[2026-10-06 20:37:45.687] 2197183.blk category=0 value=1
+[2026-10-06 20:37:45.687] 2204746.blk category=0 value=1
+[2026-10-06 20:37:45.687] 2205936.blk category=0 value=1
+[2026-10-06 20:37:45.687] 2210726.blk category=0 value=1
+[2026-10-06 20:37:45.687] 2215476.blk category=0 value=1
+[2026-10-06 20:37:45.687] 2221459.blk category=0 value=1
+[2026-10-06 20:37:45.687] 2250528.blk category=0 value=1
+[2026-10-06 20:37:45.687] 2254406.blk category=0 value=1
+[2026-10-06 20:37:45.687] 2278608.blk category=0 value=1
+[2026-10-06 20:37:45.687] 2306021.blk category=0 value=1
+[2026-10-06 20:37:45.687] 2307788.blk category=0 value=1
+[2026-10-06 20:37:45.687] 2320375.blk category=0 value=1
+[2026-10-06 20:37:45.687] 2342266.blk category=0 value=1
+[2026-10-06 20:37:45.687] 2380684.blk category=0 value=1
+[2026-10-06 20:37:45.687] 2381181.blk category=0 value=1
+[2026-10-06 20:37:45.687] 2381303.blk category=0 value=1
+[2026-10-06 20:37:45.687] 2396803.blk category=0 value=1
+[2026-10-06 20:37:45.687] 2398188.blk category=0 value=1
+[2026-10-06 20:37:45.687] 2403060.blk category=0 value=1
+[2026-10-06 20:37:45.687] 2419627.blk category=0 value=1
+[2026-10-06 20:37:45.687] 2422424.blk category=0 value=1
+[2026-10-06 20:37:45.687] 2425296.blk category=0 value=1
+[2026-10-06 20:37:45.687] 2452201.blk category=0 value=1
+[2026-10-06 20:37:45.687] 2489154.blk category=0 value=1
+[2026-10-06 20:37:45.687] 2502970.blk category=0 value=1
+[2026-10-06 20:37:45.687] 2505596.blk category=0 value=1
+[2026-10-06 20:37:45.687] 2518699.blk category=0 value=1
+[2026-10-06 20:37:45.687] 2520015.blk category=0 value=1
+[2026-10-06 20:37:45.687] 2522028.blk category=0 value=1
+[2026-10-06 20:37:45.687] 2524539.blk category=0 value=1
+[2026-10-06 20:37:45.687] 2531214.blk category=0 value=1
+[2026-10-06 20:37:45.687] 2540940.blk category=0 value=1
+[2026-10-06 20:37:45.687] 2565709.blk category=0 value=1
+[2026-10-06 20:37:45.687] 2572337.blk category=0 value=1
+[2026-10-06 20:37:45.687] 2629738.blk category=0 value=1
+[2026-10-06 20:37:45.687] 2646830.blk category=0 value=1
+[2026-10-06 20:37:45.687] 2649738.blk category=0 value=1
+[2026-10-06 20:37:45.687] 2654189.blk category=0 value=1
+[2026-10-06 20:37:45.687] 2666572.blk category=0 value=1
+[2026-10-06 20:37:45.687] 2668546.blk category=0 value=1
+[2026-10-06 20:37:45.687] 2678902.blk category=0 value=1
+[2026-10-06 20:37:45.687] 2681900.blk category=0 value=1
+[2026-10-06 20:37:45.687] 2691757.blk category=0 value=1
+[2026-10-06 20:37:45.687] 2698606.blk category=0 value=1
+[2026-10-06 20:37:45.687] 2700741.blk category=0 value=1
+[2026-10-06 20:37:45.687] 2725072.blk category=0 value=1
+[2026-10-06 20:37:45.687] 2751159.blk category=0 value=1
+[2026-10-06 20:37:45.687] 2757196.blk category=0 value=1
+[2026-10-06 20:37:45.687] 2761249.blk category=0 value=1
+[2026-10-06 20:37:45.688] 2781090.blk category=0 value=1
+[2026-10-06 20:37:45.688] 2783497.blk category=0 value=1
+[2026-10-06 20:37:45.688] 2797432.blk category=0 value=1
+[2026-10-06 20:37:45.688] 2807196.blk category=0 value=1
+[2026-10-06 20:37:45.688] 2815050.blk category=0 value=1
+[2026-10-06 20:37:45.688] 2842276.blk category=0 value=1
+[2026-10-06 20:37:45.688] 2847840.blk category=0 value=1
+[2026-10-06 20:37:45.688] 2856388.blk category=0 value=1
+[2026-10-06 20:37:45.688] 2862829.blk category=0 value=1
+[2026-10-06 20:37:45.688] 2878198.blk category=0 value=1
+[2026-10-06 20:37:45.688] 2882845.blk category=0 value=1
+[2026-10-06 20:37:45.688] 2888851.blk category=0 value=1
+[2026-10-06 20:37:45.688] 2902654.blk category=0 value=1
+[2026-10-06 20:37:45.688] 2904563.blk category=0 value=1
+[2026-10-06 20:37:45.688] 2934672.blk category=0 value=1
+[2026-10-06 20:37:45.688] 2941763.blk category=0 value=1
+[2026-10-06 20:37:45.688] 2947836.blk category=0 value=1
+[2026-10-06 20:37:45.688] 2953287.blk category=0 value=1
+[2026-10-06 20:37:45.688] 2953530.blk category=0 value=1
+[2026-10-06 20:37:45.688] 2963984.blk category=0 value=1
+[2026-10-06 20:37:45.688] 2978151.blk category=0 value=1
+[2026-10-06 20:37:45.688] 2991166.blk category=0 value=1
+[2026-10-06 20:37:45.688] 2997937.blk category=0 value=1
+[2026-10-06 20:37:45.688] 3002626.blk category=0 value=1
+[2026-10-06 20:37:45.688] 3002660.blk category=0 value=1
+[2026-10-06 20:37:45.688] 3019541.blk category=0 value=1
+[2026-10-06 20:37:45.688] 3033481.blk category=0 value=1
+[2026-10-06 20:37:45.688] 3062531.blk category=0 value=1
+[2026-10-06 20:37:45.688] 3064489.blk category=0 value=1
+[2026-10-06 20:37:45.688] 3072015.blk category=0 value=1
+[2026-10-06 20:37:45.688] 3076675.blk category=0 value=1
+[2026-10-06 20:37:45.688] 3099470.blk category=0 value=1
+[2026-10-06 20:37:45.688] 3104075.blk category=0 value=1
+[2026-10-06 20:37:45.688] 3112661.blk category=0 value=1
+[2026-10-06 20:37:45.688] 3113162.blk category=0 value=1
+[2026-10-06 20:37:45.688] 3116859.blk category=0 value=1
+[2026-10-06 20:37:45.688] 3119671.blk category=0 value=1
+[2026-10-06 20:37:45.688] 3123735.blk category=0 value=1
+[2026-10-06 20:37:45.688] 3126196.blk category=0 value=1
+[2026-10-06 20:37:45.688] 3138644.blk category=0 value=1
+[2026-10-06 20:37:45.688] 3157572.blk category=0 value=1
+[2026-10-06 20:37:45.688] 3178231.blk category=0 value=1
+[2026-10-06 20:37:45.688] 3180608.blk category=0 value=1
+[2026-10-06 20:37:45.688] 3197864.blk category=0 value=1
+[2026-10-06 20:37:45.688] 3205999.blk category=0 value=1
+[2026-10-06 20:37:45.688] 3214986.blk category=0 value=1
+[2026-10-06 20:37:45.688] 3216355.blk category=0 value=1
+[2026-10-06 20:37:45.688] 3219398.blk category=0 value=1
+[2026-10-06 20:37:45.688] 3219869.blk category=0 value=1
+[2026-10-06 20:37:45.689] 3242327.blk category=0 value=1
+[2026-10-06 20:37:45.689] 3254716.blk category=0 value=1
+[2026-10-06 20:37:45.689] 3292688.blk category=0 value=1
+[2026-10-06 20:37:45.689] 3294810.blk category=0 value=1
+[2026-10-06 20:37:45.689] 3300464.blk category=0 value=1
+[2026-10-06 20:37:45.689] 3303464.blk category=0 value=1
+[2026-10-06 20:37:45.689] 3331993.blk category=0 value=1
+[2026-10-06 20:37:45.689] 3332970.blk category=0 value=1
+[2026-10-06 20:37:45.689] 3347362.blk category=0 value=1
+[2026-10-06 20:37:45.689] 3382444.blk category=0 value=1
+[2026-10-06 20:37:45.689] 3389443.blk category=0 value=1
+[2026-10-06 20:37:45.689] 3392991.blk category=0 value=1
+[2026-10-06 20:37:45.689] 3398143.blk category=0 value=1
+[2026-10-06 20:37:45.689] 3402385.blk category=0 value=1
+[2026-10-06 20:37:45.689] 3402446.blk category=0 value=1
+[2026-10-06 20:37:45.689] 3409839.blk category=0 value=1
+[2026-10-06 20:37:45.689] 3410031.blk category=0 value=1
+[2026-10-06 20:37:45.689] 3439600.blk category=0 value=1
+[2026-10-06 20:37:45.689] 3463076.blk category=0 value=1
+[2026-10-06 20:37:45.689] 3495491.blk category=0 value=1
+[2026-10-06 20:37:45.689] 3508887.blk category=0 value=1
+[2026-10-06 20:37:45.689] 3514996.blk category=0 value=1
+[2026-10-06 20:37:45.689] 3531956.blk category=0 value=1
+[2026-10-06 20:37:45.689] 3537387.blk category=0 value=1
+[2026-10-06 20:37:45.689] 3544574.blk category=0 value=1
+[2026-10-06 20:37:45.689] 3567386.blk category=0 value=1
+[2026-10-06 20:37:45.689] 3575269.blk category=0 value=1
+[2026-10-06 20:37:45.689] 3584147.blk category=0 value=1
+[2026-10-06 20:37:45.689] 3588362.blk category=0 value=1
+[2026-10-06 20:37:45.689] 3617452.blk category=0 value=1
+[2026-10-06 20:37:45.689] 3629970.blk category=0 value=1
+[2026-10-06 20:37:45.689] 3656512.blk category=0 value=1
+[2026-10-06 20:37:45.689] 3664711.blk category=0 value=1
+[2026-10-06 20:37:45.689] 3697886.blk category=0 value=1
+[2026-10-06 20:37:45.689] 3698692.blk category=0 value=1
+[2026-10-06 20:37:45.689] 3703746.blk category=0 value=1
+[2026-10-06 20:37:45.689] 3705656.blk category=0 value=1
+[2026-10-06 20:37:45.689] 3708404.blk category=0 value=1
+[2026-10-06 20:37:45.689] 3716767.blk category=0 value=1
+[2026-10-06 20:37:45.689] 3725220.blk category=0 value=1
+[2026-10-06 20:37:45.689] 3746668.blk category=0 value=1
+[2026-10-06 20:37:45.689] 3749634.blk category=0 value=1
+[2026-10-06 20:37:45.689] 3754911.blk category=0 value=1
+[2026-10-06 20:37:45.689] 3774945.blk category=0 value=1
+[2026-10-06 20:37:45.689] 3778284.blk category=0 value=1
+[2026-10-06 20:37:45.689] 3791622.blk category=0 value=1
+[2026-10-06 20:37:45.689] 3808785.blk category=0 value=1
+[2026-10-06 20:37:45.689] 3811272.blk category=0 value=1
+[2026-10-06 20:37:45.689] 3851793.blk category=0 value=1
+[2026-10-06 20:37:45.689] 3851813.blk category=0 value=1
+[2026-10-06 20:37:45.689] 3854117.blk category=0 value=1
+[2026-10-06 20:37:45.689] 3856621.blk category=0 value=1
+[2026-10-06 20:37:45.689] 3887711.blk category=0 value=1
+[2026-10-06 20:37:45.689] 3919827.blk category=0 value=1
+[2026-10-06 20:37:45.689] 3931010.blk category=0 value=1
+[2026-10-06 20:37:45.690] 3950401.blk category=0 value=1
+[2026-10-06 20:37:45.690] 3972760.blk category=0 value=1
+[2026-10-06 20:37:45.690] 3983187.blk category=0 value=1
+[2026-10-06 20:37:45.690] 4000414.blk category=0 value=1
+[2026-10-06 20:37:45.690] 4023769.blk category=0 value=1
+[2026-10-06 20:37:45.690] 4028724.blk category=0 value=1
+[2026-10-06 20:37:45.690] 4039694.blk category=0 value=1
+[2026-10-06 20:37:45.690] 4045765.blk category=0 value=1
+[2026-10-06 20:37:45.690] 4063853.blk category=0 value=1
+[2026-10-06 20:37:45.690] 4089299.blk category=0 value=1
+[2026-10-06 20:37:45.690] 4102899.blk category=0 value=1
+[2026-10-06 20:37:45.690] 4106528.blk category=0 value=1
+[2026-10-06 20:37:45.690] 4107318.blk category=0 value=1
+[2026-10-06 20:37:45.690] 4132913.blk category=0 value=1
+[2026-10-06 20:37:45.690] 4139295.blk category=0 value=1
+[2026-10-06 20:37:45.690] 4153411.blk category=0 value=1
+[2026-10-06 20:37:45.690] 4160367.blk category=0 value=1
+[2026-10-06 20:37:45.690] 4161624.blk category=0 value=1
+[2026-10-06 20:37:45.690] 4172885.blk category=0 value=1
+[2026-10-06 20:37:45.690] 4178083.blk category=0 value=1
+[2026-10-06 20:37:45.690] 4186143.blk category=0 value=1
+[2026-10-06 20:37:45.690] 4188176.blk category=0 value=1
+[2026-10-06 20:37:45.690] 4215947.blk category=0 value=1
+[2026-10-06 20:37:45.690] 4222423.blk category=0 value=1
+[2026-10-06 20:37:45.690] 4267227.blk category=0 value=1
+[2026-10-06 20:37:45.690] 4269709.blk category=0 value=1
+[2026-10-06 20:37:45.690] 4275411.blk category=0 value=1
+[2026-10-06 20:37:45.690] 4278112.blk category=0 value=1
+[2026-10-06 20:37:45.690] 4281340.blk category=0 value=1
+[2026-10-06 20:37:45.690] 4301109.blk category=0 value=1
+[2026-10-06 20:37:45.690] 4304026.blk category=0 value=1
+[2026-10-06 20:37:45.690] 4316333.blk category=0 value=1
+[2026-10-06 20:37:45.690] 4333653.blk category=0 value=1
+[2026-10-06 20:37:45.690] 4338396.blk category=0 value=1
+[2026-10-06 20:37:45.690] 4343998.blk category=0 value=1
+[2026-10-06 20:37:45.690] 4355190.blk category=0 value=1
+[2026-10-06 20:37:45.690] 4369886.blk category=0 value=1
+[2026-10-06 20:37:45.690] 4371946.blk category=0 value=1
+[2026-10-06 20:37:45.690] 4377333.blk category=0 value=1
+[2026-10-06 20:37:45.690] 4380644.blk category=0 value=1
+[2026-10-06 20:37:45.690] 4380803.blk category=0 value=1
+[2026-10-06 20:37:45.690] 4381525.blk category=0 value=1
+[2026-10-06 20:37:45.690] 4395698.blk category=0 value=1
+[2026-10-06 20:37:45.690] 4397837.blk category=0 value=1
+[2026-10-06 20:37:45.690] 4403034.blk category=0 value=1
+[2026-10-06 20:37:45.691] 4415497.blk category=0 value=1
+[2026-10-06 20:37:45.691] 4425612.blk category=0 value=1
+[2026-10-06 20:37:45.691] 4452050.blk category=0 value=1
+[2026-10-06 20:37:45.691] 4473584.blk category=0 value=1
+[2026-10-06 20:37:45.691] 4486143.blk category=0 value=1
+[2026-10-06 20:37:45.691] 4493375.blk category=0 value=1
+[2026-10-06 20:37:45.691] 4499184.blk category=0 value=1
+[2026-10-06 20:37:45.691] 4516272.blk category=0 value=1
+[2026-10-06 20:37:45.691] 4523043.blk category=0 value=1
+[2026-10-06 20:37:45.691] 4523851.blk category=0 value=1
+[2026-10-06 20:37:45.691] 4550477.blk category=0 value=1
+[2026-10-06 20:37:45.691] 4563244.blk category=0 value=1
+[2026-10-06 20:37:45.691] 4579086.blk category=0 value=1
+[2026-10-06 20:37:45.691] 4592171.blk category=0 value=1
+[2026-10-06 20:37:45.691] 4594714.blk category=0 value=1
+[2026-10-06 20:37:45.691] 4652007.blk category=0 value=1
+[2026-10-06 20:37:45.691] 4658409.blk category=0 value=1
+[2026-10-06 20:37:45.691] 4686480.blk category=0 value=1
+[2026-10-06 20:37:45.691] 4743133.blk category=0 value=1
+[2026-10-06 20:37:45.691] 4745827.blk category=0 value=1
+[2026-10-06 20:37:45.691] 4750815.blk category=0 value=1
+[2026-10-06 20:37:45.691] 4753605.blk category=0 value=1
+[2026-10-06 20:37:45.691] 4761448.blk category=0 value=1
+[2026-10-06 20:37:45.691] 4779042.blk category=0 value=1
+[2026-10-06 20:37:45.691] 4803507.blk category=0 value=1
+[2026-10-06 20:37:45.691] 4826946.blk category=0 value=1
+[2026-10-06 20:37:45.691] 4831424.blk category=0 value=1
+[2026-10-06 20:37:45.691] 4832139.blk category=0 value=1
+[2026-10-06 20:37:45.691] 4855637.blk category=0 value=1
+[2026-10-06 20:37:45.691] 4889019.blk category=0 value=1
+[2026-10-06 20:37:45.691] 4900000.blk category=0 value=1
+[2026-10-06 20:37:45.691] 4927967.blk category=0 value=1
+[2026-10-06 20:37:45.691] 4934858.blk category=0 value=1
+[2026-10-06 20:37:45.691] 4943475.blk category=0 value=1
+[2026-10-06 20:37:45.691] 4943953.blk category=0 value=1
+[2026-10-06 20:37:45.691] 4949489.blk category=0 value=1
+[2026-10-06 20:37:45.691] 4972871.blk category=0 value=1
+[2026-10-06 20:37:45.691] 4973743.blk category=0 value=1
+[2026-10-06 20:37:45.691] 4975575.blk category=0 value=1
+[2026-10-06 20:37:45.691] 4980905.blk category=0 value=1
+[2026-10-06 20:37:45.691] 4992136.blk category=0 value=1
+[2026-10-06 20:37:45.691] 5001901.blk category=0 value=1
+[2026-10-06 20:37:45.691] 5006543.blk category=0 value=1
+[2026-10-06 20:37:45.691] 5023029.blk category=0 value=1
+[2026-10-06 20:37:45.691] 5036863.blk category=0 value=1
+[2026-10-06 20:37:45.691] 5037012.blk category=0 value=1
+[2026-10-06 20:37:45.691] 5040389.blk category=0 value=1
+[2026-10-06 20:37:45.691] 5047615.blk category=0 value=1
+[2026-10-06 20:37:45.691] 5054155.blk category=0 value=1
+[2026-10-06 20:37:45.691] 5062667.blk category=0 value=1
+[2026-10-06 20:37:45.691] 5062852.blk category=0 value=1
+[2026-10-06 20:37:45.691] 5083267.blk category=0 value=1
+[2026-10-06 20:37:45.691] 5092552.blk category=0 value=1
+[2026-10-06 20:37:45.691] 5097966.blk category=0 value=1
+[2026-10-06 20:37:45.691] 5121586.blk category=0 value=1
+[2026-10-06 20:37:45.691] 5131156.blk category=0 value=1
+[2026-10-06 20:37:45.691] 5146341.blk category=0 value=1
+[2026-10-06 20:37:45.691] 5155460.blk category=0 value=1
+[2026-10-06 20:37:45.692] 5167301.blk category=0 value=1
+[2026-10-06 20:37:45.692] 5199465.blk category=0 value=1
+[2026-10-06 20:37:45.692] 5217304.blk category=0 value=1
+[2026-10-06 20:37:45.692] 5217364.blk category=0 value=1
+[2026-10-06 20:37:45.692] 5223531.blk category=0 value=1
+[2026-10-06 20:37:45.692] 5224243.blk category=0 value=1
+[2026-10-06 20:37:45.692] 5237110.blk category=0 value=1
+[2026-10-06 20:37:45.692] 5244733.blk category=0 value=1
+[2026-10-06 20:37:45.692] 5249877.blk category=0 value=1
+[2026-10-06 20:37:45.692] 5263238.blk category=0 value=1
+[2026-10-06 20:37:45.692] 5267696.blk category=0 value=1
+[2026-10-06 20:37:45.692] 5275568.blk category=0 value=1
+[2026-10-06 20:37:45.692] 5314611.blk category=0 value=1
+[2026-10-06 20:37:45.692] 5320095.blk category=0 value=1
+[2026-10-06 20:37:45.692] 5322250.blk category=0 value=1
+[2026-10-06 20:37:45.692] 5329458.blk category=0 value=1
+[2026-10-06 20:37:45.692] 5354337.blk category=0 value=1
+[2026-10-06 20:37:45.692] 5360736.blk category=0 value=1
+[2026-10-06 20:37:45.692] 5370216.blk category=0 value=1
+[2026-10-06 20:37:45.692] 5380572.blk category=0 value=1
+[2026-10-06 20:37:45.692] 5441230.blk category=0 value=1
+[2026-10-06 20:37:45.692] 5486342.blk category=0 value=1
+[2026-10-06 20:37:45.692] 5487873.blk category=0 value=1
+[2026-10-06 20:37:45.692] 5497902.blk category=0 value=1
+[2026-10-06 20:37:45.692] 5505217.blk category=0 value=1
+[2026-10-06 20:37:45.692] 5505619.blk category=0 value=1
+[2026-10-06 20:37:45.692] 5518495.blk category=0 value=1
+[2026-10-06 20:37:45.692] 5524419.blk category=0 value=1
+[2026-10-06 20:37:45.692] 5524859.blk category=0 value=1
+[2026-10-06 20:37:45.692] 5530393.blk category=0 value=1
+[2026-10-06 20:37:45.692] 5532206.blk category=0 value=1
+[2026-10-06 20:37:45.692] 5532339.blk category=0 value=1
+[2026-10-06 20:37:45.692] 5545213.blk category=0 value=1
+[2026-10-06 20:37:45.692] 5554680.blk category=0 value=1
+[2026-10-06 20:37:45.692] 5561883.blk category=0 value=1
+[2026-10-06 20:37:45.692] 5599593.blk category=0 value=1
+[2026-10-06 20:37:45.692] 5616423.blk category=0 value=1
+[2026-10-06 20:37:45.692] 5652564.blk category=0 value=1
+[2026-10-06 20:37:45.692] 5655419.blk category=0 value=1
+[2026-10-06 20:37:45.692] 5658426.blk category=0 value=1
+[2026-10-06 20:37:45.692] 5689114.blk category=0 value=1
+[2026-10-06 20:37:45.692] 5709986.blk category=0 value=1
+[2026-10-06 20:37:45.692] 5719499.blk category=0 value=1
+[2026-10-06 20:37:45.692] 5727377.blk category=0 value=1
+[2026-10-06 20:37:45.692] 5732614.blk category=0 value=1
+[2026-10-06 20:37:45.692] 5744189.blk category=0 value=1
+[2026-10-06 20:37:45.692] 5754431.blk category=0 value=1
+[2026-10-06 20:37:45.692] 5756367.blk category=0 value=1
+[2026-10-06 20:37:45.692] 5785566.blk category=0 value=1
+[2026-10-06 20:37:45.692] 5790511.blk category=0 value=1
+[2026-10-06 20:37:45.692] 5825684.blk category=0 value=1
+[2026-10-06 20:37:45.692] 5849111.blk category=0 value=1
+[2026-10-06 20:37:45.692] 5850095.blk category=0 value=1
+[2026-10-06 20:37:45.692] 5851740.blk category=0 value=1
+[2026-10-06 20:37:45.692] 5852783.blk category=0 value=1
+[2026-10-06 20:37:45.692] 5879569.blk category=0 value=1
+[2026-10-06 20:37:45.692] 5900915.blk category=0 value=1
+[2026-10-06 20:37:45.693] 5917104.blk category=0 value=1
+[2026-10-06 20:37:45.693] 5967180.blk category=0 value=1
+[2026-10-06 20:37:45.693] 5978041.blk category=0 value=1
+[2026-10-06 20:37:45.693] 5983148.blk category=0 value=1
+[2026-10-06 20:37:45.693] 5990873.blk category=0 value=1
+[2026-10-06 20:37:45.693] 5995275.blk category=0 value=1
+[2026-10-06 20:37:45.693] 5996187.blk category=0 value=1
+[2026-10-06 20:37:45.693] 6004998.blk category=0 value=1
+[2026-10-06 20:37:45.693] 6017427.blk category=0 value=1
+[2026-10-06 20:37:45.693] 6023065.blk category=0 value=1
+[2026-10-06 20:37:45.693] 6024824.blk category=0 value=1
+[2026-10-06 20:37:45.693] 6029358.blk category=0 value=1
+[2026-10-06 20:37:45.693] 6031170.blk category=0 value=1
+[2026-10-06 20:37:45.693] 6038941.blk category=0 value=1
+[2026-10-06 20:37:45.693] 6040950.blk category=0 value=1
+[2026-10-06 20:37:45.693] 6041403.blk category=0 value=1
+[2026-10-06 20:37:45.693] 6073296.blk category=0 value=1
+[2026-10-06 20:37:45.693] 6075020.blk category=0 value=1
+[2026-10-06 20:37:45.693] 6104869.blk category=0 value=1
+[2026-10-06 20:37:45.693] 6120759.blk category=0 value=1
+[2026-10-06 20:37:45.693] 6148908.blk category=0 value=1
+[2026-10-06 20:37:45.693] 6176477.blk category=0 value=1
+[2026-10-06 20:37:45.693] 6209903.blk category=0 value=1
+[2026-10-06 20:37:45.693] 6210622.blk category=0 value=1
+[2026-10-06 20:37:45.693] 6211711.blk category=0 value=1
+[2026-10-06 20:37:45.693] 6221559.blk category=0 value=1
+[2026-10-06 20:37:45.693] 6233838.blk category=0 value=1
+[2026-10-06 20:37:45.693] 6234375.blk category=0 value=1
+[2026-10-06 20:37:45.693] 6239527.blk category=0 value=1
+[2026-10-06 20:37:45.693] 6254239.blk category=0 value=1
+[2026-10-06 20:37:45.693] 6258019.blk category=0 value=1
+[2026-10-06 20:37:45.693] 6276706.blk category=0 value=1
+[2026-10-06 20:37:45.693] 6278996.blk category=0 value=1
+[2026-10-06 20:37:45.693] 6282777.blk category=0 value=1
+[2026-10-06 20:37:45.693] 6286806.blk category=0 value=1
+[2026-10-06 20:37:45.693] 6305345.blk category=0 value=1
+[2026-10-06 20:37:45.693] 6306995.blk category=0 value=1
+[2026-10-06 20:37:45.693] 6313099.blk category=0 value=1
+[2026-10-06 20:37:45.693] 6314884.blk category=0 value=1
+[2026-10-06 20:37:45.693] 6322922.blk category=0 value=1
+[2026-10-06 20:37:45.693] 6325241.blk category=0 value=1
+[2026-10-06 20:37:45.693] 6339773.blk category=0 value=1
+[2026-10-06 20:37:45.693] 6350426.blk category=0 value=1
+[2026-10-06 20:37:45.693] 6371256.blk category=0 value=1
+[2026-10-06 20:37:45.693] 6377334.blk category=0 value=1
+[2026-10-06 20:37:45.693] 6387868.blk category=0 value=1
+[2026-10-06 20:37:45.693] 6400352.blk category=0 value=1
+[2026-10-06 20:37:45.693] 6402922.blk category=0 value=1
+[2026-10-06 20:37:45.693] 6408841.blk category=0 value=1
+[2026-10-06 20:37:45.693] 6421620.blk category=0 value=1
+[2026-10-06 20:37:45.693] 6432675.blk category=0 value=1
+[2026-10-06 20:37:45.693] 6445575.blk category=0 value=1
+[2026-10-06 20:37:45.694] 6446703.blk category=0 value=1
+[2026-10-06 20:37:45.694] 6449899.blk category=0 value=1
+[2026-10-06 20:37:45.694] 6466905.blk category=0 value=1
+[2026-10-06 20:37:45.694] 6467277.blk category=0 value=1
+[2026-10-06 20:37:45.694] 6479199.blk category=0 value=1
+[2026-10-06 20:37:45.694] 6501312.blk category=0 value=1
+[2026-10-06 20:37:45.694] 6509746.blk category=0 value=1
+[2026-10-06 20:37:45.694] 6518469.blk category=0 value=1
+[2026-10-06 20:37:45.694] 6520825.blk category=0 value=1
+[2026-10-06 20:37:45.694] 6522399.blk category=0 value=1
+[2026-10-06 20:37:45.694] 6523440.blk category=0 value=1
+[2026-10-06 20:37:45.694] 6529853.blk category=0 value=1
+[2026-10-06 20:37:45.694] 6537046.blk category=0 value=1
+[2026-10-06 20:37:45.694] 6551129.blk category=0 value=1
+[2026-10-06 20:37:45.694] 6558940.blk category=0 value=1
+[2026-10-06 20:37:45.694] 6571946.blk category=0 value=1
+[2026-10-06 20:37:45.694] 6584930.blk category=0 value=1
+[2026-10-06 20:37:45.694] 6616800.blk category=0 value=1
+[2026-10-06 20:37:45.694] 6618847.blk category=0 value=1
+[2026-10-06 20:37:45.694] 6622192.blk category=0 value=1
+[2026-10-06 20:37:45.694] 6626272.blk category=0 value=1
+[2026-10-06 20:37:45.694] 6636566.blk category=0 value=1
+[2026-10-06 20:37:45.694] 6646601.blk category=0 value=1
+[2026-10-06 20:37:45.694] 6681921.blk category=0 value=1
+[2026-10-06 20:37:45.694] 6702697.blk category=0 value=1
+[2026-10-06 20:37:45.694] 6743293.blk category=0 value=1
+[2026-10-06 20:37:45.694] 6763258.blk category=0 value=1
+[2026-10-06 20:37:45.694] 6781151.blk category=0 value=1
+[2026-10-06 20:37:45.694] 6785892.blk category=0 value=1
+[2026-10-06 20:37:45.694] 6801535.blk category=0 value=1
+[2026-10-06 20:37:45.694] 6814647.blk category=0 value=1
+[2026-10-06 20:37:45.694] 6841530.blk category=0 value=1
+[2026-10-06 20:37:45.694] 6847940.blk category=0 value=1
+[2026-10-06 20:37:45.694] 6860440.blk category=0 value=1
+[2026-10-06 20:37:45.694] 6876037.blk category=0 value=1
+[2026-10-06 20:37:45.694] 6879872.blk category=0 value=1
+[2026-10-06 20:37:45.694] 6914246.blk category=0 value=1
+[2026-10-06 20:37:45.694] 6916568.blk category=0 value=1
+[2026-10-06 20:37:45.695] 6916961.blk category=0 value=1
+[2026-10-06 20:37:45.695] 6935652.blk category=0 value=1
+[2026-10-06 20:37:45.695] 6948878.blk category=0 value=1
+[2026-10-06 20:37:45.695] 6961658.blk category=0 value=1
+[2026-10-06 20:37:45.695] 6964966.blk category=0 value=1
+[2026-10-06 20:37:45.695] 6977816.blk category=0 value=1
+[2026-10-06 20:37:45.695] 6997270.blk category=0 value=1
+[2026-10-06 20:37:45.695] 7010437.blk category=0 value=1
+[2026-10-06 20:37:45.695] 7016640.blk category=0 value=1
+[2026-10-06 20:37:45.695] 7025029.blk category=0 value=1
+[2026-10-06 20:37:45.695] 7030555.blk category=0 value=1
+[2026-10-06 20:37:45.695] 7046190.blk category=0 value=1
+[2026-10-06 20:37:45.695] 7057097.blk category=0 value=1
+[2026-10-06 20:37:45.695] 7060822.blk category=0 value=1
+[2026-10-06 20:37:45.695] 7061526.blk category=0 value=1
+[2026-10-06 20:37:45.695] 7062888.blk category=0 value=1
+[2026-10-06 20:37:45.695] 7069601.blk category=0 value=1
+[2026-10-06 20:37:45.695] 7074423.blk category=0 value=1
+[2026-10-06 20:37:45.695] 7078838.blk category=0 value=1
+[2026-10-06 20:37:45.695] 7080617.blk category=0 value=1
+[2026-10-06 20:37:45.695] 7091825.blk category=0 value=1
+[2026-10-06 20:37:45.695] 7099203.blk category=0 value=1
+[2026-10-06 20:37:45.695] 7102501.blk category=0 value=1
+[2026-10-06 20:37:45.695] 7111265.blk category=0 value=1
+[2026-10-06 20:37:45.695] 7116491.blk category=0 value=1
+[2026-10-06 20:37:45.695] 7130269.blk category=0 value=1
+[2026-10-06 20:37:45.695] 7138794.blk category=0 value=1
+[2026-10-06 20:37:45.695] 7140992.blk category=0 value=1
+[2026-10-06 20:37:45.695] 7145108.blk category=0 value=1
+[2026-10-06 20:37:45.695] 7154859.blk category=0 value=1
+[2026-10-06 20:37:45.695] 7164775.blk category=0 value=1
+[2026-10-06 20:37:45.695] 7183892.blk category=0 value=1
+[2026-10-06 20:37:45.695] 7199115.blk category=0 value=1
+[2026-10-06 20:37:45.695] 7207014.blk category=0 value=1
+[2026-10-06 20:37:45.695] 7215395.blk category=0 value=1
+[2026-10-06 20:37:45.695] 7232936.blk category=0 value=1
+[2026-10-06 20:37:45.695] 7246635.blk category=0 value=1
+[2026-10-06 20:37:45.695] 7247943.blk category=0 value=1
+[2026-10-06 20:37:45.696] 7249121.blk category=0 value=1
+[2026-10-06 20:37:45.696] 7256387.blk category=0 value=1
+[2026-10-06 20:37:45.696] 7265496.blk category=0 value=1
+[2026-10-06 20:37:45.696] 7268175.blk category=0 value=1
+[2026-10-06 20:37:45.696] 7271458.blk category=0 value=1
+[2026-10-06 20:37:45.696] 7281777.blk category=0 value=1
+[2026-10-06 20:37:45.696] 7296994.blk category=0 value=1
+[2026-10-06 20:37:45.696] 7302164.blk category=0 value=1
+[2026-10-06 20:37:45.696] 7325108.blk category=0 value=1
+[2026-10-06 20:37:45.696] 7337456.blk category=0 value=1
+[2026-10-06 20:37:45.696] 7337715.blk category=0 value=1
+[2026-10-06 20:37:45.696] 7347193.blk category=0 value=1
+[2026-10-06 20:37:45.696] 7356235.blk category=0 value=1
+[2026-10-06 20:37:45.696] 7365150.blk category=0 value=1
+[2026-10-06 20:37:45.696] 7385874.blk category=0 value=1
+[2026-10-06 20:37:45.696] 7395532.blk category=0 value=1
+[2026-10-06 20:37:45.696] 7397150.blk category=0 value=1
+[2026-10-06 20:37:45.696] 7401019.blk category=0 value=1
+[2026-10-06 20:37:45.696] 7411097.blk category=0 value=1
+[2026-10-06 20:37:45.696] 7414056.blk category=0 value=1
+[2026-10-06 20:37:45.696] 7423923.blk category=0 value=1
+[2026-10-06 20:37:45.696] 7429156.blk category=0 value=1
+[2026-10-06 20:37:45.696] 7432917.blk category=0 value=1
+[2026-10-06 20:37:45.696] 7511342.blk category=0 value=1
+[2026-10-06 20:37:45.696] 7542719.blk category=0 value=1
+[2026-10-06 20:37:45.696] 7544892.blk category=0 value=1
+[2026-10-06 20:37:45.696] 7549390.blk category=0 value=1
+[2026-10-06 20:37:45.696] 7555495.blk category=0 value=1
+[2026-10-06 20:37:45.696] 7567760.blk category=0 value=1
+[2026-10-06 20:37:45.696] 7572531.blk category=0 value=1
+[2026-10-06 20:37:45.696] 7594173.blk category=0 value=1
+[2026-10-06 20:37:45.696] 7604720.blk category=0 value=1
+[2026-10-06 20:37:45.696] 7673332.blk category=0 value=1
+[2026-10-06 20:37:45.696] 7696164.blk category=0 value=1
+[2026-10-06 20:37:45.696] 7711412.blk category=0 value=1
+[2026-10-06 20:37:45.696] 7711961.blk category=0 value=1
+[2026-10-06 20:37:45.696] 7724180.blk category=0 value=1
+[2026-10-06 20:37:45.696] 7750227.blk category=0 value=1
+[2026-10-06 20:37:45.696] 7752539.blk category=0 value=1
+[2026-10-06 20:37:45.696] 7752668.blk category=0 value=1
+[2026-10-06 20:37:45.696] 7776240.blk category=0 value=1
+[2026-10-06 20:37:45.696] 7791131.blk category=0 value=1
+[2026-10-06 20:37:45.696] 7791476.blk category=0 value=1
+[2026-10-06 20:37:45.696] 7805173.blk category=0 value=1
+[2026-10-06 20:37:45.696] 7845116.blk category=0 value=1
+[2026-10-06 20:37:45.696] 7848416.blk category=0 value=1
+[2026-10-06 20:37:45.696] 7855517.blk category=0 value=1
+[2026-10-06 20:37:45.696] 7857232.blk category=0 value=1
+[2026-10-06 20:37:45.696] 7874016.blk category=0 value=1
+[2026-10-06 20:37:45.696] 7890483.blk category=0 value=1
+[2026-10-06 20:37:45.696] 7893499.blk category=0 value=1
+[2026-10-06 20:37:45.696] 7893987.blk category=0 value=1
+[2026-10-06 20:37:45.696] 7901368.blk category=0 value=1
+[2026-10-06 20:37:45.696] 7947097.blk category=0 value=1
+[2026-10-06 20:37:45.696] 7969043.blk category=0 value=1
+[2026-10-06 20:37:45.696] 8018786.blk category=0 value=1
+[2026-10-06 20:37:45.696] 8033902.blk category=0 value=1
+[2026-10-06 20:37:45.696] 8039284.blk category=0 value=1
+[2026-10-06 20:37:45.696] 8045377.blk category=0 value=1
+[2026-10-06 20:37:45.697] 8046254.blk category=0 value=1
+[2026-10-06 20:37:45.697] 8051239.blk category=0 value=1
+[2026-10-06 20:37:45.697] 8062727.blk category=0 value=1
+[2026-10-06 20:37:45.697] 8073930.blk category=0 value=1
+[2026-10-06 20:37:45.697] 8082738.blk category=0 value=1
+[2026-10-06 20:37:45.697] 8087857.blk category=0 value=1
+[2026-10-06 20:37:45.697] 8117113.blk category=0 value=1
+[2026-10-06 20:37:45.697] 8121419.blk category=0 value=1
+[2026-10-06 20:37:45.697] 8123038.blk category=0 value=1
+[2026-10-06 20:37:45.697] 8123938.blk category=0 value=1
+[2026-10-06 20:37:45.697] 8150507.blk category=0 value=1
+[2026-10-06 20:37:45.697] 8156674.blk category=0 value=1
+[2026-10-06 20:37:45.697] 8194402.blk category=0 value=1
+[2026-10-06 20:37:45.697] 8196218.blk category=0 value=1
+[2026-10-06 20:37:45.697] 8202914.blk category=0 value=1
+[2026-10-06 20:37:45.697] 8205903.blk category=0 value=1
+[2026-10-06 20:37:45.697] 8254570.blk category=0 value=1
+[2026-10-06 20:37:45.697] 8256569.blk category=0 value=1
+[2026-10-06 20:37:45.697] 8273971.blk category=0 value=1
+[2026-10-06 20:37:45.697] 8285369.blk category=0 value=1
+[2026-10-06 20:37:45.697] 8288840.blk category=0 value=1
+[2026-10-06 20:37:45.697] 8291799.blk category=0 value=1
+[2026-10-06 20:37:45.697] 8304616.blk category=0 value=1
+[2026-10-06 20:37:45.697] 8308915.blk category=0 value=1
+[2026-10-06 20:37:45.697] 8311857.blk category=0 value=1
+[2026-10-06 20:37:45.697] 8317825.blk category=0 value=1
+[2026-10-06 20:37:45.697] 8325406.blk category=0 value=1
+[2026-10-06 20:37:45.697] 8326876.blk category=0 value=1
+[2026-10-06 20:37:45.697] 8327242.blk category=0 value=1
+[2026-10-06 20:37:45.697] 8328905.blk category=0 value=1
+[2026-10-06 20:37:45.697] 8329755.blk category=0 value=1
+[2026-10-06 20:37:45.697] 8404361.blk category=0 value=1
+[2026-10-06 20:37:45.697] 8439100.blk category=0 value=1
+[2026-10-06 20:37:45.697] 8465637.blk category=0 value=1
+[2026-10-06 20:37:45.697] 8466595.blk category=0 value=1
+[2026-10-06 20:37:45.697] 8476697.blk category=0 value=1
+[2026-10-06 20:37:45.697] 8480638.blk category=0 value=1
+[2026-10-06 20:37:45.697] 8510182.blk category=0 value=1
+[2026-10-06 20:37:45.697] 8520258.blk category=0 value=1
+[2026-10-06 20:37:45.697] 8528389.blk category=0 value=1
+[2026-10-06 20:37:45.697] 8551825.blk category=0 value=1
+[2026-10-06 20:37:45.697] 8609329.blk category=0 value=1
+[2026-10-06 20:37:45.697] 8612723.blk category=0 value=1
+[2026-10-06 20:37:45.697] 8618699.blk category=0 value=1
+[2026-10-06 20:37:45.697] 8638836.blk category=0 value=1
+[2026-10-06 20:37:45.697] 8639127.blk category=0 value=1
+[2026-10-06 20:37:45.697] 8641884.blk category=0 value=1
+[2026-10-06 20:37:45.697] 8642348.blk category=0 value=1
+[2026-10-06 20:37:45.697] 8654963.blk category=0 value=1
+[2026-10-06 20:37:45.697] 8677947.blk category=0 value=1
+[2026-10-06 20:37:45.697] 8678580.blk category=0 value=1
+[2026-10-06 20:37:45.697] 8701331.blk category=0 value=1
+[2026-10-06 20:37:45.697] 8725859.blk category=0 value=1
+[2026-10-06 20:37:45.697] 8733512.blk category=0 value=1
+[2026-10-06 20:37:45.697] 8745472.blk category=0 value=1
+[2026-10-06 20:37:45.697] 8753960.blk category=0 value=1
+[2026-10-06 20:37:45.697] 8755375.blk category=0 value=1
+[2026-10-06 20:37:45.698] 8770437.blk category=0 value=1
+[2026-10-06 20:37:45.698] 8773763.blk category=0 value=1
+[2026-10-06 20:37:45.698] 8785729.blk category=0 value=1
+[2026-10-06 20:37:45.698] 8786150.blk category=0 value=1
+[2026-10-06 20:37:45.698] 8796615.blk category=0 value=1
+[2026-10-06 20:37:45.698] 8829906.blk category=0 value=1
+[2026-10-06 20:37:45.698] 8847728.blk category=0 value=1
+[2026-10-06 20:37:45.698] 8876678.blk category=0 value=1
+[2026-10-06 20:37:45.698] 8890539.blk category=0 value=1
+[2026-10-06 20:37:45.698] 8893781.blk category=0 value=1
+[2026-10-06 20:37:45.698] 8926786.blk category=0 value=1
+[2026-10-06 20:37:45.698] 8934053.blk category=0 value=1
+[2026-10-06 20:37:45.698] 8935160.blk category=0 value=1
+[2026-10-06 20:37:45.698] 8938499.blk category=0 value=1
+[2026-10-06 20:37:45.698] 8956210.blk category=0 value=1
+[2026-10-06 20:37:45.698] 8960255.blk category=0 value=1
+[2026-10-06 20:37:45.698] 8993177.blk category=0 value=1
+[2026-10-06 20:37:45.698] 9005456.blk category=0 value=1
+[2026-10-06 20:37:45.698] 9008094.blk category=0 value=1
+[2026-10-06 20:37:45.698] 9028712.blk category=0 value=1
+[2026-10-06 20:37:45.698] 9030918.blk category=0 value=1
+[2026-10-06 20:37:45.698] 9031407.blk category=0 value=1
+[2026-10-06 20:37:45.698] 9032823.blk category=0 value=1
+[2026-10-06 20:37:45.698] 9035336.blk category=0 value=1
+[2026-10-06 20:37:45.698] 9035987.blk category=0 value=1
+[2026-10-06 20:37:45.698] 9063412.blk category=0 value=1
+[2026-10-06 20:37:45.698] 9085593.blk category=0 value=1
+[2026-10-06 20:37:45.698] 9102146.blk category=0 value=1
+[2026-10-06 20:37:45.698] 9105744.blk category=0 value=1
+[2026-10-06 20:37:45.698] 9148877.blk category=0 value=1
+[2026-10-06 20:37:45.698] 9163478.blk category=0 value=1
+[2026-10-06 20:37:45.698] 9167763.blk category=0 value=1
+[2026-10-06 20:37:45.698] 9182193.blk category=0 value=1
+[2026-10-06 20:37:45.698] 9184288.blk category=0 value=1
+[2026-10-06 20:37:45.698] 9202311.blk category=0 value=1
+[2026-10-06 20:37:45.698] 9202532.blk category=0 value=1
+[2026-10-06 20:37:45.698] 9210468.blk category=0 value=1
+[2026-10-06 20:37:45.698] 9211390.blk category=0 value=1
+[2026-10-06 20:37:45.698] 9216875.blk category=0 value=1
+[2026-10-06 20:37:45.698] 9230512.blk category=0 value=1
+[2026-10-06 20:37:45.698] 9238199.blk category=0 value=1
+[2026-10-06 20:37:45.698] 9256899.blk category=0 value=1
+[2026-10-06 20:37:45.698] 9298739.blk category=0 value=1
+[2026-10-06 20:37:45.698] 9329488.blk category=0 value=1
+[2026-10-06 20:37:45.698] 9343428.blk category=0 value=1
+[2026-10-06 20:37:45.698] 9356209.blk category=0 value=1
+[2026-10-06 20:37:45.698] 9356623.blk category=0 value=1
+[2026-10-06 20:37:45.699] 9379854.blk category=0 value=1
+[2026-10-06 20:37:45.699] 9389745.blk category=0 value=1
+[2026-10-06 20:37:45.699] 9404150.blk category=0 value=1
+[2026-10-06 20:37:45.699] 9410863.blk category=0 value=1
+[2026-10-06 20:37:45.699] 9418594.blk category=0 value=1
+[2026-10-06 20:37:45.699] 9429274.blk category=0 value=1
+[2026-10-06 20:37:45.699] 9432178.blk category=0 value=1
+[2026-10-06 20:37:45.699] 9475752.blk category=0 value=1
+[2026-10-06 20:37:45.699] 9499318.blk category=0 value=1
+[2026-10-06 20:37:45.699] 9501187.blk category=0 value=1
+[2026-10-06 20:37:45.699] 9501945.blk category=0 value=1
+[2026-10-06 20:37:45.699] 9521656.blk category=0 value=1
+[2026-10-06 20:37:45.699] 9531843.blk category=0 value=1
+[2026-10-06 20:37:45.699] 9535212.blk category=0 value=1
+[2026-10-06 20:37:45.699] 9568717.blk category=0 value=1
+[2026-10-06 20:37:45.699] 9581839.blk category=0 value=1
+[2026-10-06 20:37:45.699] 9599059.blk category=0 value=1
+[2026-10-06 20:37:45.699] 9602454.blk category=0 value=1
+[2026-10-06 20:37:45.699] 9626721.blk category=0 value=1
+[2026-10-06 20:37:45.699] 9641740.blk category=0 value=1
+[2026-10-06 20:37:45.699] 9657834.blk category=0 value=1
+[2026-10-06 20:37:45.699] 9662312.blk category=0 value=1
+[2026-10-06 20:37:45.699] 9663560.blk category=0 value=1
+[2026-10-06 20:37:45.699] 9673565.blk category=0 value=1
+[2026-10-06 20:37:45.699] 9674373.blk category=0 value=1
+[2026-10-06 20:37:45.699] 9685687.blk category=0 value=1
+[2026-10-06 20:37:45.699] 9718288.blk category=0 value=1
+[2026-10-06 20:37:45.699] 9721590.blk category=0 value=1
+[2026-10-06 20:37:45.699] 9732188.blk category=0 value=1
+[2026-10-06 20:37:45.699] 9752887.blk category=0 value=1
+[2026-10-06 20:37:45.699] 9796229.blk category=0 value=1
+[2026-10-06 20:37:45.699] 9801749.blk category=0 value=1
+[2026-10-06 20:37:45.699] 9808803.blk category=0 value=1
+[2026-10-06 20:37:45.699] 9823954.blk category=0 value=1
+[2026-10-06 20:37:45.699] 9837426.blk category=0 value=1
+[2026-10-06 20:37:45.699] 9847208.blk category=0 value=1
+[2026-10-06 20:37:45.699] 9853348.blk category=0 value=1
+[2026-10-06 20:37:45.699] 9876465.blk category=0 value=1
+[2026-10-06 20:37:45.699] 9888223.blk category=0 value=1
+[2026-10-06 20:37:45.699] 9908980.blk category=0 value=1
+[2026-10-06 20:37:45.699] 9916391.blk category=0 value=1
+[2026-10-06 20:37:45.699] 9921188.blk category=0 value=1
+[2026-10-06 20:37:45.699] 9928758.blk category=0 value=1
+[2026-10-06 20:37:45.699] 9928911.blk category=0 value=1
+[2026-10-06 20:37:45.699] 9929497.blk category=0 value=1
+[2026-10-06 20:37:45.699] 9944107.blk category=0 value=1
+[2026-10-06 20:37:45.699] 9948687.blk category=0 value=1
+[2026-10-06 20:37:45.699] 9968481.blk category=0 value=1
+[2026-10-06 20:37:45.699] 9990668.blk category=0 value=1
+[2026-10-06 20:37:45.699] 10002077.blk category=0 value=1
+[2026-10-06 20:37:45.699] 10003477.blk category=0 value=1
+[2026-10-06 20:37:45.699] 10031116.blk category=0 value=1
+[2026-10-06 20:37:45.699] 10033303.blk category=0 value=1
+[2026-10-06 20:37:45.700] 10038320.blk category=0 value=1
+[2026-10-06 20:37:45.700] 10059922.blk category=0 value=1
+[2026-10-06 20:37:45.700] 10079534.blk category=0 value=1
+[2026-10-06 20:37:45.700] 10089804.blk category=0 value=1
+[2026-10-06 20:37:45.700] 10108200.blk category=0 value=1
+[2026-10-06 20:37:45.700] 10123435.blk category=0 value=1
+[2026-10-06 20:37:45.700] 10155866.blk category=0 value=1
+[2026-10-06 20:37:45.700] 10167666.blk category=0 value=1
+[2026-10-06 20:37:45.700] 10178312.blk category=0 value=1
+[2026-10-06 20:37:45.700] 10181329.blk category=0 value=1
+[2026-10-06 20:37:45.700] 10214969.blk category=0 value=1
+[2026-10-06 20:37:45.700] 10216827.blk category=0 value=1
+[2026-10-06 20:37:45.700] 10219295.blk category=0 value=1
+[2026-10-06 20:37:45.700] 10244551.blk category=0 value=1
+[2026-10-06 20:37:45.700] 10259465.blk category=0 value=1
+[2026-10-06 20:37:45.700] 10279444.blk category=0 value=1
+[2026-10-06 20:37:45.700] 10283838.blk category=0 value=1
+[2026-10-06 20:37:45.700] 10290662.blk category=0 value=1
+[2026-10-06 20:37:45.700] 10337142.blk category=0 value=1
+[2026-10-06 20:37:45.700] 10348240.blk category=0 value=1
+[2026-10-06 20:37:45.700] 10353076.blk category=0 value=1
+[2026-10-06 20:37:45.700] 10364478.blk category=0 value=1
+[2026-10-06 20:37:45.700] 10367086.blk category=0 value=1
+[2026-10-06 20:37:45.700] 10371890.blk category=0 value=1
+[2026-10-06 20:37:45.700] 10413193.blk category=0 value=1
+[2026-10-06 20:37:45.700] 10417362.blk category=0 value=1
+[2026-10-06 20:37:45.700] 10418262.blk category=0 value=1
+[2026-10-06 20:37:45.700] 10421501.blk category=0 value=1
+[2026-10-06 20:37:45.700] 10423623.blk category=0 value=1
+[2026-10-06 20:37:45.700] 10433767.blk category=0 value=1
+[2026-10-06 20:37:45.700] 10438615.blk category=0 value=1
+[2026-10-06 20:37:45.700] 10445985.blk category=0 value=1
+[2026-10-06 20:37:45.700] 10449273.blk category=0 value=1
+[2026-10-06 20:37:45.700] 10453296.blk category=0 value=1
+[2026-10-06 20:37:45.700] 10453615.blk category=0 value=1
+[2026-10-06 20:37:45.700] 10491026.blk category=0 value=1
+[2026-10-06 20:37:45.700] 10500014.blk category=0 value=1
+[2026-10-06 20:37:45.700] 10501650.blk category=0 value=1
+[2026-10-06 20:37:45.700] 10512550.blk category=0 value=1
+[2026-10-06 20:37:45.700] 10517766.blk category=0 value=1
+[2026-10-06 20:37:45.700] 10518886.blk category=0 value=1
+[2026-10-06 20:37:45.700] 10533570.blk category=0 value=1
+[2026-10-06 20:37:45.700] 10577564.blk category=0 value=1
+[2026-10-06 20:37:45.700] 10587581.blk category=0 value=1
+[2026-10-06 20:37:45.700] 10600027.blk category=0 value=1
+[2026-10-06 20:37:45.700] 10601853.blk category=0 value=1
+[2026-10-06 20:37:45.700] 10603349.blk category=0 value=1
+[2026-10-06 20:37:45.700] 10608896.blk category=0 value=1
+[2026-10-06 20:37:45.700] 10610607.blk category=0 value=1
+[2026-10-06 20:37:45.701] 10613661.blk category=0 value=1
+[2026-10-06 20:37:45.701] 10617633.blk category=0 value=1
+[2026-10-06 20:37:45.701] 10683044.blk category=0 value=1
+[2026-10-06 20:37:45.701] 10693430.blk category=0 value=1
+[2026-10-06 20:37:45.701] 10708627.blk category=0 value=1
+[2026-10-06 20:37:45.701] 10724632.blk category=0 value=1
+[2026-10-06 20:37:45.701] 10802002.blk category=0 value=1
+[2026-10-06 20:37:45.701] 10816309.blk category=0 value=1
+[2026-10-06 20:37:45.701] 10818695.blk category=0 value=1
+[2026-10-06 20:37:45.701] 10829568.blk category=0 value=1
+[2026-10-06 20:37:45.701] 10831150.blk category=0 value=1
+[2026-10-06 20:37:45.701] 10843427.blk category=0 value=1
+[2026-10-06 20:37:45.701] 10850306.blk category=0 value=1
+[2026-10-06 20:37:45.701] 10867523.blk category=0 value=1
+[2026-10-06 20:37:45.701] 10874374.blk category=0 value=1
+[2026-10-06 20:37:45.701] 10897632.blk category=0 value=1
+[2026-10-06 20:37:45.701] 10904453.blk category=0 value=1
+[2026-10-06 20:37:45.701] 10904456.blk category=0 value=1
+[2026-10-06 20:37:45.701] 10919346.blk category=0 value=1
+[2026-10-06 20:37:45.701] 10945961.blk category=0 value=1
+[2026-10-06 20:37:45.701] 10947494.blk category=0 value=1
+[2026-10-06 20:37:45.701] 10974057.blk category=0 value=1
+[2026-10-06 20:37:45.701] 10982089.blk category=0 value=1
+[2026-10-06 20:37:45.701] 10982366.blk category=0 value=1
+[2026-10-06 20:37:45.701] 10994521.blk category=0 value=1
+[2026-10-06 20:37:45.701] 11001547.blk category=0 value=1
+[2026-10-06 20:37:45.701] 11014047.blk category=0 value=1
+[2026-10-06 20:37:45.701] 11026912.blk category=0 value=1
+[2026-10-06 20:37:45.701] 11029195.blk category=0 value=1
+[2026-10-06 20:37:45.701] 11032948.blk category=0 value=1
+[2026-10-06 20:37:45.701] 11061715.blk category=0 value=1
+[2026-10-06 20:37:45.701] 11071728.blk category=0 value=1
+[2026-10-06 20:37:45.701] 11075373.blk category=0 value=1
+[2026-10-06 20:37:45.701] 11080049.blk category=0 value=1
+[2026-10-06 20:37:45.701] 11094400.blk category=0 value=1
+[2026-10-06 20:37:45.701] 11102928.blk category=0 value=1
+[2026-10-06 20:37:45.701] 11107335.blk category=0 value=1
+[2026-10-06 20:37:45.701] 11117539.blk category=0 value=1
+[2026-10-06 20:37:45.701] 11119949.blk category=0 value=1
+[2026-10-06 20:37:45.701] 11126621.blk category=0 value=1
+[2026-10-06 20:37:45.701] 11131759.blk category=0 value=1
+[2026-10-06 20:37:45.701] 11139310.blk category=0 value=1
+[2026-10-06 20:37:45.701] 11152939.blk category=0 value=1
+[2026-10-06 20:37:45.701] 11158529.blk category=0 value=1
+[2026-10-06 20:37:45.701] 11181037.blk category=0 value=1
+[2026-10-06 20:37:45.701] 11182842.blk category=0 value=1
+[2026-10-06 20:37:45.701] 11194971.blk category=0 value=1
+[2026-10-06 20:37:45.701] 11199144.blk category=0 value=1
+[2026-10-06 20:37:45.701] 11203321.blk category=0 value=1
+[2026-10-06 20:37:45.701] 11206375.blk category=0 value=1
+[2026-10-06 20:37:45.701] 11220334.blk category=0 value=1
+[2026-10-06 20:37:45.701] 11232202.blk category=0 value=1
+[2026-10-06 20:37:45.701] 11255672.blk category=0 value=1
+[2026-10-06 20:37:45.701] 11273987.blk category=0 value=1
+[2026-10-06 20:37:45.701] 11274841.blk category=0 value=1
+[2026-10-06 20:37:45.701] 11290214.blk category=0 value=1
+[2026-10-06 20:37:45.701] 11299961.blk category=0 value=1
+[2026-10-06 20:37:45.701] 11317639.blk category=0 value=1
+[2026-10-06 20:37:45.701] 11328104.blk category=0 value=1
+[2026-10-06 20:37:45.701] 11331095.blk category=0 value=1
+[2026-10-06 20:37:45.701] 11356835.blk category=0 value=1
+[2026-10-06 20:37:45.702] 11357832.blk category=0 value=1
+[2026-10-06 20:37:45.702] 11372219.blk category=0 value=1
+[2026-10-06 20:37:45.702] 11396489.blk category=0 value=1
+[2026-10-06 20:37:45.702] 11417139.blk category=0 value=1
+[2026-10-06 20:37:45.702] 11451454.blk category=0 value=1
+[2026-10-06 20:37:45.702] 11482790.blk category=0 value=1
+[2026-10-06 20:37:45.702] 11494967.blk category=0 value=1
+[2026-10-06 20:37:45.702] 11502533.blk category=0 value=1
+[2026-10-06 20:37:45.702] 11503069.blk category=0 value=1
+[2026-10-06 20:37:45.702] 11505223.blk category=0 value=1
+[2026-10-06 20:37:45.702] 11538761.blk category=0 value=1
+[2026-10-06 20:37:45.702] 11557012.blk category=0 value=1
+[2026-10-06 20:37:45.702] 11557121.blk category=0 value=1
+[2026-10-06 20:37:45.702] 11561524.blk category=0 value=1
+[2026-10-06 20:37:45.702] 11571752.blk category=0 value=1
+[2026-10-06 20:37:45.702] 11603221.blk category=0 value=1
+[2026-10-06 20:37:45.702] 11609117.blk category=0 value=1
+[2026-10-06 20:37:45.702] 11677754.blk category=0 value=1
+[2026-10-06 20:37:45.702] 11702394.blk category=0 value=1
+[2026-10-06 20:37:45.702] 11710726.blk category=0 value=1
+[2026-10-06 20:37:45.702] 11728384.blk category=0 value=1
+[2026-10-06 20:37:45.702] 11729717.blk category=0 value=1
+[2026-10-06 20:37:45.702] 11729794.blk category=0 value=1
+[2026-10-06 20:37:45.702] 11741212.blk category=0 value=1
+[2026-10-06 20:37:45.702] 11752448.blk category=0 value=1
+[2026-10-06 20:37:45.702] 11755697.blk category=0 value=1
+[2026-10-06 20:37:45.702] 11764179.blk category=0 value=1
+[2026-10-06 20:37:45.702] 11790361.blk category=0 value=1
+[2026-10-06 20:37:45.702] 11795229.blk category=0 value=1
+[2026-10-06 20:37:45.702] 11830219.blk category=0 value=1
+[2026-10-06 20:37:45.702] 11877482.blk category=0 value=1
+[2026-10-06 20:37:45.702] 11878325.blk category=0 value=1
+[2026-10-06 20:37:45.702] 11897870.blk category=0 value=1
+[2026-10-06 20:37:45.702] 11910275.blk category=0 value=1
+[2026-10-06 20:37:45.702] 11913898.blk category=0 value=1
+[2026-10-06 20:37:45.702] 11923565.blk category=0 value=1
+[2026-10-06 20:37:45.702] 11931311.blk category=0 value=1
+[2026-10-06 20:37:45.702] 11932507.blk category=0 value=1
+[2026-10-06 20:37:45.702] 11946976.blk category=0 value=1
+[2026-10-06 20:37:45.702] 11957487.blk category=0 value=1
+[2026-10-06 20:37:45.702] 11964750.blk category=0 value=1
+[2026-10-06 20:37:45.702] 11969378.blk category=0 value=1
+[2026-10-06 20:37:45.702] 11972956.blk category=0 value=1
+[2026-10-06 20:37:45.702] 11988158.blk category=0 value=1
+[2026-10-06 20:37:45.702] 11997247.blk category=0 value=1
+[2026-10-06 20:37:45.702] 12005369.blk category=0 value=1
+[2026-10-06 20:37:45.702] 12023060.blk category=0 value=1
+[2026-10-06 20:37:45.702] 12031809.blk category=0 value=1
+[2026-10-06 20:37:45.702] 12085831.blk category=0 value=1
+[2026-10-06 20:37:45.702] 12098294.blk category=0 value=1
+[2026-10-06 20:37:45.702] 12098844.blk category=0 value=1
+[2026-10-06 20:37:45.702] 12105561.blk category=0 value=1
+[2026-10-06 20:37:45.702] 12110372.blk category=0 value=1
+[2026-10-06 20:37:45.702] 12129267.blk category=0 value=1
+[2026-10-06 20:37:45.702] 12141546.blk category=0 value=1
+[2026-10-06 20:37:45.702] 12144111.blk category=0 value=1
+[2026-10-06 20:37:45.702] 12162237.blk category=0 value=1
+[2026-10-06 20:37:45.703] 12189509.blk category=0 value=1
+[2026-10-06 20:37:45.703] 12194711.blk category=0 value=1
+[2026-10-06 20:37:45.703] 12212220.blk category=0 value=1
+[2026-10-06 20:37:45.703] 12236845.blk category=0 value=1
+[2026-10-06 20:37:45.703] 12247418.blk category=0 value=1
+[2026-10-06 20:37:45.703] 12247975.blk category=0 value=1
+[2026-10-06 20:37:45.703] 12271586.blk category=0 value=1
+[2026-10-06 20:37:45.703] 12278082.blk category=0 value=1
+[2026-10-06 20:37:45.703] 12287307.blk category=0 value=1
+[2026-10-06 20:37:45.703] 12287606.blk category=0 value=1
+[2026-10-06 20:37:45.703] 12287883.blk category=0 value=1
+[2026-10-06 20:37:45.703] 12290100.blk category=0 value=1
+[2026-10-06 20:37:45.703] 12297733.blk category=0 value=1
+[2026-10-06 20:37:45.703] 12304558.blk category=0 value=1
+[2026-10-06 20:37:45.703] 12305107.blk category=0 value=1
+[2026-10-06 20:37:45.703] 12309586.blk category=0 value=1
+[2026-10-06 20:37:45.703] 12310304.blk category=0 value=1
+[2026-10-06 20:37:45.703] 12313134.blk category=0 value=1
+[2026-10-06 20:37:45.703] 12322025.blk category=0 value=1
+[2026-10-06 20:37:45.703] 12342470.blk category=0 value=1
+[2026-10-06 20:37:45.703] 12348548.blk category=0 value=1
+[2026-10-06 20:37:45.703] 12370475.blk category=0 value=1
+[2026-10-06 20:37:45.703] 12371820.blk category=0 value=1
+[2026-10-06 20:37:45.703] 12373620.blk category=0 value=1
+[2026-10-06 20:37:45.703] 12375335.blk category=0 value=1
+[2026-10-06 20:37:45.703] 12375436.blk category=0 value=1
+[2026-10-06 20:37:45.703] 12408120.blk category=0 value=1
+[2026-10-06 20:37:45.703] 12431495.blk category=0 value=1
+[2026-10-06 20:37:45.703] 12438527.blk category=0 value=1
+[2026-10-06 20:37:45.703] 12450682.blk category=0 value=1
+[2026-10-06 20:37:45.703] 12471130.blk category=0 value=1
+[2026-10-06 20:37:45.703] 12474333.blk category=0 value=1
+[2026-10-06 20:37:45.703] 12480469.blk category=0 value=1
+[2026-10-06 20:37:45.703] 12524766.blk category=0 value=1
+[2026-10-06 20:37:45.703] 12531339.blk category=0 value=1
+[2026-10-06 20:37:45.703] 12537328.blk category=0 value=1
+[2026-10-06 20:37:45.703] 12547517.blk category=0 value=1
+[2026-10-06 20:37:45.703] 12553556.blk category=0 value=1
+[2026-10-06 20:37:45.703] 12555244.blk category=0 value=1
+[2026-10-06 20:37:45.703] 12558327.blk category=0 value=1
+[2026-10-06 20:37:45.703] 12581393.blk category=0 value=1
+[2026-10-06 20:37:45.703] 12582683.blk category=0 value=1
+[2026-10-06 20:37:45.703] 12587442.blk category=0 value=1
+[2026-10-06 20:37:45.703] 12602358.blk category=0 value=1
+[2026-10-06 20:37:45.703] 12612251.blk category=0 value=1
+[2026-10-06 20:37:45.703] 12624992.blk category=0 value=1
+[2026-10-06 20:37:45.703] 12667364.blk category=0 value=1
+[2026-10-06 20:37:45.703] 12668072.blk category=0 value=1
+[2026-10-06 20:37:45.703] 12699539.blk category=0 value=1
+[2026-10-06 20:37:45.703] 12708453.blk category=0 value=1
+[2026-10-06 20:37:45.703] 12708928.blk category=0 value=1
+[2026-10-06 20:37:45.703] 12714647.blk category=0 value=1
+[2026-10-06 20:37:45.703] 12724347.blk category=0 value=1
+[2026-10-06 20:37:45.703] 12736540.blk category=0 value=1
+[2026-10-06 20:37:45.703] 12738334.blk category=0 value=1
+[2026-10-06 20:37:45.703] 12741222.blk category=0 value=1
+[2026-10-06 20:37:45.703] 12750562.blk category=0 value=1
+[2026-10-06 20:37:45.704] 12774345.blk category=0 value=1
+[2026-10-06 20:37:45.704] 12776701.blk category=0 value=1
+[2026-10-06 20:37:45.704] 12784229.blk category=0 value=1
+[2026-10-06 20:37:45.704] 12784378.blk category=0 value=1
+[2026-10-06 20:37:45.704] 12789002.blk category=0 value=1
+[2026-10-06 20:37:45.704] 12792631.blk category=0 value=1
+[2026-10-06 20:37:45.704] 12810842.blk category=0 value=1
+[2026-10-06 20:37:45.704] 12817198.blk category=0 value=1
+[2026-10-06 20:37:45.704] 12823530.blk category=0 value=1
+[2026-10-06 20:37:45.704] 12830541.blk category=0 value=1
+[2026-10-06 20:37:45.704] 12835100.blk category=0 value=1
+[2026-10-06 20:37:45.704] 12839532.blk category=0 value=1
+[2026-10-06 20:37:45.704] 12846485.blk category=0 value=1
+[2026-10-06 20:37:45.704] 12848475.blk category=0 value=1
+[2026-10-06 20:37:45.704] 12855853.blk category=0 value=1
+[2026-10-06 20:37:45.704] 12858563.blk category=0 value=1
+[2026-10-06 20:37:45.704] 12859433.blk category=0 value=1
+[2026-10-06 20:37:45.704] 12859995.blk category=0 value=1
+[2026-10-06 20:37:45.704] 12863038.blk category=0 value=1
+[2026-10-06 20:37:45.704] 12864094.blk category=0 value=1
+[2026-10-06 20:37:45.704] 12869593.blk category=0 value=1
+[2026-10-06 20:37:45.704] 12872443.blk category=0 value=1
+[2026-10-06 20:37:45.704] 12887971.blk category=0 value=1
+[2026-10-06 20:37:45.704] 12889735.blk category=0 value=1
+[2026-10-06 20:37:45.704] 12903389.blk category=0 value=1
+[2026-10-06 20:37:45.704] 12907639.blk category=0 value=1
+[2026-10-06 20:37:45.704] 12915754.blk category=0 value=1
+[2026-10-06 20:37:45.704] 12916513.blk category=0 value=1
+[2026-10-06 20:37:45.704] 12935899.blk category=0 value=1
+[2026-10-06 20:37:45.704] 12939943.blk category=0 value=1
+[2026-10-06 20:37:45.704] 12939971.blk category=0 value=1
+[2026-10-06 20:37:45.704] 12944618.blk category=0 value=1
+[2026-10-06 20:37:45.704] 12952388.blk category=0 value=1
+[2026-10-06 20:37:45.704] 12972870.blk category=0 value=1
+[2026-10-06 20:37:45.704] 12976012.blk category=0 value=1
+[2026-10-06 20:37:45.704] 12978137.blk category=0 value=1
+[2026-10-06 20:37:45.704] 12983525.blk category=0 value=1
+[2026-10-06 20:37:45.704] 12984020.blk category=0 value=1
+[2026-10-06 20:37:45.704] 12992650.blk category=0 value=1
+[2026-10-06 20:37:45.704] 13007095.blk category=0 value=1
+[2026-10-06 20:37:45.704] 13024650.blk category=0 value=1
+[2026-10-06 20:37:45.704] 13058112.blk category=0 value=1
+[2026-10-06 20:37:45.704] 13070111.blk category=0 value=1
+[2026-10-06 20:37:45.704] 13074766.blk category=0 value=1
+[2026-10-06 20:37:45.704] 13085469.blk category=0 value=1
+[2026-10-06 20:37:45.704] 13086396.blk category=0 value=1
+[2026-10-06 20:37:45.704] 13116240.blk category=0 value=1
+[2026-10-06 20:37:45.704] 13138169.blk category=0 value=1
+[2026-10-06 20:37:45.704] 13153239.blk category=0 value=1
+[2026-10-06 20:37:45.704] 13175219.blk category=0 value=1
+[2026-10-06 20:37:45.704] 13179799.blk category=0 value=1
+[2026-10-06 20:37:45.704] 13184676.blk category=0 value=1
+[2026-10-06 20:37:45.704] 13195605.blk category=0 value=1
+[2026-10-06 20:37:45.704] 13210138.blk category=0 value=1
+[2026-10-06 20:37:45.704] 13215277.blk category=0 value=1
+[2026-10-06 20:37:45.705] 13241595.blk category=0 value=1
+[2026-10-06 20:37:45.705] 13254258.blk category=0 value=1
+[2026-10-06 20:37:45.705] 13303555.blk category=0 value=1
+[2026-10-06 20:37:45.705] 13315469.blk category=0 value=1
+[2026-10-06 20:37:45.705] 13321111.blk category=0 value=1
+[2026-10-06 20:37:45.705] 13323572.blk category=0 value=1
+[2026-10-06 20:37:45.705] 13324915.blk category=0 value=1
+[2026-10-06 20:37:45.705] 13326328.blk category=0 value=1
+[2026-10-06 20:37:45.705] 13343891.blk category=0 value=1
+[2026-10-06 20:37:45.705] 13347377.blk category=0 value=1
+[2026-10-06 20:37:45.705] 13368452.blk category=0 value=1
+[2026-10-06 20:37:45.705] 13381681.blk category=0 value=1
+[2026-10-06 20:37:45.705] 13385669.blk category=0 value=1
+[2026-10-06 20:37:45.705] 13387935.blk category=0 value=1
+[2026-10-06 20:37:45.705] 13401408.blk category=0 value=1
+[2026-10-06 20:37:45.705] 13414057.blk category=0 value=1
+[2026-10-06 20:37:45.705] 13433595.blk category=0 value=1
+[2026-10-06 20:37:45.705] 13444195.blk category=0 value=1
+[2026-10-06 20:37:45.705] 13449134.blk category=0 value=1
+[2026-10-06 20:37:45.705] 13450210.blk category=0 value=1
+[2026-10-06 20:37:45.705] 13475093.blk category=0 value=1
+[2026-10-06 20:37:45.705] 13492150.blk category=0 value=1
+[2026-10-06 20:37:45.705] 13513004.blk category=0 value=1
+[2026-10-06 20:37:45.705] 13513573.blk category=0 value=1
+[2026-10-06 20:37:45.705] 13521319.blk category=0 value=1
+[2026-10-06 20:37:45.705] 13529328.blk category=0 value=1
+[2026-10-06 20:37:45.705] 13549911.blk category=0 value=1
+[2026-10-06 20:37:45.705] 13556952.blk category=0 value=1
+[2026-10-06 20:37:45.705] 13564925.blk category=0 value=1
+[2026-10-06 20:37:45.705] 13571238.blk category=0 value=1
+[2026-10-06 20:37:45.705] 13575390.blk category=0 value=1
+[2026-10-06 20:37:45.705] 13590164.blk category=0 value=1
+[2026-10-06 20:37:45.705] 13607185.blk category=0 value=1
+[2026-10-06 20:37:45.705] 13632248.blk category=0 value=1
+[2026-10-06 20:37:45.705] 13643097.blk category=0 value=1
+[2026-10-06 20:37:45.705] 13645310.blk category=0 value=1
+[2026-10-06 20:37:45.705] 13673045.blk category=0 value=1
+[2026-10-06 20:37:45.705] 13740276.blk category=0 value=1
+[2026-10-06 20:37:45.705] 13810042.blk category=0 value=1
+[2026-10-06 20:37:45.705] 13814286.blk category=0 value=1
+[2026-10-06 20:37:45.705] 13829268.blk category=0 value=1
+[2026-10-06 20:37:45.705] 13832321.blk category=0 value=1
+[2026-10-06 20:37:45.705] 13842781.blk category=0 value=1
+[2026-10-06 20:37:45.705] 13847790.blk category=0 value=1
+[2026-10-06 20:37:45.705] 13871503.blk category=0 value=1
+[2026-10-06 20:37:45.705] 13877636.blk category=0 value=1
+[2026-10-06 20:37:45.705] 13885312.blk category=0 value=1
+[2026-10-06 20:37:45.705] 13891037.blk category=0 value=1
+[2026-10-06 20:37:45.705] 13898474.blk category=0 value=1
+[2026-10-06 20:37:45.705] 13926540.blk category=0 value=1
+[2026-10-06 20:37:45.705] 13951068.blk category=0 value=1
+[2026-10-06 20:37:45.705] 13957411.blk category=0 value=1
+[2026-10-06 20:37:45.705] 13975761.blk category=0 value=1
+[2026-10-06 20:37:45.705] 13980307.blk category=0 value=1
+[2026-10-06 20:37:45.705] 13985703.blk category=0 value=1
+[2026-10-06 20:37:45.706] 13992291.blk category=0 value=1
+[2026-10-06 20:37:45.706] 13996045.blk category=0 value=1
+[2026-10-06 20:37:45.706] 14011907.blk category=0 value=1
+[2026-10-06 20:37:45.706] 14034436.blk category=0 value=1
+[2026-10-06 20:37:45.706] 14040021.blk category=0 value=1
+[2026-10-06 20:37:45.706] 14047902.blk category=0 value=1
+[2026-10-06 20:37:45.706] 14051391.blk category=0 value=1
+[2026-10-06 20:37:45.706] 14056175.blk category=0 value=1
+[2026-10-06 20:37:45.706] 14072927.blk category=0 value=1
+[2026-10-06 20:37:45.706] 14072948.blk category=0 value=1
+[2026-10-06 20:37:45.706] 14085494.blk category=0 value=1
+[2026-10-06 20:37:45.706] 14102672.blk category=0 value=1
+[2026-10-06 20:37:45.706] 14107865.blk category=0 value=1
+[2026-10-06 20:37:45.706] 14129553.blk category=0 value=1
+[2026-10-06 20:37:45.706] 14145953.blk category=0 value=1
+[2026-10-06 20:37:45.706] 14151586.blk category=0 value=1
+[2026-10-06 20:37:45.706] 14172874.blk category=0 value=1
+[2026-10-06 20:37:45.706] 14194994.blk category=0 value=1
+[2026-10-06 20:37:45.706] 14204171.blk category=0 value=1
+[2026-10-06 20:37:45.706] 14211383.blk category=0 value=1
+[2026-10-06 20:37:45.706] 14213231.blk category=0 value=1
+[2026-10-06 20:37:45.706] 14219615.blk category=0 value=1
+[2026-10-06 20:37:45.706] 14221955.blk category=0 value=1
+[2026-10-06 20:37:45.706] 14229103.blk category=0 value=1
+[2026-10-06 20:37:45.706] 14237632.blk category=0 value=1
+[2026-10-06 20:37:45.706] 14258646.blk category=0 value=1
+[2026-10-06 20:37:45.706] 14262382.blk category=0 value=1
+[2026-10-06 20:37:45.706] 14265014.blk category=0 value=1
+[2026-10-06 20:37:45.706] 14271395.blk category=0 value=1
+[2026-10-06 20:37:45.706] 14272117.blk category=0 value=1
+[2026-10-06 20:37:45.706] 14284302.blk category=0 value=1
+[2026-10-06 20:37:45.706] 14288947.blk category=0 value=1
+[2026-10-06 20:37:45.706] 14297928.blk category=0 value=1
+[2026-10-06 20:37:45.706] 14302380.blk category=0 value=1
+[2026-10-06 20:37:45.706] 14310674.blk category=0 value=1
+[2026-10-06 20:37:45.706] 14315571.blk category=0 value=1
+[2026-10-06 20:37:45.706] 14327184.blk category=0 value=1
+[2026-10-06 20:37:45.706] 14330087.blk category=0 value=1
+[2026-10-06 20:37:45.706] 14338691.blk category=0 value=1
+[2026-10-06 20:37:45.706] 14338897.blk category=0 value=1
+[2026-10-06 20:37:45.706] 14339246.blk category=0 value=1
+[2026-10-06 20:37:45.706] 14342934.blk category=0 value=1
+[2026-10-06 20:37:45.706] 14358921.blk category=0 value=1
+[2026-10-06 20:37:45.706] 14370394.blk category=0 value=1
+[2026-10-06 20:37:45.706] 14375425.blk category=0 value=1
+[2026-10-06 20:37:45.706] 14375969.blk category=0 value=1
+[2026-10-06 20:37:45.706] 14386366.blk category=0 value=1
+[2026-10-06 20:37:45.706] 14402243.blk category=0 value=1
+[2026-10-06 20:37:45.706] 14404114.blk category=0 value=1
+[2026-10-06 20:37:45.706] 14414434.blk category=0 value=1
+[2026-10-06 20:37:45.706] 14416145.blk category=0 value=1
+[2026-10-06 20:37:45.706] 14425232.blk category=0 value=1
+[2026-10-06 20:37:45.706] 14433924.blk category=0 value=1
+[2026-10-06 20:37:45.706] 14437815.blk category=0 value=1
+[2026-10-06 20:37:45.706] 14439713.blk category=0 value=1
+[2026-10-06 20:37:45.706] 14463389.blk category=0 value=1
+[2026-10-06 20:37:45.707] 14495287.blk category=0 value=1
+[2026-10-06 20:37:45.707] 14504138.blk category=0 value=1
+[2026-10-06 20:37:45.707] 14547713.blk category=0 value=1
+[2026-10-06 20:37:45.707] 14552376.blk category=0 value=1
+[2026-10-06 20:37:45.707] 14576826.blk category=0 value=1
+[2026-10-06 20:37:45.707] 14584500.blk category=0 value=1
+[2026-10-06 20:37:45.707] 14590317.blk category=0 value=1
+[2026-10-06 20:37:45.707] 14597347.blk category=0 value=1
+[2026-10-06 20:37:45.707] 14647436.blk category=0 value=1
+[2026-10-06 20:37:45.707] 14649115.blk category=0 value=1
+[2026-10-06 20:37:45.707] 14659561.blk category=0 value=1
+[2026-10-06 20:37:45.707] 14679832.blk category=0 value=1
+[2026-10-06 20:37:45.707] 14688771.blk category=0 value=1
+[2026-10-06 20:37:45.707] 14689775.blk category=0 value=1
+[2026-10-06 20:37:45.707] 14691532.blk category=0 value=1
+[2026-10-06 20:37:45.707] 14714370.blk category=0 value=1
+[2026-10-06 20:37:45.707] 14727721.blk category=0 value=1
+[2026-10-06 20:37:45.707] 14743420.blk category=0 value=1
+[2026-10-06 20:37:45.707] 14750447.blk category=0 value=1
+[2026-10-06 20:37:45.707] 14754328.blk category=0 value=1
+[2026-10-06 20:37:45.707] 14762039.blk category=0 value=1
+[2026-10-06 20:37:45.707] 14771583.blk category=0 value=1
+[2026-10-06 20:37:45.707] 14771925.blk category=0 value=1
+[2026-10-06 20:37:45.707] 14777345.blk category=0 value=1
+[2026-10-06 20:37:45.707] 14834098.blk category=0 value=1
+[2026-10-06 20:37:45.707] 14835462.blk category=0 value=1
+[2026-10-06 20:37:45.707] 14841663.blk category=0 value=1
+[2026-10-06 20:37:45.707] 14842111.blk category=0 value=1
+[2026-10-06 20:37:45.707] 14843680.blk category=0 value=1
+[2026-10-06 20:37:45.707] 14846615.blk category=0 value=1
+[2026-10-06 20:37:45.707] 14860365.blk category=0 value=1
+[2026-10-06 20:37:45.707] 14872414.blk category=0 value=1
+[2026-10-06 20:37:45.707] 14876804.blk category=0 value=1
+[2026-10-06 20:37:45.707] 14881316.blk category=0 value=1
+[2026-10-06 20:37:45.707] 14889732.blk category=0 value=1
+[2026-10-06 20:37:45.707] 14892321.blk category=0 value=1
+[2026-10-06 20:37:45.707] 14916775.blk category=0 value=1
+[2026-10-06 20:37:45.707] 14917309.blk category=0 value=1
+[2026-10-06 20:37:45.707] 14922153.blk category=0 value=1
+[2026-10-06 20:37:45.707] 14949020.blk category=0 value=1
+[2026-10-06 20:37:45.708] 14956226.blk category=0 value=1
+[2026-10-06 20:37:45.708] 14958397.blk category=0 value=1
+[2026-10-06 20:37:45.708] 14977922.blk category=0 value=1
+[2026-10-06 20:37:45.708] 14978857.blk category=0 value=1
+[2026-10-06 20:37:45.708] 14985151.blk category=0 value=1
+[2026-10-06 20:37:45.708] 15009257.blk category=0 value=1
+[2026-10-06 20:37:45.708] 15013544.blk category=0 value=1
+[2026-10-06 20:37:45.708] 15025904.blk category=0 value=1
+[2026-10-06 20:37:45.708] 15043551.blk category=0 value=1
+[2026-10-06 20:37:45.708] 15069214.blk category=0 value=1
+[2026-10-06 20:37:45.708] 15074103.blk category=0 value=1
+[2026-10-06 20:37:45.708] 15104902.blk category=0 value=1
+[2026-10-06 20:37:45.708] 15117613.blk category=0 value=1
+[2026-10-06 20:37:45.708] 15121872.blk category=0 value=1
+[2026-10-06 20:37:45.708] 15125417.blk category=0 value=1
+[2026-10-06 20:37:45.708] 15134225.blk category=0 value=1
+[2026-10-06 20:37:45.708] 15167002.blk category=0 value=1
+[2026-10-06 20:37:45.708] 15180128.blk category=0 value=1
+[2026-10-06 20:37:45.708] 15219504.blk category=0 value=1
+[2026-10-06 20:37:45.708] 15224338.blk category=0 value=1
+[2026-10-06 20:37:45.708] 15241445.blk category=0 value=1
+[2026-10-06 20:37:45.708] 15258444.blk category=0 value=1
+[2026-10-06 20:37:45.708] 15278472.blk category=0 value=1
+[2026-10-06 20:37:45.708] 15288761.blk category=0 value=1
+[2026-10-06 20:37:45.708] 15306907.blk category=0 value=1
+[2026-10-06 20:37:45.708] 15324690.blk category=0 value=1
+[2026-10-06 20:37:45.708] 15331259.blk category=0 value=1
+[2026-10-06 20:37:45.708] 15338779.blk category=0 value=1
+[2026-10-06 20:37:45.708] 15339837.blk category=0 value=1
+[2026-10-06 20:37:45.708] 15347978.blk category=0 value=1
+[2026-10-06 20:37:45.708] 15365321.blk category=0 value=1
+[2026-10-06 20:37:45.708] 15374068.blk category=0 value=1
+[2026-10-06 20:37:45.708] 15392186.blk category=0 value=1
+[2026-10-06 20:37:45.708] 15401546.blk category=0 value=1
+[2026-10-06 20:37:45.708] 15404399.blk category=0 value=1
+[2026-10-06 20:37:45.708] 15409805.blk category=0 value=1
+[2026-10-06 20:37:45.708] 15415277.blk category=0 value=1
+[2026-10-06 20:37:45.708] 15424869.blk category=0 value=1
+[2026-10-06 20:37:45.708] 15428248.blk category=0 value=1
+[2026-10-06 20:37:45.708] 15435768.blk category=0 value=1
+[2026-10-06 20:37:45.708] 15444760.blk category=0 value=1
+[2026-10-06 20:37:45.708] 15445538.blk category=0 value=1
+[2026-10-06 20:37:45.708] 15464429.blk category=0 value=1
+[2026-10-06 20:37:45.708] 15491308.blk category=0 value=1
+[2026-10-06 20:37:45.708] 15508490.blk category=0 value=1
+[2026-10-06 20:37:45.708] 15523354.blk category=0 value=1
+[2026-10-06 20:37:45.708] 15530532.blk category=0 value=1
+[2026-10-06 20:37:45.708] 15547674.blk category=0 value=1
+[2026-10-06 20:37:45.708] 15551142.blk category=0 value=1
+[2026-10-06 20:37:45.708] 15564534.blk category=0 value=1
+[2026-10-06 20:37:45.708] 15574534.blk category=0 value=1
+[2026-10-06 20:37:45.708] 15582654.blk category=0 value=1
+[2026-10-06 20:37:45.708] 15607500.blk category=0 value=1
+[2026-10-06 20:37:45.708] 15616923.blk category=0 value=1
+[2026-10-06 20:37:45.708] 15621601.blk category=0 value=1
+[2026-10-06 20:37:45.708] 15637447.blk category=0 value=1
+[2026-10-06 20:37:45.708] 15640072.blk category=0 value=1
+[2026-10-06 20:37:45.709] 15643197.blk category=0 value=1
+[2026-10-06 20:37:45.709] 15661590.blk category=0 value=1
+[2026-10-06 20:37:45.709] 15679745.blk category=0 value=1
+[2026-10-06 20:37:45.709] 15684624.blk category=0 value=1
+[2026-10-06 20:37:45.709] 15694144.blk category=0 value=1
+[2026-10-06 20:37:45.709] 15714319.blk category=0 value=1
+[2026-10-06 20:37:45.709] 15715429.blk category=0 value=1
+[2026-10-06 20:37:45.709] 15722215.blk category=0 value=1
+[2026-10-06 20:37:45.709] 15725445.blk category=0 value=1
+[2026-10-06 20:37:45.709] 15772855.blk category=0 value=1
+[2026-10-06 20:37:45.709] 15778660.blk category=0 value=1
+[2026-10-06 20:37:45.709] 15779841.blk category=0 value=1
+[2026-10-06 20:37:45.709] 15823617.blk category=0 value=1
+[2026-10-06 20:37:45.709] 15832467.blk category=0 value=1
+[2026-10-06 20:37:45.709] 15842269.blk category=0 value=1
+[2026-10-06 20:37:45.709] 15852735.blk category=0 value=1
+[2026-10-06 20:37:45.709] 15860035.blk category=0 value=1
+[2026-10-06 20:37:45.709] 15865507.blk category=0 value=1
+[2026-10-06 20:37:45.709] 15871610.blk category=0 value=1
+[2026-10-06 20:37:45.709] 15883261.blk category=0 value=1
+[2026-10-06 20:37:45.709] 15885444.blk category=0 value=1
+[2026-10-06 20:37:45.709] 15886019.blk category=0 value=1
+[2026-10-06 20:37:45.709] 15900649.blk category=0 value=1
+[2026-10-06 20:37:45.709] 15936081.blk category=0 value=1
+[2026-10-06 20:37:45.709] 15936180.blk category=0 value=1
+[2026-10-06 20:37:45.709] 15958390.blk category=0 value=1
+[2026-10-06 20:37:45.709] 15960002.blk category=0 value=1
+[2026-10-06 20:37:45.709] 15975187.blk category=0 value=1
+[2026-10-06 20:37:45.709] 15982127.blk category=0 value=1
+[2026-10-06 20:37:45.709] 15989530.blk category=0 value=1
+[2026-10-06 20:37:45.709] 15994641.blk category=0 value=1
+[2026-10-06 20:37:45.709] 16000354.blk category=0 value=1
+[2026-10-06 20:37:45.709] 16004179.blk category=0 value=1
+[2026-10-06 20:37:45.709] 16028296.blk category=0 value=1
+[2026-10-06 20:37:45.709] 16036084.blk category=0 value=1
+[2026-10-06 20:37:45.709] 16044936.blk category=0 value=1
+[2026-10-06 20:37:45.709] 16045170.blk category=0 value=1
+[2026-10-06 20:37:45.709] 16053728.blk category=0 value=1
+[2026-10-06 20:37:45.709] 16067559.blk category=0 value=1
+[2026-10-06 20:37:45.709] 16073953.blk category=0 value=1
+[2026-10-06 20:37:45.709] 16076595.blk category=0 value=1
+[2026-10-06 20:37:45.709] 16086709.blk category=0 value=1
+[2026-10-06 20:37:45.709] 16100104.blk category=0 value=1
+[2026-10-06 20:37:45.709] 16113544.blk category=0 value=1
+[2026-10-06 20:37:45.709] 16130129.blk category=0 value=1
+[2026-10-06 20:37:45.709] 16131977.blk category=0 value=1
+[2026-10-06 20:37:45.709] 16136540.blk category=0 value=1
+[2026-10-06 20:37:45.709] 16147452.blk category=0 value=1
+[2026-10-06 20:37:45.709] 16163900.blk category=0 value=1
+[2026-10-06 20:37:45.709] 16170614.blk category=0 value=1
+[2026-10-06 20:37:45.709] 16187642.blk category=0 value=1
+[2026-10-06 20:37:45.709] 16191353.blk category=0 value=1
+[2026-10-06 20:37:45.710] 16199758.blk category=0 value=1
+[2026-10-06 20:37:45.710] 16203281.blk category=0 value=1
+[2026-10-06 20:37:45.710] 16254005.blk category=0 value=1
+[2026-10-06 20:37:45.710] 16255823.blk category=0 value=1
+[2026-10-06 20:37:45.710] 16281837.blk category=0 value=1
+[2026-10-06 20:37:45.710] 16292824.blk category=0 value=1
+[2026-10-06 20:37:45.710] 16300997.blk category=0 value=1
+[2026-10-06 20:37:45.710] 16316522.blk category=0 value=1
+[2026-10-06 20:37:45.710] 16326803.blk category=0 value=1
+[2026-10-06 20:37:45.710] 16332184.blk category=0 value=1
+[2026-10-06 20:37:45.710] 16336868.blk category=0 value=1
+[2026-10-06 20:37:45.710] 16348993.blk category=0 value=1
+[2026-10-06 20:37:45.710] 16361264.blk category=0 value=1
+[2026-10-06 20:37:45.710] 16363203.blk category=0 value=1
+[2026-10-06 20:37:45.710] 16363352.blk category=0 value=1
+[2026-10-06 20:37:45.710] 16397382.blk category=0 value=1
+[2026-10-06 20:37:45.710] 16402524.blk category=0 value=1
+[2026-10-06 20:37:45.710] 16402672.blk category=0 value=1
+[2026-10-06 20:37:45.710] 16438063.blk category=0 value=1
+[2026-10-06 20:37:45.710] 16438352.blk category=0 value=1
+[2026-10-06 20:37:45.710] 16458203.blk category=0 value=1
+[2026-10-06 20:37:45.710] 16483293.blk category=0 value=1
+[2026-10-06 20:37:45.710] 16485596.blk category=0 value=1
+[2026-10-06 20:37:45.710] 16499193.blk category=0 value=1
+[2026-10-06 20:37:45.710] 16516067.blk category=0 value=1
+[2026-10-06 20:37:45.710] 16539886.blk category=0 value=1
+[2026-10-06 20:37:45.710] 16566638.blk category=0 value=1
+[2026-10-06 20:37:45.710] 16583272.blk category=0 value=1
+[2026-10-06 20:37:45.710] 16592613.blk category=0 value=1
+[2026-10-06 20:37:45.710] 16597342.blk category=0 value=1
+[2026-10-06 20:37:45.710] 16604216.blk category=0 value=1
+[2026-10-06 20:37:45.710] 16612435.blk category=0 value=1
+[2026-10-06 20:37:45.710] 16627661.blk category=0 value=1
+[2026-10-06 20:37:45.710] 16636590.blk category=0 value=1
+[2026-10-06 20:37:45.710] 16636678.blk category=0 value=1
+[2026-10-06 20:37:45.710] 16644177.blk category=0 value=1
+[2026-10-06 20:37:45.710] 16658894.blk category=0 value=1
+[2026-10-06 20:37:45.710] 16662325.blk category=0 value=1
+[2026-10-06 20:37:45.710] 16672355.blk category=0 value=1
+[2026-10-06 20:37:45.710] 16676785.blk category=0 value=1
+[2026-10-06 20:37:45.710] 16681240.blk category=0 value=1
+[2026-10-06 20:37:45.710] 16684861.blk category=0 value=1
+[2026-10-06 20:37:45.710] 16686341.blk category=0 value=1
+[2026-10-06 20:37:45.710] 16694457.blk category=0 value=1
+[2026-10-06 20:37:45.710] 16702206.blk category=0 value=1
+[2026-10-06 20:37:45.710] 16704676.blk category=0 value=1
+[2026-10-06 20:37:45.710] 16732074.blk category=0 value=1
+[2026-10-06 20:37:45.710] 16750066.blk category=0 value=1
+[2026-10-06 20:37:45.710] 16750158.blk category=0 value=1
+[2026-10-06 20:37:45.710] 2503757.blk category=0 value=1
+[2026-10-06 20:37:45.710] 36249376.blk category=0 value=1
+[2026-10-06 20:37:45.710] 3248315.blk category=0 value=1
+[2026-10-06 20:37:45.711] 9237707.blk category=0 value=1
+[2026-10-06 20:37:45.711] 2118085.blk category=0 value=1
+[2026-10-06 20:37:45.711] 9197334.blk category=0 value=1
+[2026-10-06 20:37:45.711] 14174728.blk category=0 value=1
+[2026-10-06 20:37:45.711] 727990.blk category=0 value=1
+[2026-10-06 20:37:45.711] 11019399.blk category=0 value=1
+[2026-10-06 20:37:45.711] 8242494.blk category=0 value=1
+[2026-10-06 20:37:45.711] 15447295.blk category=0 value=1
+[2026-10-06 20:37:45.711] 32306.blk category=0 value=1
+[2026-10-06 20:37:45.711] 10410398.blk category=0 value=1
+[2026-10-06 20:37:45.711] 11921613.blk category=0 value=1
+[2026-10-06 20:37:45.711] 31049740.blk category=0 value=1
+[2026-10-06 20:37:45.716] DeserializeBinary (E:/Genshin Impact/Genshin Impact Game/YuanShen_Data/Persistent\AssetBundles/blocks\00/31049740.blk) onlyStreamingFalse appendFalse
+[2026-10-06 20:37:45.716] IsMedium = False
+[2026-10-06 20:37:46.900] DeserializeBinary (E:/Genshin Impact/Genshin Impact Game/YuanShen_Data/StreamingAssets\AssetBundles/blocks\00/31049741.blk) onlyStreamingFalse appendTrue
+[2026-10-06 20:37:46.900] IsMedium = False
+[2026-10-06 20:37:47.473] LoadDataIndex succeed! file E:/Genshin Impact/Genshin Impact Game/YuanShen_Data/StreamingAssets\AssetBundles/blocks\00/31049741.blk
+[2026-10-06 20:37:47.821] Startup RegisterInputSystem.
+[2026-10-06 20:37:47.826] HTTP interceptors initialized
+[2026-10-06 20:37:47.857] [MTRManager]client create sucess!
+[2026-10-06 20:37:50.294] Read text file with BOM header may cause Lua error, file is 93b17eac
+[2026-10-06 20:37:50.303] Read text file with BOM header may cause Lua error, file is f668c022
+[2026-10-06 20:37:50.312] Read text file with BOM header may cause Lua error, file is 2109080b
+[2026-10-06 20:37:50.375] Save DownloadPref: {"resCategoryStatusDict":{"0":1,"1":1,"1001002":1,"2001002":1,"1001003":1,"2001003":1,"1001004":1,"2001004":1,"1001005":1,"2001005":1,"1001006":1,"2001006":1,"1001007":1,"2001007":1,"1001008":1,"2001008":1,"1001009":1,"2001009":1,"1001010":1,"2001010":1,"1001011":1,"2001011":1,"1001012":1,"2001012":1,"1001013":1,"2001013":1,"1001014":1,"2001014":1,"1001015":1,"2001015":1,"1001016":1,"2001016":1,"1001017":1,"2001017":1,"1002001":1,"2002001":1,"1002002":1,"2002002":1,"1002003":1,"2002003":1,"1002004":1,"2002004":1,"1002005":1,"2002005":1,"1002006":1,"2002006":1,"1002007":1,"2002007":1,"1002008":1,"2002008":1,"1002009":1,"2002009":1,"1002010":1,"2002010":1,"1002011":1,"2002011":1,"1002012":1,"2002012":1,"1002013":1,"2002013":1,"1002014":1,"2002014":1,"1002015":1,"2002015":1,"1002016":1,"2002016":1,"1002017":1,"2002017":1,"1002018":1,"2002018":1,"1002019":1,"2002019":1,"1002020":1,"2002020":1,"1002021":1,"2002021":1,"1002022":1,"2002022":1,"1002023":1,"2002023":1,"1002024":1,"2002024":1,"1002025":1,"2002025":1,"1002026":1,"2002026":1,"1002027":1,"2002027":1,"1002028":1,"2002028":1,"1002029":1,"2002029":1,"1002030":1,"2002030":1,"1002031":1,"2002031":1,"1002032":1,"2002032":1,"1002033":1,"2002033":1,"1002052":1,"2002052":1,"3003001":1,"4003001":1,"3003002":1,"4003002":1,"3003003":1,"4003003":1,"3003004":1,"4003004":1,"3003005":1,"4003005":1,"3003006":1,"4003006":1,"3003007":1,"4003007":1,"3003008":1,"4003008":1,"3003009":1,"4003009":1,"3003010":1,"4003010":1,"3003011":1,"4003011":1,"3003012":1,"4003012":1,"3003013":1,"4003013":1,"3003014":1,"4003014":1,"1005001":1,"2005001":1,"1001018":1,"2001018":1,"1001019":1,"2001019":1,"1001021":1,"2001021":1,"1001022":1,"2001022":1,"1001023":1,"2001023":1,"1001025":1,"2001025":1,"1001026":1,"2001026":1,"1001027":1,"2001027":1,"1001028":1,"2001028":1,"1001029":1,"2001029":1,"1001030":1,"2001030":1,"1001031":1,"2001031":1,"1001032":1,"2001032":1,"1001033":1,"2001033":1,"1002034":1,"2002034":1,"1002035":1,"2002035":1,"1002036":1,"2002036":1,"1002037":1,"2002037":1,"1002038":1,"2002038":1,"1002039":1,"2002039":1,"1002040":1,"2002040":1,"1002041":1,"2002041":1,"1002042":1,"2002042":1,"1002043":1,"2002043":1,"1002044":1,"2002044":1,"1002045":1,"2002045":1,"1002046":1,"2002046":1,"1002047":1,"2002047":1,"1002048":1,"2002048":1,"1002049":1,"2002049":1,"1002050":1,"2002050":1,"1002069":1,"2002069":1,"1002072":1,"2002072":1,"1002074":1,"2002074":1,"1002075":1,"2002075":1,"3003015":1,"4003015":1,"3003016":1,"4003016":1,"3003017":1,"4003017":1,"3003018":1,"4003018":1,"3003019":1,"4003019":1,"1001034":1,"2001034":1,"1002076":1,"2002076":1,"1001035":1,"2001035":1,"1001036":1,"2001036":1,"1001037":1,"2001037":1,"1001038":1,"2001038":1,"1001039":1,"2001039":1,"1002078":1,"2002078":1,"1001040":1,"2001040":1,"1002080":1,"2002080":1,"1004020":1,"2004020":1,"1002079":1,"2002079":1,"1001043":1,"2001043":1,"1001044":1,"2001044":1,"1002081":1,"2002081":1,"1001042":1,"2001042":1,"1004021":1,"2004021":1,"1001046":1,"2001046":1,"1001047":1,"2001047":1,"1004022":1,"2004022":1,"1005007":1,"2005007":1},"scriptVersion":"7.1.0","redownloadUselessVideo":false,"incrementVerify":true,"redownloadUselessAudio":false}
+[2026-10-06 20:37:50.433] Genshin Start Log: GameManager ShowLogo - NowTimeStamp:1791290259
+[2026-10-06 20:37:50.456] Genshin Start Log: LogoPageContext SetupView - NowTimeStamp:1791290259
+submit shader load 3
+[2026-10-06 20:37:56.451] Genshin Start Log: LogoPageContext ClosePage - NowTimeStamp:1791290276
+[2026-10-06 20:37:56.451] Genshin Start Log: GameManager StartHome - NowTimeStamp:1791290276
+[2026-10-06 20:37:56.504] Genshin Start Log: GameManager ChangeGameWorld Home - NowTimeStamp:1791290276
+[2026-10-06 20:37:56.507] Genshin Start Log: GameManager CreateNewGameWorld Home - NowTimeStamp:1791290276
+[2026-10-06 20:37:56.512] Genshin Start Log: Home LoadScene - NowTimeStamp:1791290276
+[2026-10-06 20:37:56.670] Genshin Start Log: GameManager FirstChangeToHomeCallback - NowTimeStamp:1791290276
+UnloadTime: 8.929700 ms
+Unloading 5 Unused Serialized files (Serialized files now loaded: 63)
+
+Unloading 6 unused Assets to reduce memory usage. Loaded Objects now: 29569.
+Total: 118.023400 ms (FindLiveObjects: 1.946500 ms CreateObjectMapping: 2.731200 ms MarkObjects: 113.201400 ms  DeleteObjects: 0.143600 ms)
+
+[2026-10-06 20:37:56.857] Genshin Start Log: LoginMainPageContext SetupView - NowTimeStamp:1791290276
+WARNING: Shader Unsupported: 'miHoYo/Hidden/DebugVertexDensity' - Pass '' has no vertex shader
+WARNING: Shader Unsupported: 'miHoYo/Hidden/DebugVertexDensity' - All passes removed
+[2026-10-06 20:37:57.473] [SetShadowQuality Finish]
+[2026-10-06 20:37:57.482] [SetShadowQuality Finish]
+[2026-10-06 20:37:57.533] [AsyncLoad] WindowsFileRequestWorker domain attach 0000025BA0108EC0.
+submit shader load 2
+submit shader load 2
+submit shader load 2
+submit shader load 2
+submit shader load 2
+[2026-10-06 20:37:57.623] Genshin Start Log: LoginMainPageContext OnAgreement - NowTimeStamp:1791290277
+[2026-10-06 20:37:57.645] jsonWatermarkConfig: {"available":true,"config":[{"app_id":"c7ahlk7m0feo","cloud_app_id":"cpnlgzmi69kw","enable_envs":[9,1,6]}]}
+[2026-10-06 20:37:57.646] jsonComplianceConfig: null
+[2026-10-06 20:37:57.655] jsonWatermarkConfig: {"available":true,"config":[{"app_id":"c7ahlk7m0feo","cloud_app_id":"cpnlgzmi69kw","enable_envs":[9,1,6]}]}
+[2026-10-06 20:37:57.655] jsonComplianceConfig: null
+[2026-10-06 20:37:57.656] LoadSkinColorConfig
+[2026-10-06 20:37:57.661] TelemetryInterface path:E:\Genshin Impact\Genshin Impact Game\YuanShen_Data\SDKCaches, level:2, dest:0
+[2026-10-06 20:37:57.662] Request to set language:zh-cn, length:5
+[2026-10-06 20:37:57.665] Update region translation resources:zh-cn
+[2026-10-06 20:37:57.665] Update local region translation resources:zh-cn
+[2026-10-06 20:37:57.666] Update local region translation resources:zh-cn
+[2026-10-06 20:37:57.666] regionTranslationVersionCheck URL:https://webstatic.mihoyo.com/admin/mi18n/plat_os/m09291531181441/m09291531181441-version.json
+[2026-10-06 20:37:57.666] NativeTaskLogger:launch_show_user_agreement_with_parameters_compliance do not use native task.
+submit shader load 3
+[2026-10-06 20:37:58.984] Genshin Start Log: LoginMainPageContext OnShowUserAgreementResult - NowTimeStamp:1791290278
+[2026-10-06 20:37:58.984] OnShowProtocolTimeout, request callback, show via show flag
+[2026-10-06 20:37:58.998] Genshin Start Log: LoginMainPageContext OnPreInit - NowTimeStamp:1791290278
+[2026-10-06 20:37:59.015] Genshin Start Log: LoginMainPageContext InitServerDispatch - NowTimeStamp:1791290279
+[2026-10-06 20:37:59.015] Genshin Start Log: NetworkManager ConnectGlobalDispatchServer 1 - NowTimeStamp:1791290279
+[2026-10-06 20:37:59.015] Genshin Start Log: NetworkManager ConnectGlobalDispatchServer https://dispatchcnglobal.yuanshen.com/query_region_list - NowTimeStamp:1791290279
+[2026-10-06 20:37:59.330] Genshin Start Log: NetworkManager OnConnectGlobalDispatch - NowTimeStamp:1791290279
+[2026-10-06 20:37:59.331] Genshin Start Log: NetworkManager SetServerDispatchConfig isGlobal=True - NowTimeStamp:1791290279
+[2026-10-06 20:37:59.332] set vulkan allow: False
+[2026-10-06 20:37:59.332] Engine Code Switches
+	1001 : false
+	1002 : false
+	1003 : false
+	1004 : false
+	1005 : false
+	1006 : false
+	25000 : false
+	26000 : false
+	27000 : false
+	27001 : false
+	27002 : false
+	28000 : false
+	28001 : false
+	28002 : false
+	28003 : false
+	28004 : false
+	30000 : false
+	30001 : false
+	30002 : false
+	32000 : false
+	32001 : false
+	33000 : false
+	33001 : false
+	33002 : false
+	35000 : false
+	35001 : false
+	35002 : false
+	35003 : false
+	35006 : false
+	35007 : false
+	35008 : false
+	35009 : false
+	36000 : false
+	36001 : false
+	36002 : false
+	36003 : false
+	36006 : false
+	36008 : false
+	36009 : false
+	37000 : false
+	37001 : false
+	37002 : false
+	38000 : false
+	38001 : false
+	38002 : false
+	38003 : false
+	40000 : false
+	40001 : false
+	40002 : false
+	40003 : false
+	40004 : false
+	40005 : false
+	41000 : false
+	41001 : false
+	41002 : false
+	42000 : false
+	42001 : false
+	42002 : false
+	42003 : false
+	42004 : false
+	43001 : false
+	43002 : false
+	43003 : false
+	43005 : false
+	43006 : false
+	43007 : false
+	43008 : false
+	43009 : false
+	44000 : false
+	44001 : false
+	44003 : false
+	44004 : false
+	44005 : false
+	44006 : false
+	44007 : false
+	44008 : false
+	44009 : false
+	44010 : false
+	45000 : false
+	45001 : false
+	45002 : false
+	46000 : false
+	46001 : false
+	46002 : false
+	46003 : false
+	46004 : false
+	47000 : false
+	47001 : false
+	47002 : false
+	47003 : false
+	47004 : false
+	47005 : false
+	47006 : false
+	48001 : false
+	48002 : false
+	48003 : false
+	48004 : false
+	48005 : false
+	48006 : false
+	48007 : false
+	48008 : false
+	48010 : false
+	50000 : false
+	50001 : false
+	50002 : false
+	50003 : false
+	50004 : false
+	50005 : false
+	50006 : false
+	50007 : false
+	50008 : false
+	50009 : false
+	50010 : false
+	50011 : false
+	50012 : false
+	50013 : false
+	50014 : false
+	50015 : false
+	51000 : false
+	51001 : false
+	51002 : false
+	51003 : false
+	51004 : false
+	51005 : false
+	51006 : false
+	51007 : false
+	52001 : false
+	52002 : false
+	52003 : false
+	52004 : false
+	52005 : false
+	52006 : false
+	52007 : false
+	52008 : false
+	52009 : false
+	53000 : false
+	53001 : false
+	53002 : false
+	53003 : false
+	53004 : false
+	53005 : false
+	53006 : false
+	53007 : false
+	54000 : false
+	54001 : false
+	54002 : false
+	54003 : false
+	54004 : false
+	55000 : false
+	55001 : false
+	55002 : false
+	55003 : false
+	55004 : false
+	55005 : false
+	55006 : false
+	55007 : false
+	56000 : false
+	57000 : false
+	57001 : false
+	57002 : false
+	57003 : false
+	57004 : false
+	57005 : false
+	57006 : false
+	57007 : false
+	57008 : false
+	57009 : false
+	58000 : false
+	58001 : false
+	58003 : false
+	58004 : false
+	58005 : false
+	58006 : false
+	58007 : false
+	58008 : false
+	58009 : false
+	58011 : false
+	58012 : false
+	59001 : false
+	59002 : false
+	59003 : false
+	59004 : false
+	59005 : false
+	59006 : false
+	59007 : false
+	59008 : false
+	59009 : false
+	60001 : false
+	60002 : false
+	60003 : false
+	60004 : false
+	60005 : false
+	60006 : false
+	60007 : false
+	60008 : false
+	60021 : false
+	61001 : false
+	61002 : false
+	61003 : false
+	61004 : false
+	61005 : false
+	61006 : false
+	61007 : false
+	61008 : false
+	61009 : false
+	61010 : false
+	61011 : false
+	61012 : false
+	61014 : false
+	62000 : false
+	62001 : false
+	62002 : false
+	62003 : false
+	62004 : false
+	62015 : false
+	62020 : false
+	62021 : false
+	62022 : false
+	62023 : false
+	63000 : false
+	63001 : false
+	63002 : false
+	63003 : false
+	63004 : false
+	63005 : false
+	63006 : false
+	63007 : false
+	63008 : false
+	63009 : false
+	63010 : false
+	63011 : false
+	64000 : false
+	64001 : false
+	64002 : false
+	64003 : false
+	64004 : false
+	64005 : false
+	64006 : false
+	64007 : false
+	64008 : false
+	64009 : false
+	64010 : false
+	64011 : false
+	64012 : false
+	64013 : false
+	64014 : false
+	64015 : false
+	64016 : false
+	65000 : false
+	65001 : false
+	65002 : false
+	65003 : false
+	65004 : false
+	65005 : false
+	65006 : false
+	65007 : false
+	65008 : false
+	65009 : false
+	65010 : false
+	65011 : false
+	65012 : false
+	65013 : false
+	65015 : false
+	65016 : false
+	65017 : false
+	65018 : false
+	65019 : false
+	65020 : false
+	65021 : false
+	65022 : false
+	65023 : false
+	65024 : false
+	66001 : false
+	66002 : false
+	66003 : false
+	66004 : false
+	66005 : false
+	66006 : false
+	66007 : false
+	66008 : false
+	66009 : false
+	66010 : false
+	66011 : false
+	67001 : false
+	67002 : false
+	67003 : false
+	67004 : false
+	67005 : false
+	67006 : false
+	67007 : false
+	67008 : false
+	67009 : false
+	67010 : false
+	67011 : false
+	67012 : false
+	67013 : false
+	67014 : false
+	67015 : false
+	67016 : false
+	67017 : false
+	67018 : false
+	67019 : false
+	67020 : false
+	67021 : false
+	67022 : false
+	67023 : false
+	67024 : false
+	67025 : false
+	67026 : false
+	67027 : false
+	67028 : false
+	70001 : false
+	70002 : false
+	70003 : false
+	70005 : false
+	70006 : false
+	70007 : false
+	70008 : false
+	70009 : false
+	70010 : false
+	70011 : false
+	70012 : false
+	70013 : false
+	70014 : false
+	70015 : false
+	70016 : false
+	70017 : false
+	70018 : false
+	70019 : false
+	70020 : false
+	70021 : false
+	70022 : false
+	70023 : false
+	70024 : false
+	70025 : false
+	70026 : false
+	70027 : false
+	70028 : false
+	70029 : false
+	70030 : false
+	70032 : false
+	70033 : false
+	70034 : false
+	70035 : false
+	70036 : false
+	71000 : false
+	71001 : false
+	71002 : false
+	71003 : false
+	71004 : false
+	71005 : false
+	71006 : false
+	71007 : false
+	71008 : false
+	71009 : false
+	71010 : false
+	71011 : false
+	71012 : false
+	71013 : false
+	71014 : false
+	71016 : false
+	71017 : false
+	71018 : false
+	71019 : false
+	71020 : false
+	71021 : false
+	71022 : false
+	72000 : false
+	72002 : false
+	72003 : false
+
+[2026-10-06 20:37:59.333] Wrote 0 persistent code switches
+[2026-10-06 20:37:59.334] Genshin Start Log: ChromaSDKManager InitChroma Start - NowTimeStamp:1791290279
+[2026-10-06 20:37:59.334] Genshin Start Log: LoginMainPageContext OnGlobalDP - NowTimeStamp:1791290279
+[2026-10-06 20:37:59.484] enter asyncInitLocker - asyncInit
+[2026-10-06 20:37:59.484] Async init finished : succeed, total time: 3.0043
+[2026-10-06 20:37:59.485] Genshin Start Log: LoginMainPageContext OnLogin - NowTimeStamp:1791290279
+[2026-10-06 20:37:59.485] Genshin Start Log: MiHoYoSDKManager SDKInit - NowTimeStamp:1791290279
+[2026-10-06 20:37:59.500] jsonWatermarkConfig: {"available":true,"config":[{"app_id":"c7ahlk7m0feo","cloud_app_id":"cpnlgzmi69kw","enable_envs":[9,1,6]}]}
+[2026-10-06 20:37:59.500] jsonComplianceConfig: null
+[2026-10-06 20:37:59.506] jsonWatermarkConfig: {"available":true,"config":[{"app_id":"c7ahlk7m0feo","cloud_app_id":"cpnlgzmi69kw","enable_envs":[9,1,6]}]}
+[2026-10-06 20:37:59.506] jsonComplianceConfig: null
+[2026-10-06 20:37:59.506] LoadSkinColorConfig
+[2026-10-06 20:37:59.507] Request to set language:zh-cn, length:5
+[2026-10-06 20:37:59.508] Update region translation resources:zh-cn
+[2026-10-06 20:37:59.508] Update local region translation resources:zh-cn
+[2026-10-06 20:37:59.509] Update local region translation resources:zh-cn
+[2026-10-06 20:37:59.509] regionTranslationVersionCheck URL:https://webstatic.mihoyo.com/admin/mi18n/plat_os/m09291531181441/m09291531181441-version.json
+[2026-10-06 20:37:59.516] Set Game Version: CNRELWin7.1.0
+[2026-10-06 20:37:59.569] Your current platform: WindowsPlayer does not include method 'apm_set_box_config' in SDKInvoke
+[2026-10-06 20:37:59.570] OnBoxConfigReady: forwarded box config to APM
+[2026-10-06 20:37:59.571] Genshin Start Log: LoginMainPageContext OnInitResponse - NowTimeStamp:1791290279
+[2026-10-06 20:37:59.571] Genshin Start Log: MiHoYoSDKManager SDKLogin - NowTimeStamp:1791290279
+[2026-10-06 20:37:59.572] web view render method: box config use legacy! no need request account list ab
+[2026-10-06 20:37:59.579] jsonWatermarkConfig: {"available":true,"config":[{"app_id":"c7ahlk7m0feo","cloud_app_id":"cpnlgzmi69kw","enable_envs":[9,1,6]}]}
+[2026-10-06 20:37:59.579] jsonComplianceConfig: null
+[2026-10-06 20:37:59.614] pluginui task count is:3
+[2026-10-06 20:37:59.614] into OnCloseUI,  params is: {"event_name":"Common.Loading"}
+
+[2026-10-06 20:37:59.614] Common.Loading pluginui is already closed, ignore this event.
+[2026-10-06 20:37:59.614] into OnCloseUI,  params is: {"event_name":"Common.LoadingToast"}
+
+[2026-10-06 20:37:59.614] Common.LoadingToast pluginui is already closed, ignore this event.
+[2026-10-06 20:37:59.614] into OnShowUI,  params is: {"event_name":"Common.Loading"}
+
+[2026-10-06 20:37:59.614] Common.Loading pluginui instance exist, show it.
+[2026-10-06 20:37:59.614] into HoYoSDKCommonLoading show.
+ 
+[2026-10-06 20:37:59.682] Logger Index is:1, not registered any pluginui, ignore native_ui_show event:MiHoYoSDKLoadingWheel
+[2026-10-06 20:37:59.682] Logger Index is:2, received native_ui_show event: MiHoYoSDKLoadingWheel,should send notification.
+[2026-10-06 20:37:59.682] Common.Loading pluginui is showed.
+[2026-10-06 20:37:59.851] DeviceFPManager::CheckInvalidDeviceFpValue, invalid devicefp key is: MIHOYOSDK_GPU_NAME, value is: NVIDIA GeForce GTX 1660 SUPER
+[2026-10-06 20:37:59.968] pluginui task count is:2
+[2026-10-06 20:37:59.968] into OnCloseUI,  params is: {"event_name":"Common.Loading"}
+
+[2026-10-06 20:37:59.968] Common.Loading pluginui is showing now, close it.
+[2026-10-06 20:37:59.968] into HoYoSDKCommonLoading close.
+ 
+[2026-10-06 20:37:59.968] IsAlreadyDetached is:False
+[2026-10-06 20:37:59.968] Logger Index is:3, not registered any pluginui, ignore native_ui_hide event:MiHoYoSDKLoadingWheel
+[2026-10-06 20:37:59.968] Logger Index is:4, received native_ui_hide event: MiHoYoSDKLoadingWheel,should send notification.
+[2026-10-06 20:37:59.968] into OnCloseUI,  params is: {"event_name":"Common.LoadingToast"}
+
+[2026-10-06 20:37:59.968] Common.LoadingToast pluginui is already closed, ignore this event.
+[2026-10-06 20:37:59.984] pluginui task count is:2
+[2026-10-06 20:37:59.984] into OnCloseUI,  params is: {"event_name":"Common.Loading"}
+
+[2026-10-06 20:37:59.984] Common.Loading pluginui is already closed, ignore this event.
+[2026-10-06 20:37:59.984] into OnCloseUI,  params is: {"event_name":"Common.LoadingToast"}
+
+[2026-10-06 20:37:59.984] Common.LoadingToast pluginui is already closed, ignore this event.
+[2026-10-06 20:37:59.985] IsAlreadyDetached is:False
+[2026-10-06 20:37:59.986] Logger Index is:5, not registered any pluginui, ignore native_ui_show event:MiHoYoSDKLoadingWheel
+[2026-10-06 20:37:59.986] Logger Index is:6, received native_ui_show event: MiHoYoSDKLoadingWheel,should send notification.
+[2026-10-06 20:38:00.365] IsAlreadyDetached is:False
+[2026-10-06 20:38:00.365] Logger Index is:7, not registered any pluginui, ignore native_ui_hide event:MiHoYoSDKLoadingWheel
+[2026-10-06 20:38:00.365] Logger Index is:8, received native_ui_hide event: MiHoYoSDKLoadingWheel,should send notification.
+[2026-10-06 20:38:00.367] Genshin Start Log: LoginMainPageContext OnSDKLoginCB - NowTimeStamp:1791290280
+[2026-10-06 20:38:00.370] Genshin Start Log: LoginMainPageContext OnChooseServer - NowTimeStamp:1791290280
+[2026-10-06 20:38:00.378] Logger Index is:9, not registered any pluginui, ignore native_ui_show event:MiHoYoSDKTipsBar
+[2026-10-06 20:38:00.378] Logger Index is:10, received native_ui_show event: MiHoYoSDKTipsBar,should send notification.
+[2026-10-06 20:38:00.787] Genshin Start Log: NetworkManager SetServerDispatchConfig isGlobal=False - NowTimeStamp:1791290280
+[2026-10-06 20:38:00.787] set vulkan allow: False
+[2026-10-06 20:38:00.787] Engine Code Switches
+	1001 : false
+	1002 : false
+	1003 : false
+	1004 : false
+	1005 : false
+	1006 : false
+	25000 : false
+	26000 : false
+	27000 : false
+	27001 : false
+	27002 : false
+	28000 : false
+	28001 : false
+	28002 : false
+	28003 : false
+	28004 : false
+	30000 : false
+	30001 : false
+	30002 : false
+	32000 : false
+	32001 : false
+	33000 : false
+	33001 : false
+	33002 : false
+	35000 : false
+	35001 : false
+	35002 : false
+	35003 : false
+	35006 : false
+	35007 : false
+	35008 : false
+	35009 : false
+	36000 : false
+	36001 : false
+	36002 : false
+	36003 : false
+	36006 : false
+	36008 : false
+	36009 : false
+	37000 : false
+	37001 : false
+	37002 : false
+	38000 : false
+	38001 : false
+	38002 : false
+	38003 : false
+	40000 : false
+	40001 : false
+	40002 : false
+	40003 : false
+	40004 : false
+	40005 : false
+	41000 : false
+	41001 : false
+	41002 : false
+	42000 : false
+	42001 : false
+	42002 : false
+	42003 : false
+	42004 : false
+	43001 : false
+	43002 : false
+	43003 : false
+	43005 : false
+	43006 : false
+	43007 : false
+	43008 : false
+	43009 : false
+	44000 : false
+	44001 : false
+	44003 : false
+	44004 : false
+	44005 : false
+	44006 : false
+	44007 : false
+	44008 : false
+	44009 : false
+	44010 : false
+	45000 : false
+	45001 : false
+	45002 : false
+	46000 : false
+	46001 : false
+	46002 : false
+	46003 : false
+	46004 : false
+	47000 : false
+	47001 : false
+	47002 : false
+	47003 : false
+	47004 : false
+	47005 : false
+	47006 : false
+	48001 : false
+	48002 : false
+	48003 : false
+	48004 : false
+	48005 : false
+	48006 : false
+	48007 : false
+	48008 : false
+	48010 : false
+	50000 : false
+	50001 : false
+	50002 : false
+	50003 : false
+	50004 : false
+	50005 : false
+	50006 : false
+	50007 : false
+	50008 : false
+	50009 : false
+	50010 : false
+	50011 : false
+	50012 : false
+	50013 : false
+	50014 : false
+	50015 : false
+	51000 : false
+	51001 : false
+	51002 : false
+	51003 : false
+	51004 : false
+	51005 : false
+	51006 : false
+	51007 : false
+	52001 : false
+	52002 : false
+	52003 : false
+	52004 : false
+	52005 : false
+	52006 : false
+	52007 : false
+	52008 : false
+	52009 : false
+	53000 : false
+	53001 : false
+	53002 : false
+	53003 : false
+	53004 : false
+	53005 : false
+	53006 : false
+	53007 : false
+	54000 : false
+	54001 : false
+	54002 : false
+	54003 : false
+	54004 : false
+	55000 : false
+	55001 : false
+	55002 : false
+	55003 : false
+	55004 : false
+	55005 : false
+	55006 : false
+	55007 : false
+	56000 : false
+	57000 : false
+	57001 : false
+	57002 : false
+	57003 : false
+	57004 : false
+	57005 : false
+	57006 : false
+	57007 : false
+	57008 : false
+	57009 : false
+	58000 : false
+	58001 : false
+	58003 : false
+	58004 : false
+	58005 : false
+	58006 : false
+	58007 : false
+	58008 : false
+	58009 : false
+	58011 : false
+	58012 : false
+	59001 : false
+	59002 : false
+	59003 : false
+	59004 : false
+	59005 : true
+	59006 : false
+	59007 : false
+	59008 : false
+	59009 : false
+	60001 : false
+	60002 : false
+	60003 : false
+	60004 : false
+	60005 : false
+	60006 : false
+	60007 : false
+	60008 : false
+	60021 : false
+	61001 : false
+	61002 : false
+	61003 : false
+	61004 : false
+	61005 : false
+	61006 : false
+	61007 : false
+	61008 : false
+	61009 : false
+	61010 : false
+	61011 : false
+	61012 : false
+	61014 : false
+	62000 : false
+	62001 : false
+	62002 : false
+	62003 : false
+	62004 : false
+	62015 : false
+	62020 : false
+	62021 : false
+	62022 : false
+	62023 : false
+	63000 : false
+	63001 : false
+	63002 : false
+	63003 : false
+	63004 : false
+	63005 : false
+	63006 : false
+	63007 : false
+	63008 : false
+	63009 : false
+	63010 : false
+	63011 : false
+	64000 : false
+	64001 : false
+	64002 : false
+	64003 : false
+	64004 : false
+	64005 : false
+	64006 : false
+	64007 : false
+	64008 : false
+	64009 : false
+	64010 : false
+	64011 : false
+	64012 : false
+	64013 : false
+	64014 : false
+	64015 : false
+	64016 : false
+	65000 : false
+	65001 : false
+	65002 : false
+	65003 : false
+	65004 : false
+	65005 : false
+	65006 : false
+	65007 : false
+	65008 : false
+	65009 : false
+	65010 : false
+	65011 : false
+	65012 : false
+	65013 : false
+	65015 : false
+	65016 : false
+	65017 : false
+	65018 : false
+	65019 : false
+	65020 : false
+	65021 : false
+	65022 : false
+	65023 : false
+	65024 : true
+	66001 : false
+	66002 : false
+	66003 : false
+	66004 : false
+	66005 : false
+	66006 : true
+	66007 : false
+	66008 : false
+	66009 : false
+	66010 : false
+	66011 : false
+	67001 : false
+	67002 : false
+	67003 : false
+	67004 : false
+	67005 : false
+	67006 : false
+	67007 : false
+	67008 : false
+	67009 : false
+	67010 : false
+	67011 : false
+	67012 : false
+	67013 : false
+	67014 : false
+	67015 : false
+	67016 : false
+	67017 : false
+	67018 : false
+	67019 : false
+	67020 : false
+	67021 : false
+	67022 : false
+	67023 : false
+	67024 : false
+	67025 : false
+	67026 : false
+	67027 : false
+	67028 : false
+	70001 : false
+	70002 : false
+	70003 : false
+	70005 : false
+	70006 : false
+	70007 : true
+	70008 : false
+	70009 : false
+	70010 : false
+	70011 : false
+	70012 : false
+	70013 : false
+	70014 : false
+	70015 : false
+	70016 : false
+	70017 : false
+	70018 : false
+	70019 : false
+	70020 : false
+	70021 : false
+	70022 : false
+	70023 : false
+	70024 : false
+	70025 : false
+	70026 : false
+	70027 : false
+	70028 : false
+	70029 : false
+	70030 : false
+	70032 : false
+	70033 : false
+	70034 : false
+	70035 : false
+	70036 : false
+	71000 : false
+	71001 : false
+	71002 : false
+	71003 : false
+	71004 : false
+	71005 : false
+	71006 : false
+	71007 : false
+	71008 : false
+	71009 : false
+	71010 : false
+	71011 : false
+	71012 : true
+	71013 : false
+	71014 : false
+	71016 : false
+	71017 : true
+	71018 : false
+	71019 : false
+	71020 : false
+	71021 : false
+	71022 : false
+	72000 : false
+	72002 : true
+	72003 : true
+
+[2026-10-06 20:38:00.787] Wrote 4 persistent code switches
+[2026-10-06 20:38:00.789] Genshin Start Log: NetworkManager SetServerDispatchConfig isGlobal=False - NowTimeStamp:1791290280
+[2026-10-06 20:38:00.791] OnConnectRegionDispatch=> download job type = Normal
+[2026-10-06 20:38:00.878] FilesDownloadPipe=> StartDownload
+[2026-10-06 20:38:00.977] InitializeNewCategoryDefaultStatus=> Enter
+[2026-10-06 20:38:01.051] FilesDownloadPipe=> StartDownload
+[2026-10-06 20:38:01.167] Genshin Download Log: BundleDownloadWorld OnStartVerify Normal - NowTimeStamp:1791290281
+[2026-10-06 20:38:01.167] File num to verify = 4
+[2026-10-06 20:38:01.171] CheckAllFinish return true
+[2026-10-06 20:38:01.200] Genshin Download Log: BundleDownloadWorld OnFinishVerify Normal - NowTimeStamp:1791290281
+[2026-10-06 20:38:01.221] Save DownloadPref: {"resCategoryStatusDict":{"0":1,"1":1,"1001002":1,"2001002":1,"1001003":1,"2001003":1,"1001004":1,"2001004":1,"1001005":1,"2001005":1,"1001006":1,"2001006":1,"1001007":1,"2001007":1,"1001008":1,"2001008":1,"1001009":1,"2001009":1,"1001010":1,"2001010":1,"1001011":1,"2001011":1,"1001012":1,"2001012":1,"1001013":1,"2001013":1,"1001014":1,"2001014":1,"1001015":1,"2001015":1,"1001016":1,"2001016":1,"1001017":1,"2001017":1,"1002001":1,"2002001":1,"1002002":1,"2002002":1,"1002003":1,"2002003":1,"1002004":1,"2002004":1,"1002005":1,"2002005":1,"1002006":1,"2002006":1,"1002007":1,"2002007":1,"1002008":1,"2002008":1,"1002009":1,"2002009":1,"1002010":1,"2002010":1,"1002011":1,"2002011":1,"1002012":1,"2002012":1,"1002013":1,"2002013":1,"1002014":1,"2002014":1,"1002015":1,"2002015":1,"1002016":1,"2002016":1,"1002017":1,"2002017":1,"1002018":1,"2002018":1,"1002019":1,"2002019":1,"1002020":1,"2002020":1,"1002021":1,"2002021":1,"1002022":1,"2002022":1,"1002023":1,"2002023":1,"1002024":1,"2002024":1,"1002025":1,"2002025":1,"1002026":1,"2002026":1,"1002027":1,"2002027":1,"1002028":1,"2002028":1,"1002029":1,"2002029":1,"1002030":1,"2002030":1,"1002031":1,"2002031":1,"1002032":1,"2002032":1,"1002033":1,"2002033":1,"1002052":1,"2002052":1,"3003001":1,"4003001":1,"3003002":1,"4003002":1,"3003003":1,"4003003":1,"3003004":1,"4003004":1,"3003005":1,"4003005":1,"3003006":1,"4003006":1,"3003007":1,"4003007":1,"3003008":1,"4003008":1,"3003009":1,"4003009":1,"3003010":1,"4003010":1,"3003011":1,"4003011":1,"3003012":1,"4003012":1,"3003013":1,"4003013":1,"3003014":1,"4003014":1,"1005001":1,"2005001":1,"1001018":1,"2001018":1,"1001019":1,"2001019":1,"1001021":1,"2001021":1,"1001022":1,"2001022":1,"1001023":1,"2001023":1,"1001025":1,"2001025":1,"1001026":1,"2001026":1,"1001027":1,"2001027":1,"1001028":1,"2001028":1,"1001029":1,"2001029":1,"1001030":1,"2001030":1,"1001031":1,"2001031":1,"1001032":1,"2001032":1,"1001033":1,"2001033":1,"1002034":1,"2002034":1,"1002035":1,"2002035":1,"1002036":1,"2002036":1,"1002037":1,"2002037":1,"1002038":1,"2002038":1,"1002039":1,"2002039":1,"1002040":1,"2002040":1,"1002041":1,"2002041":1,"1002042":1,"2002042":1,"1002043":1,"2002043":1,"1002044":1,"2002044":1,"1002045":1,"2002045":1,"1002046":1,"2002046":1,"1002047":1,"2002047":1,"1002048":1,"2002048":1,"1002049":1,"2002049":1,"1002050":1,"2002050":1,"1002069":1,"2002069":1,"1002072":1,"2002072":1,"1002074":1,"2002074":1,"1002075":1,"2002075":1,"3003015":1,"4003015":1,"3003016":1,"4003016":1,"3003017":1,"4003017":1,"3003018":1,"4003018":1,"3003019":1,"4003019":1,"1001034":1,"2001034":1,"1002076":1,"2002076":1,"1001035":1,"2001035":1,"1001036":1,"2001036":1,"1001037":1,"2001037":1,"1001038":1,"2001038":1,"1001039":1,"2001039":1,"1002078":1,"2002078":1,"1001040":1,"2001040":1,"1002080":1,"2002080":1,"1004020":1,"2004020":1,"1002079":1,"2002079":1,"1001043":1,"2001043":1,"1001044":1,"2001044":1,"1002081":1,"2002081":1,"1001042":1,"2001042":1,"1004021":1,"2004021":1,"1001046":1,"2001046":1,"1001047":1,"2001047":1,"1004022":1,"2004022":1,"1005007":1,"2005007":1},"scriptVersion":"7.1.0","redownloadUselessVideo":false,"incrementVerify":true,"redownloadUselessAudio":false}
+[2026-10-06 20:38:01.221] Save DownloadPref: {"resCategoryStatusDict":{"0":1,"1":1,"1001002":1,"2001002":1,"1001003":1,"2001003":1,"1001004":1,"2001004":1,"1001005":1,"2001005":1,"1001006":1,"2001006":1,"1001007":1,"2001007":1,"1001008":1,"2001008":1,"1001009":1,"2001009":1,"1001010":1,"2001010":1,"1001011":1,"2001011":1,"1001012":1,"2001012":1,"1001013":1,"2001013":1,"1001014":1,"2001014":1,"1001015":1,"2001015":1,"1001016":1,"2001016":1,"1001017":1,"2001017":1,"1002001":1,"2002001":1,"1002002":1,"2002002":1,"1002003":1,"2002003":1,"1002004":1,"2002004":1,"1002005":1,"2002005":1,"1002006":1,"2002006":1,"1002007":1,"2002007":1,"1002008":1,"2002008":1,"1002009":1,"2002009":1,"1002010":1,"2002010":1,"1002011":1,"2002011":1,"1002012":1,"2002012":1,"1002013":1,"2002013":1,"1002014":1,"2002014":1,"1002015":1,"2002015":1,"1002016":1,"2002016":1,"1002017":1,"2002017":1,"1002018":1,"2002018":1,"1002019":1,"2002019":1,"1002020":1,"2002020":1,"1002021":1,"2002021":1,"1002022":1,"2002022":1,"1002023":1,"2002023":1,"1002024":1,"2002024":1,"1002025":1,"2002025":1,"1002026":1,"2002026":1,"1002027":1,"2002027":1,"1002028":1,"2002028":1,"1002029":1,"2002029":1,"1002030":1,"2002030":1,"1002031":1,"2002031":1,"1002032":1,"2002032":1,"1002033":1,"2002033":1,"1002052":1,"2002052":1,"3003001":1,"4003001":1,"3003002":1,"4003002":1,"3003003":1,"4003003":1,"3003004":1,"4003004":1,"3003005":1,"4003005":1,"3003006":1,"4003006":1,"3003007":1,"4003007":1,"3003008":1,"4003008":1,"3003009":1,"4003009":1,"3003010":1,"4003010":1,"3003011":1,"4003011":1,"3003012":1,"4003012":1,"3003013":1,"4003013":1,"3003014":1,"4003014":1,"1005001":1,"2005001":1,"1001018":1,"2001018":1,"1001019":1,"2001019":1,"1001021":1,"2001021":1,"1001022":1,"2001022":1,"1001023":1,"2001023":1,"1001025":1,"2001025":1,"1001026":1,"2001026":1,"1001027":1,"2001027":1,"1001028":1,"2001028":1,"1001029":1,"2001029":1,"1001030":1,"2001030":1,"1001031":1,"2001031":1,"1001032":1,"2001032":1,"1001033":1,"2001033":1,"1002034":1,"2002034":1,"1002035":1,"2002035":1,"1002036":1,"2002036":1,"1002037":1,"2002037":1,"1002038":1,"2002038":1,"1002039":1,"2002039":1,"1002040":1,"2002040":1,"1002041":1,"2002041":1,"1002042":1,"2002042":1,"1002043":1,"2002043":1,"1002044":1,"2002044":1,"1002045":1,"2002045":1,"1002046":1,"2002046":1,"1002047":1,"2002047":1,"1002048":1,"2002048":1,"1002049":1,"2002049":1,"1002050":1,"2002050":1,"1002069":1,"2002069":1,"1002072":1,"2002072":1,"1002074":1,"2002074":1,"1002075":1,"2002075":1,"3003015":1,"4003015":1,"3003016":1,"4003016":1,"3003017":1,"4003017":1,"3003018":1,"4003018":1,"3003019":1,"4003019":1,"1001034":1,"2001034":1,"1002076":1,"2002076":1,"1001035":1,"2001035":1,"1001036":1,"2001036":1,"1001037":1,"2001037":1,"1001038":1,"2001038":1,"1001039":1,"2001039":1,"1002078":1,"2002078":1,"1001040":1,"2001040":1,"1002080":1,"2002080":1,"1004020":1,"2004020":1,"1002079":1,"2002079":1,"1001043":1,"2001043":1,"1001044":1,"2001044":1,"1002081":1,"2002081":1,"1001042":1,"2001042":1,"1004021":1,"2004021":1,"1001046":1,"2001046":1,"1001047":1,"2001047":1,"1004022":1,"2004022":1,"1005007":1,"2005007":1},"scriptVersion":"7.1.0","redownloadUselessVideo":false,"incrementVerify":true,"redownloadUselessAudio":false}
+[2026-10-06 20:38:01.335] Genshin Start Log: LoginMainPageContext OnDownloadBunddleFinish - NowTimeStamp:1791290281
+[2026-10-06 20:38:02.468] Genshin Start Log: LoginMainPageContext ShaderWarmUp Start - NowTimeStamp:1791290281
+[2026-10-06 20:38:02.469] Your current platform: WindowsPlayer does not include method 'attribution_report_event' in MiHoYoSDK
+[2026-10-06 20:38:02.472] Genshin Start Log: LoginMainPageContext AsyncLoad Audio PCK. - NowTimeStamp:1791290282
+[2026-10-06 20:38:02.472] Genshin Start Log: LoginMainPageContext GlobalDataManager Refresh Start - NowTimeStamp:1791290282
+[2026-10-06 20:38:02.501] set vulkan allow: False
+[2026-10-06 20:38:03.471] Logger Index is:11, not registered any pluginui, ignore native_ui_hide event:MiHoYoSDKTipsBar
+[2026-10-06 20:38:03.471] Logger Index is:12, received native_ui_hide event: MiHoYoSDKTipsBar,should send notification.
+[2026-10-06 20:38:03.472] IsAlreadyDetached is:False
+[2026-10-06 20:38:12.247] Genshin Start Log: LoginMainPageContext AsyncLoad Audio PCK Finished. - NowTimeStamp:1791290292
+[2026-10-06 20:38:12.268] Genshin Start Log: LoginMainPageContext AfterOnBundleLoadFinish - NowTimeStamp:1791290292
+submit shader load 3
+[2026-10-06 20:38:45.629] Genshin Start Log: LoginMainPageContext AfterOpenDoor - NowTimeStamp:1791290325
+[2026-10-06 20:38:45.629] Genshin Start Log: LoginMainPageContext LoginGameServer - NowTimeStamp:1791290325
+[2026-10-06 20:38:45.668] NativeTaskLogger:notice_check_pop_notice do not use native task.
+Plaintext:
+0143ca6b140000000100000001000000
+Key:
+c1e82292b05398935e1ea0581c0c486401000000000000000000000000000000
+Plaintext:
+0000feff756c7420737472696e672900
+Key:
+c1e82292b05398935e1ea0581c0c486401000000000000000000000000000000
+[2026-10-06 20:38:48.977] [BeyondHall] Handling Packet - 2210
+[2026-10-06 20:38:49.004] [BeyondHall] Handling Packet - 29928
+[2026-10-06 20:38:49.067] [BeyondHall] Handling Packet - 24369
+[2026-10-06 20:38:49.067] [BeyondHall] Handling Packet - 3980
+[2026-10-06 20:38:49.067] [BeyondHall] Handling Packet - 4199
+[2026-10-06 20:38:49.067] [BeyondHall] Handling Packet - 9344
+[2026-10-06 20:38:49.067] [BeyondHall] Handling Packet - 26630
+[2026-10-06 20:38:49.067] [BeyondHall] Handling Packet - 29575
+[2026-10-06 20:38:49.068] [BeyondHall] Handling Packet - 24828
+[2026-10-06 20:38:49.071] Genshin Loading Log: OnReceivePlayerEnterSceneNotify 880549 - NowTimeStamp:1791290328
+[2026-10-06 20:38:49.071] Genshin Loading Log: PlayerModule OnPlayerEnterSceneNotify - NowTimeStamp:1791290328
+[2026-10-06 20:38:49.071] Genshin Loading Log: LoadingManager OnPlayerEnterSceneNotify - NowTimeStamp:1791290328
+[2026-10-06 20:38:49.071] Genshin Loading Log: LoadingManager RealEnterScene - NowTimeStamp:1791290328
+[2026-10-06 20:38:49.071] Genshin Loading Log: LoadingManager LoadNewScene - NowTimeStamp:1791290328
+[2026-10-06 20:38:49.072] Genshin Loading Log: LoadingManager Beyond Login - NowTimeStamp:1791290328
+[2026-10-06 20:38:49.096] [Material Warmup] Warmup mode: Config-driven
+[2026-10-06 20:38:49.498] NativeTaskLogger:notice_check_pop_notice do not use native task.
+[2026-10-06 20:38:49.505] jsonWatermarkConfig: {"available":true,"config":[{"app_id":"c7ahlk7m0feo","cloud_app_id":"cpnlgzmi69kw","enable_envs":[9,1,6]}]}
+[2026-10-06 20:38:49.505] jsonComplianceConfig: null
+[2026-10-06 20:38:49.512] PreLoadSWURL: https://sdk.mihoyo.com/sw.html?bundle_id=hk4e_cn&channel_id=1&game=hk4e&gameBiz=hk4e_cn&lang=zh-cn&level=0&mode=fullscreen&network=wifi&platform=pc&region=cn_gf01&runtime_cache=false
+[2026-10-06 20:38:49.512] From box: useLegacy: True
+[2026-10-06 20:38:49.513] Init with offScreen: True
+[2026-10-06 20:38:49.513] From box: useLegacy: True
+[2026-10-06 20:38:49.513] Init with offScreen: True
+[2026-10-06 20:38:49.568] InitUI with offScreen: True
+[2026-10-06 20:38:49.594] mihoyosdk webview created: 038fbfc2e04a1fa45af38f5c3dd1a6dbca1e08041791290329512
+[2026-10-06 20:38:49.596] wm_setEnable: begin: watermark input param : false
+[2026-10-06 20:38:49.596] wm_setEnable: begin: watermark input 'false'
+[2026-10-06 20:38:49.596] wm_setEnable: WM is disabled, hide wm
+[2026-10-06 20:38:49.597] apm_set_server_id: cn_gf01
+[2026-10-06 20:38:49.598] NativeTaskLogger:notice_check_pop_notice do not use native task.
+[2026-10-06 20:38:49.599] wm_initialize:WM is disabled
+[2026-10-06 20:38:49.605] ComboSign: app_id=4&channel_id=1&combo_token=v2_65da957f1980dfdb5e33197723c628b4171825ec&open_id=289252258
+[2026-10-06 20:38:49.605] ComboSignResult: 7eedb450fd29a9f94685db5d88b903bed6775e49f0a6ddaa4970c54f82a32f69
+[2026-10-06 20:38:49.632] UGCInterfaceLogger:InitUgcInfo success.
+[2026-10-06 20:38:50.576] From box: useLegacy: True
+[2026-10-06 20:38:50.587] UGCInterfaceLogger:HttpGetBinary Success
+[2026-10-06 20:38:50.588] red point response is: {"retcode":0,"message":"OK","data":{"infos":[{"red_point_type":4700,"content_id":569,"display":true},{"red_point_type":2215,"content_id":229,"display":true},{"red_point_type":690013,"content_id":1,"display":true}]}}
+[2026-10-06 20:38:50.589] PostRequest Success
+[2026-10-06 20:38:50.589] Success: plat-sh-sdk-game-security-service
+[2026-10-06 20:38:50.600] [destroy] callsite=init  threw=False
+[1006/203850.737:INFO:API.cpp(330)] zfb_init: Started browser
+[1006/203850.737:INFO:API.cpp(332)] zfb_init: Using --ignore-certificate-errors
+[1006/203850.737:INFO:API.cpp(332)] zfb_init: Using --disable-web-security
+[1006/203850.737:INFO:API.cpp(332)] zfb_init: Using --autoplay-policy=no-user-gesture-required
+[1006/203850.737:INFO:API.cpp(332)] zfb_init: Using --disable-gpu-vsync
+[1006/203850.754:ERROR:browser_host_create.cc(74)] Creating a windowless browser without setting CefSettings.windowless_rendering_enabled may result in reduced performance or runtime errors.
+[2026-10-06 20:38:50.857] UGCInterfaceLogger:token is invalid, exchange token firstly.
+[2026-10-06 20:38:50.866] jsonWatermarkConfig: {"available":true,"config":[{"app_id":"c7ahlk7m0feo","cloud_app_id":"cpnlgzmi69kw","enable_envs":[9,1,6]}]}
+[2026-10-06 20:38:50.866] jsonComplianceConfig: null
+[2026-10-06 20:38:50.927] Genshin Loading Log: BeyondLevelPlayModule SetCurLevelData guid: 0 serverVersion: 0 isTrial:True - NowTimeStamp:1791290330
+[2026-10-06 20:38:50.930] Webview perf time (ms) - init : 417
+submit shader load 3
+[2026-10-06 20:38:51.038] UGCInterfaceLogger:ExchangeToken Success
+[2026-10-06 20:38:51.039] UGCInterfaceLogger:exchange token success, startup http request.
+[2026-10-06 20:38:51.043] ZenFulcrum.EmbeddedBrowser.JSONNode
+[1006/203851.112:INFO:CONSOLE(1)] "fetch routes:  ", source: https://sdk.mihoyo.com/sw.js?bundle_id=hk4e_cn&channel_id=1&game=hk4e&gameBiz=hk4e_cn&lang=zh-cn&level=0&mode=fullscreen&network=wifi&platform=pc&region=cn_gf01&runtime_cache=false&timestamp=1791289190000 (1)
+[2026-10-06 20:38:51.170] UGCInterfaceLogger:HttpPostBinaryCarryToken Success
+[2026-10-06 20:38:51.170] UGCInterfaceLogger:AutoRenewalToken success, current timestamp is:1791290331, expire seconds is:43200
+[2026-10-06 20:38:51.204] Genshin Loading Log: LoadingManager Beyond Reconnect - Normal Route - NowTimeStamp:1791290331
+[2026-10-06 20:38:51.204] Genshin Loading Log: NetworkManager RequestEnterSceneReady token:880549 - NowTimeStamp:1791290331
+[1006/203851.236:INFO:CONSOLE(1)] "fetch routes:  ", source: https://sdk.mihoyo.com/sw.js?bundle_id=hk4e_cn&channel_id=1&game=hk4e&gameBiz=hk4e_cn&lang=zh-cn&level=0&mode=fullscreen&network=wifi&platform=pc&region=cn_gf01&runtime_cache=false&timestamp=1791289190000 (1)
+[1006/203851.237:INFO:CONSOLE(1)] "fetch routes:  ", source: https://sdk.mihoyo.com/sw.js?bundle_id=hk4e_cn&channel_id=1&game=hk4e&gameBiz=hk4e_cn&lang=zh-cn&level=0&mode=fullscreen&network=wifi&platform=pc&region=cn_gf01&runtime_cache=false&timestamp=1791289190000 (1)
+[1006/203851.247:INFO:CONSOLE(1)] "runtimeCache:  [object Object]", source: https://sdk.mihoyo.com/sw.js?bundle_id=hk4e_cn&channel_id=1&game=hk4e&gameBiz=hk4e_cn&lang=zh-cn&level=0&mode=fullscreen&network=wifi&platform=pc&region=cn_gf01&runtime_cache=false&timestamp=1791289190000 (1)
+[1006/203851.247:INFO:CONSOLE(1)] "cacheName page-runtime-static ", source: https://sdk.mihoyo.com/sw.js?bundle_id=hk4e_cn&channel_id=1&game=hk4e&gameBiz=hk4e_cn&lang=zh-cn&level=0&mode=fullscreen&network=wifi&platform=pc&region=cn_gf01&runtime_cache=false&timestamp=1791289190000 (1)
+[1006/203851.247:INFO:CONSOLE(1)] "cacheName page-runtime-static ", source: https://sdk.mihoyo.com/sw.js?bundle_id=hk4e_cn&channel_id=1&game=hk4e&gameBiz=hk4e_cn&lang=zh-cn&level=0&mode=fullscreen&network=wifi&platform=pc&region=cn_gf01&runtime_cache=false&timestamp=1791289190000 (1)
+[1006/203851.247:INFO:CONSOLE(1)] "cacheName runtime-cache ", source: https://sdk.mihoyo.com/sw.js?bundle_id=hk4e_cn&channel_id=1&game=hk4e&gameBiz=hk4e_cn&lang=zh-cn&level=0&mode=fullscreen&network=wifi&platform=pc&region=cn_gf01&runtime_cache=false&timestamp=1791289190000 (1)
+[1006/203851.247:INFO:CONSOLE(1)] "cacheName pre-cache:https://sdk.mihoyo.com/hk4e/announcement/index.html [object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]", source: https://sdk.mihoyo.com/sw.js?bundle_id=hk4e_cn&channel_id=1&game=hk4e&gameBiz=hk4e_cn&lang=zh-cn&level=0&mode=fullscreen&network=wifi&platform=pc&region=cn_gf01&runtime_cache=false&timestamp=1791289190000 (1)
+[2026-10-06 20:38:51.253] Genshin Loading Log: LoadingManager OnBeginLoadScene - NowTimeStamp:1791290331
+[2026-10-06 20:38:51.261] Talk state change level:False False False 9009
+[2026-10-06 20:38:51.318] Genshin Loading Log: PlayerModule OnEnterSceneReadyRsp0 - NowTimeStamp:1791290331
+[2026-10-06 20:38:51.339] Genshin Loading Log: BaseLevel Init - NowTimeStamp:1791290331
+[2026-10-06 20:38:51.346] Genshin Loading Log: BaseLevel LoadingLevelProgress ClearAsset 0.1 - NowTimeStamp:1791290331
+[2026-10-06 20:38:51.346] Genshin Loading Log: BaseLevel Init - NowTimeStamp:1791290331
+[2026-10-06 20:38:51.350] Genshin Loading Log: LoadingManager EnterInitScene - NowTimeStamp:1791290331
+[2026-10-06 20:38:51.350] Genshin Loading Log: BaseLevel LoadingLevelProgress LoadScene 0.2 - NowTimeStamp:1791290331
+[1006/203851.362:INFO:CONSOLE(1)] "####install####", source: https://sdk.mihoyo.com/sw.js?bundle_id=hk4e_cn&channel_id=1&game=hk4e&gameBiz=hk4e_cn&lang=zh-cn&level=0&mode=fullscreen&network=wifi&platform=pc&region=cn_gf01&runtime_cache=false&timestamp=1791290330000 (1)
+[1006/203851.419:INFO:CONSOLE(1)] "runtimeCache:  [object Object]", source: https://sdk.mihoyo.com/sw.js?bundle_id=hk4e_cn&channel_id=1&game=hk4e&gameBiz=hk4e_cn&lang=zh-cn&level=0&mode=fullscreen&network=wifi&platform=pc&region=cn_gf01&runtime_cache=false&timestamp=1791290330000 (1)
+[1006/203851.419:INFO:CONSOLE(1)] "cacheName page-runtime-static ", source: https://sdk.mihoyo.com/sw.js?bundle_id=hk4e_cn&channel_id=1&game=hk4e&gameBiz=hk4e_cn&lang=zh-cn&level=0&mode=fullscreen&network=wifi&platform=pc&region=cn_gf01&runtime_cache=false&timestamp=1791290330000 (1)
+[1006/203851.420:INFO:CONSOLE(1)] "cacheName page-runtime-static ", source: https://sdk.mihoyo.com/sw.js?bundle_id=hk4e_cn&channel_id=1&game=hk4e&gameBiz=hk4e_cn&lang=zh-cn&level=0&mode=fullscreen&network=wifi&platform=pc&region=cn_gf01&runtime_cache=false&timestamp=1791290330000 (1)
+[1006/203851.420:INFO:CONSOLE(1)] "cacheName runtime-cache ", source: https://sdk.mihoyo.com/sw.js?bundle_id=hk4e_cn&channel_id=1&game=hk4e&gameBiz=hk4e_cn&lang=zh-cn&level=0&mode=fullscreen&network=wifi&platform=pc&region=cn_gf01&runtime_cache=false&timestamp=1791290330000 (1)
+[1006/203851.420:INFO:CONSOLE(1)] "cacheName pre-cache:https://sdk.mihoyo.com/hk4e/announcement/index.html [object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]", source: https://sdk.mihoyo.com/sw.js?bundle_id=hk4e_cn&channel_id=1&game=hk4e&gameBiz=hk4e_cn&lang=zh-cn&level=0&mode=fullscreen&network=wifi&platform=pc&region=cn_gf01&runtime_cache=false&timestamp=1791290330000 (1)
+[2026-10-06 20:38:51.558] web: 1 url: https://sdk.mihoyo.com/sw.html?bundle_id=hk4e_cn&channel_id=1&game=hk4e&gameBiz=hk4e_cn&lang=zh-cn&level=0&mode=fullscreen&network=wifi&platform=pc&region=cn_gf01&runtime_cache=false,  enable_joypad_control :{"num":0,"type":0,"exchange":0}
+[2026-10-06 20:38:51.558] Webview perf time (ms) - Load : 963
+UnloadTime: 15.443100 ms
+Unloading 4 Unused Serialized files (Serialized files now loaded: 3963)
+
+Unloading 684 unused Assets to reduce memory usage. Loaded Objects now: 69642.
+Total: 488.400700 ms (FindLiveObjects: 6.062100 ms CreateObjectMapping: 7.721600 ms MarkObjects: 472.668600 ms  DeleteObjects: 1.945700 ms)
+
+[2026-10-06 20:38:52.157] UGCInterfaceLogger:token is valid, startup http request directly
+[1006/203852.427:INFO:CONSOLE(1)] "####activate####", source: https://sdk.mihoyo.com/sw.js?bundle_id=hk4e_cn&channel_id=1&game=hk4e&gameBiz=hk4e_cn&lang=zh-cn&level=0&mode=fullscreen&network=wifi&platform=pc&region=cn_gf01&runtime_cache=false&timestamp=1791290330000 (1)
+[2026-10-06 20:38:52.592] event: vox_init|message:{"log_path":"","log_level":1}
+[2026-10-06 20:38:52.605] PreLoadSWURL: https://sdk.mihoyo.com/sw.html?bundle_id=hk4e_cn&channel_id=1&game=hk4e&gameBiz=hk4e_cn&lang=zh-cn&level=60&mode=fullscreen&network=wifi&platform=pc&region=cn_gf01&runtime_cache=true&uid=190800866
+[1006/203852.608:INFO:CONSOLE(1)] "fetch routes:  pagePrecacheRoute", source: https://sdk.mihoyo.com/sw.js?bundle_id=hk4e_cn&channel_id=1&game=hk4e&gameBiz=hk4e_cn&lang=zh-cn&level=0&mode=fullscreen&network=wifi&platform=pc&region=cn_gf01&runtime_cache=false&timestamp=1791290330000 (1)
+[2026-10-06 20:38:52.611] UGCInterfaceLogger:HttpPostBinaryCarryToken Success
+[2026-10-06 20:38:52.611] UGCInterfaceLogger:AutoRenewalToken success, current timestamp is:1791290332, expire seconds is:43200
+[2026-10-06 20:38:52.615] GMEVOXService Initialize
+[2026-10-06 20:38:52.615] event: Initialize|message:GME SDK Version: 2019.1.2511.5149e152@May  8 2026@v2019.1.11
+[2026-10-06 20:38:52.631] event: vox_init_callback|message:{"ret":0,"msg":""}
+[1006/203852.634:INFO:CONSOLE(1)] "fetch routes:  pagePrecacheRoute", source: https://sdk.mihoyo.com/sw.js?bundle_id=hk4e_cn&channel_id=1&game=hk4e&gameBiz=hk4e_cn&lang=zh-cn&level=0&mode=fullscreen&network=wifi&platform=pc&region=cn_gf01&runtime_cache=false&timestamp=1791290330000 (1)
+[1006/203852.634:INFO:CONSOLE(1)] "fetch routes:  pagePrecacheRoute", source: https://sdk.mihoyo.com/sw.js?bundle_id=hk4e_cn&channel_id=1&game=hk4e&gameBiz=hk4e_cn&lang=zh-cn&level=0&mode=fullscreen&network=wifi&platform=pc&region=cn_gf01&runtime_cache=false&timestamp=1791290330000 (1)
+[1006/203852.672:INFO:CONSOLE(1)] "parseRuntimeCacheConfig runtimeCaches: [object Object] [object Object]", source: https://sdk.mihoyo.com/sw.js?bundle_id=hk4e_cn&channel_id=1&game=hk4e&gameBiz=hk4e_cn&lang=zh-cn&level=0&mode=fullscreen&network=wifi&platform=pc&region=cn_gf01&runtime_cache=false&timestamp=1791290330000 (1)
+[2026-10-06 20:38:52.853] ZenFulcrum.EmbeddedBrowser.JSONNode
+[1006/203852.859:INFO:CONSOLE(1)] "runtimeCache:  [object Object]", source: https://sdk.mihoyo.com/sw.js?bundle_id=hk4e_cn&channel_id=1&game=hk4e&gameBiz=hk4e_cn&lang=zh-cn&level=0&mode=fullscreen&network=wifi&platform=pc&region=cn_gf01&runtime_cache=false&timestamp=1791290330000 (1)
+[1006/203852.859:INFO:CONSOLE(1)] "cacheName page-runtime-cacheFirst [object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]", source: https://sdk.mihoyo.com/sw.js?bundle_id=hk4e_cn&channel_id=1&game=hk4e&gameBiz=hk4e_cn&lang=zh-cn&level=0&mode=fullscreen&network=wifi&platform=pc&region=cn_gf01&runtime_cache=false&timestamp=1791290330000 (1)
+[1006/203852.859:INFO:CONSOLE(1)] "cacheName page-runtime-staleWhileRevalidate ", source: https://sdk.mihoyo.com/sw.js?bundle_id=hk4e_cn&channel_id=1&game=hk4e&gameBiz=hk4e_cn&lang=zh-cn&level=0&mode=fullscreen&network=wifi&platform=pc&region=cn_gf01&runtime_cache=false&timestamp=1791290330000 (1)
+[2026-10-06 20:38:52.957] web: 1 url: https://sdk.mihoyo.com/sw.html?bundle_id=hk4e_cn&channel_id=1&game=hk4e&gameBiz=hk4e_cn&lang=zh-cn&level=60&mode=fullscreen&network=wifi&platform=pc&region=cn_gf01&runtime_cache=true&uid=190800866,  enable_joypad_control :{"num":0,"type":0,"exchange":0}
+[2026-10-06 20:38:52.958] Webview perf time (ms) - Load : 351
+[2026-10-06 20:38:53.625] Genshin Loading Log: BaseLevel LoadingLevelProgress PreInit 0.28 - NowTimeStamp:1791290333
+[2026-10-06 20:38:53.958] [BuiltinShader] UpdateSVCShader Add sucess: Hidden/Internal-DeferredShading
+[2026-10-06 20:38:54.204] [SetShadowQuality Finish]
+[2026-10-06 20:38:54.347] Genshin Loading Log: BaseLevel LoadingLevelProgress Init 0.3 - NowTimeStamp:1791290333
+[2026-10-06 20:38:54.347] Genshin Loading Log: LoadingManager EnterLoadStage - NowTimeStamp:1791290333
+[2026-10-06 20:38:54.400] Genshin Loading Log: BaseLevel LoadingLevelProgress LoadStage 0.65 - NowTimeStamp:1791290333
+SVC warmup skipped (default on, disable via code switch DISABLE_SKIP_SVC_WARMUP 67008)
+[2026-10-06 20:38:54.405] Warmup shaders Assets/Standard Assets/ShaderVars/FrequentUsed_WindowsPlayer@warmup@filtered
+SVC warmup skipped (default on, disable via code switch DISABLE_SKIP_SVC_WARMUP 67008)
+[2026-10-06 20:38:54.408] Warmup shaders Assets/Standard Assets/ShaderVars/FrequentUsed_WindowsPlayer@high@warmup@filtered
+[2026-10-06 20:38:54.424] batchLoad progress = System.Action`1[System.Single] jobDone = 386 batch.jobToDo = 475
+[2026-10-06 20:38:54.480] batchLoad progress = System.Action`1[System.Single] jobDone = 438 batch.jobToDo = 475
+[2026-10-06 20:38:54.526] [SetShadowQuality Finish]
+[2026-10-06 20:38:54.578] batchLoad progress = System.Action`1[System.Single] jobDone = 475 batch.jobToDo = 475
+[2026-10-06 20:38:54.578] batchLoad progress =  jobDone = 0 batch.jobToDo = 0
+[2026-10-06 20:38:54.579] Genshin Loading Log: BaseLevel OnSceneLoadedPostInit - NowTimeStamp:1791290334
+[2026-10-06 20:38:54.594] Genshin Loading Log: BaseLevel OnPlayerEnterSceneFinish - NowTimeStamp:1791290334
+[2026-10-06 20:38:54.594] Genshin Loading Log: NetworkManager RequestSceneInitFinish - NowTimeStamp:1791290334
+[2026-10-06 20:38:54.594] Genshin Loading Log: NetworkManager Real RequestSceneInitFinish - NowTimeStamp:1791290334
+[2026-10-06 20:38:54.594] Genshin Loading Log: LoadingManager EnterSceneInitFinish - NowTimeStamp:1791290334
+[2026-10-06 20:38:54.684] Genshin Loading Log: NetworkManager RequestEnterSceneDone - NowTimeStamp:1791290334
+[2026-10-06 20:38:54.684] Genshin Loading Log: NetworkManager Real RequestEnterSceneDone - NowTimeStamp:1791290334
+[2026-10-06 20:38:54.701] [BeyondHall] Handling Packet - 21086
+[2026-10-06 20:38:54.702] Genshin Loading Log: PlayerModule OnSceneInitFinishRsp - NowTimeStamp:1791290334
+[2026-10-06 20:38:54.744] Genshin Loading Log: PlayerModule OnEnterSceneDoneRsp - NowTimeStamp:1791290334
+[2026-10-06 20:38:54.744] Genshin Loading Log: LoadingManager AfterEnterSceneDone - NowTimeStamp:1791290334
+[2026-10-06 20:38:54.744] Genshin Loading Log: BaseLevel FinishLoadScene - NowTimeStamp:1791290334
+[2026-10-06 20:38:54.744] Genshin Loading Log: BaseLevel FinishLoadSceneReal - NowTimeStamp:1791290334
+[2026-10-06 20:38:55.110] batchLoad progress = System.Action`1[System.Single] jobDone = 742 batch.jobToDo = 743
+[2026-10-06 20:38:55.110] Genshin Loading Log: BaseLevel LoadingLevelProgress LoadEntity 0.8996635 - NowTimeStamp:1791290335
+[2026-10-06 20:38:55.146] batchLoad progress = System.Action`1[System.Single] jobDone = 743 batch.jobToDo = 743
+[2026-10-06 20:38:55.146] Genshin Loading Log: BaseLevel LoadingLevelProgress LoadEntity 0.9 - NowTimeStamp:1791290335
+[2026-10-06 20:38:55.215] [VCHumanoidMove] AO config not found for configId: 10000007
+[2026-10-06 20:38:55.226] [VCHumanoidMove] AO config not found for configId: 10000998
+[2026-10-06 20:38:55.454] Genshin Loading Log: BaseLevel FinishLoadSceneAynsc AllEntityReady - NowTimeStamp:1791290335
+[2026-10-06 20:38:55.454] Genshin Loading Log: BaseLevel FinishLoadSceneAynsc ShaderWarmUpReady - NowTimeStamp:1791290335
+[2026-10-06 20:38:55.465] [SetShadowQuality Finish]
+[2026-10-06 20:38:55.666] Genshin Loading Log: BaseLevel LoadingLevelProgress UIInit 0.94 - NowTimeStamp:1791290335
+[2026-10-06 20:38:55.669] Genshin Loading Log: BaseLevel LoadingLevelProgress PostLua 0.96 - NowTimeStamp:1791290335
+[2026-10-06 20:38:55.690] Genshin Loading Log: LoadingManager EnterSceneDoneFinish - NowTimeStamp:1791290335
+[2026-10-06 20:38:55.690] Genshin Loading Log: BaseLevel LoadingLevelProgress PostReady 0.98 - NowTimeStamp:1791290335
+[2026-10-06 20:38:55.690] Genshin Loading Log: NetworkManager RequesetPostEnterSceneReq - NowTimeStamp:1791290335
+submit shader load 2
+submit shader load 2
+submit shader load 2
+submit shader load 2
+[2026-10-06 20:38:55.844] Genshin Loading Log: PlayerModule OnPostEnterSceneRsp - NowTimeStamp:1791290335
+[2026-10-06 20:38:55.844] Genshin Loading Log: BaseLevel PostInitFinish - NowTimeStamp:1791290335
+[2026-10-06 20:38:55.848] UGCInterfaceLogger:token is valid, startup http request directly
+submit shader load 2
+submit shader load 2

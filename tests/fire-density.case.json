@@ -1,0 +1,20 @@
+{
+  "format": "qxqy-autotest",
+  "version": 1,
+  "name": "fire-density",
+  "canvasId": "mobile-16-9",
+  "dt": 0.03333333333333333,
+  "playerCount": 1,
+  "events": [],
+  "_note": "像素密度验证用例（宽松断言）：只要跑完并产出密度汇总行即可。真正的数字（行数/行距/每行最长字符/每帧耗时）由 TR density 汇总行给出，由人在结果里读，不做硬编码期望。",
+  "asserts": [
+    { "kind": "log", "contains": "TR boot density=", "at": 0 },
+    { "kind": "log", "contains": "TR rowsBuilt=", "at": 3 },
+    { "kind": "log", "contains": "TR density=", "at": 11 },
+    {
+      "kind": "lua",
+      "at": 11,
+      "source": "assert(query.logContains('TR density='), 'no density summary')\nassert(not query.logContains('文本长度超出限制'), 'text length limit hit')\nassert(not query.logContains('writefail'), 'write failure')\nassert(query.logContains('fails=0'), 'fails must be 0')"
+    }
+  ]
+}

@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>至冬列车 · M1 效果展示（HTML 小样）</title>
+<style>
+  :root { --ink:#e8eef7; --dim:#8b9bb4; --warm:#ffb347; --hot:#ff6b4a; --ok:#6ee7a8; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:#0d1117; color:var(--ink);
+         font:14px/1.5 "Microsoft YaHei",system-ui,sans-serif;
+         display:flex; align-items:center; justify-content:center; min-height:100vh; }
+  #wrap { position:relative; width:1280px; max-width:98vw; }
+  canvas { width:100%; height:auto; display:block; border-radius:10px; background:#1b2430; }
+  #hud { position:absolute; left:16px; top:14px; right:16px; display:flex; gap:18px;
+         align-items:flex-start; pointer-events:none; text-shadow:0 1px 3px #000a; }
+  .box { background:#0009; border:1px solid #ffffff22; border-radius:8px; padding:8px 12px; }
+  .lbl { color:var(--dim); font-size:12px; }
+  .big { font-size:22px; font-weight:700; }
+  #gearDots { display:flex; gap:6px; margin-top:4px; }
+  .dot { width:22px; height:12px; border-radius:3px; background:#ffffff22; }
+  .dot.on { background:var(--warm); box-shadow:0 0 8px #ffb34788; }
+  #heatBar { width:180px; height:12px; border-radius:3px; background:#ffffff22; margin-top:4px; overflow:hidden; }
+  #heatFill { height:100%; width:0%; background:linear-gradient(90deg,#6ee7a8,#ffb347,#ff6b4a); }
+  #ctrl { position:absolute; left:50%; transform:translateX(-50%); bottom:14px; display:flex; gap:14px; }
+  button { font:16px/1 "Microsoft YaHei",sans-serif; color:#e8eef7; background:#ffffff18;
+           border:1px solid #ffffff33; border-radius:10px; padding:12px 22px; cursor:pointer; }
+  button:hover { background:#ffffff28; }
+  button:active { transform:translateY(1px); }
+  #panel { position:absolute; right:16px; bottom:14px; background:#0009; border:1px solid #ffffff22;
+           border-radius:8px; padding:10px 12px; width:260px; }
+  #panel label { display:flex; justify-content:space-between; gap:8px; margin:6px 0; color:var(--dim); }
+  #panel input[type=range] { width:120px; }
+  #presets { display:flex; gap:8px; margin-top:6px; }
+  #presets button { flex:1; padding:6px 8px; font-size:12px; }
+  #overlay { position:absolute; inset:0; background:#0d1117e6; border-radius:10px;
+             display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:40px; }
+  #overlay h1 { margin:0 0 8px; font-size:30px; }
+  #overlay p { margin:6px 0; color:var(--dim); max-width:760px; }
+  #overlay .k { color:var(--ink); background:#ffffff14; border-radius:5px; padding:1px 7px; }
+  #toast { position:absolute; left:50%; top:96px; transform:translateX(-50%);
+           font-size:20px; font-weight:700; opacity:0; transition:opacity .18s; pointer-events:none; }
+  .hide { display:none !important; }
+</style>
+</head>
+<body>
+<div id="wrap">
+  <canvas id="cv" width="1280" height="720"></canvas>
+
+  <div id="hud">
+    <div class="box">
+      <div class="lbl">档位（−3 ~ +3）</div>
+      <div id="gearDots"></div>
+      <div class="big" id="gearTxt">0 空档</div>
+    </div>
+    <div class="box">
+      <div class="lbl">速度 / 区间限速</div>
+      <div class="big"><span id="spd">0</span> <span class="lbl">km/h</span></div>
+      <div class="lbl" id="zoneTxt">区间：—</div>
+    </div>
+    <div class="box">
+      <div class="lbl">轴温（换挡累积，满则锁档）</div>
+      <div id="heatBar"><div id="heatFill"></div></div>
+      <div class="lbl" id="heatTxt">0%</div>
+    </div>
+    <div class="box">
+      <div class="lbl">合规行驶得分</div>
+      <div class="big" id="score">0</div>
+      <div class="lbl" id="dist">0 m / 2400 m</div>
+    </div>
+  </div>
+
+  <div id="toast"></div>
+
+  <div id="ctrl">
+    <button id="btnDown">▼▼ 减速档</button>
+    <button id="btnUp">▲▲ 加速档</button>
+  </div>
+
+  <div id="panel">
+    <div class="lbl" style="color:#e8eef7;font-weight:700">调参（玩着改，马上有感觉）</div>
+    <label>每次换挡升温 <input id="sHeat" type="range" min="0.15" max="0.5" step="0.01" value="0.25"><span id="vHeat"></span></label>
+    <label>轴温冷却/秒 <input id="sCool" type="range" min="0.02" max="0.20" step="0.01" value="0.07"><span id="vCool"></span></label>
+    <label>牵引加速度 <input id="sAcc" type="range" min="0.3" max="1.6" step="0.1" value="0.9"><span id="vAcc"></span></label>
+    <label>限速带宽度 <input id="sZone" type="range" min="10" max="50" step="2" value="24"><span id="vZone"></span></label>
+    <div id="presets">
+      <button data-p="design">按设计文档 1/3</button>
+      <button data-p="handoff">按 HANDOFF 1/4</button>
+    </div>
+  </div>
+
+  <div id="overlay">
+    <h1>至冬列车 · M1 效果展示</h1>
+    <p>目标：<b>把速度保持在限速区间里</b>，合规行驶就一直加分；<b>换挡会累积轴温</b>，轴温满了被迫停车冷却（不会 game over）。</p>
+    <p>操作：<span class="k">↑ / W</span> 升档　<span class="k">↓ / S</span> 降档　<span class="k">R</span> 重开　（也可点下方两个按钮）</p>
+    <p>这一版是给你<b>判断好不好玩</b>的：右下角四个滑块可以直接改数值 —— 尤其"每次换挡升温"，仓库里有两种说法（1/3 与 1/4），你玩完告诉我哪个更对。</p>
+    <p style="margin-top:18px"><button id="btnStart">开始试玩</button></p>
+  </div>
+</div>
+
+<script>
+"use strict";
+// ---------- 可调参数（滑块会实时改这里） ----------
+const P = {
+  heatPerShift: 0.25,   // 每次换挡升温（★ 已裁决：1/4 = 4 次满）
+  coolPerSec:   0.07,   // 轴温冷却
+  accelUnit:    0.278,  // 每档牵引加速度 —— 使相邻档终速间隔 ≈ 16.7 km/h
+  zoneHalf:     24,     // 限速带半宽（km/h，越小越难维持）
+};
+const D = {
+  trackLen: 2400,       // 全程米数
+  kmh: 3.6,             // m/s -> km/h
+  drag: 0.06,           // 风阻系数
+  lockTime: 1.6,        // 轴温满后的强制空档时间（秒）
+  ptsPerSec: 10,        // 合规行驶每秒得分
+};
+
+// ---------- 关卡数据：限速区间 + 停靠站 ----------
+// 档位终速阶梯（accelUnit/drag）：0档0  1档17  2档33  3档50  4档67  5档83  6档100 km/h
+// 区间设计原则：宽度 ≥ 档间间隔(16.7)，使相邻两档能跨着区间来回切
+const ZONES = [
+  { from:   0, to: 420, lo: 25, hi: 55, name: "出站加速" },      // 跨 2档(33)|3档(50)
+  { from: 420, to: 900, lo: 55, hi: 85, name: "正线" },          // 跨 4档(67)|5档(83)
+  { from: 900, to:1250, lo: 30, hi: 55, name: "施工慢行" },      // 跨 2档(33)|3档(50)
+  { from:1250, to:1740, lo: 70, hi:100, name: "长直道" },        // 跨 5档(83)|6档(100)
+  { from:1740, to:2050, lo: 40, hi: 70, name: "进站前" },        // 跨 3档(50)|4档(67)
+  { from:2050, to:2400, lo: 10, hi: 40, name: "终到停车" },      // 跨 1档(17)|2档(33)
+];
+const STATIONS = [{at: 900, name:"青墟站"}, {at: 2400, name:"至冬站"}];
+
+// ---------- 状态 ----------
+let gear = 0, speed = 0, heat = 0, pos = 0, score = 0, t = 0;
+let lock = 0, running = false, done = false, lastZone = -1, stationDone = {};
+let toastUntil = 0, toastText = "", toastColor = "#fff";
+let lockCount = 0, firstHold = false;
+
+const cv = document.getElementById("cv"), ctx = cv.getContext("2d");
+const $ = id => document.getElementById(id);
+
+function reset() {
+  gear = 0; speed = 0; heat = 0; pos = 0; score = 0; t = 0; lock = 0;
+  lastZone = -1; stationDone = {}; done = false;
+  lockCount = 0; firstHold = false;
+  $("overlay").classList.add("hide");
+  running = true; toast("开始！读区间、稳速度", "#6ee7a8", 1.6);
+}
+function toast(msg, color, secs) {
+  toastText = msg; toastColor = color || "#fff"; toastUntil = t + (secs || 1.2);
+  const el = $("toast"); el.textContent = msg; el.style.color = toastColor; el.style.opacity = 1;
+}
+function zoneAt(p) { for (const z of ZONES) if (p >= z.from && p < z.to) return z; return null; }
+function shift(d) {
+  if (!running || done || lock > 0) return;
+  const ng = Math.max(0, Math.min(6, gear + d));
+  if (ng === gear) return;
+  gear = ng;
+  const before = heat;
+  heat = Math.min(1, heat + P.heatPerShift);        // ★ 换挡的代价
+  if (heat >= 1 && before < 1) {                    // ★ 只在"这次换挡导致满格"时计一次
+    lock = D.lockTime; gear = 0; lockCount++;
+    toast("轴温满！档位锁 0 —— 强制空档冷却", "#ff6b4a", 1.6);
+  }
+}
+addEventListener("keydown", e => {
+  const k = e.key.toLowerCase();
+  if (k === "arrowup" || k === "w") { shift(1); e.preventDefault(); }
+  else if (k === "arrowdown" || k === "s") { shift(-1); e.preventDefault(); }
+  else if (k === "r") { running = false; done = false; reset(); }
+});
+
+// ---------- 主循环 ----------
+let last = performance.now();
+function loop(now) {
+  const dt = Math.min(0.05, (now - last) / 1000); last = now;
+  if (running && !done) step(dt);
+  draw();
+  requestAnimationFrame(loop);
+}
+function step(dt) {
+  t += dt;
+  if (lock > 0) { lock -= dt; if (lock <= 0) toast("冷却完成，可以换挡了", "#6ee7a8", 1.0); }
+
+  // 物理：档位牵引 - 风阻 - 坡度（这里先用一段固定"上坡"，让玩家必须靠档位拉）
+  const slope = (pos > 1250 && pos < 1740) ? -0.35 : 0;
+  const acc = gear * P.accelUnit + slope - speed * D.drag;
+  speed = Math.max(0, speed + acc * dt);
+
+  // 轴温冷却
+  heat = Math.max(0, heat - P.coolPerSec * dt);
+
+  // 位移与计分
+  pos += speed * dt;
+  const z = zoneAt(pos);
+  if (z) {
+    if (z !== lastZone) { lastZone = z; toast("进入区间：" + z.name + "（" + z.lo + "~" + z.hi + "）", "#ffb347", 1.4); }
+    const v = speed * D.kmh;
+    if (v >= z.lo && v <= z.hi) {
+      score += D.ptsPerSec * dt;
+      if (!firstHold) { firstHold = true; toast("第一次稳住限速！保持住就持续加分", "#6ee7a8", 1.8); }
+    }
+  }
+  // 停靠对位
+  // 停靠：要"停得下来且停得准"
+  // ⚠ 待定：原版是"经过 6 米内就加分"，不要求停车。这里改成要求低速，
+  //    以免与策划案"停靠对位"矛盾。若设计上其实是"通过式检查点"，请改回。
+  for (const s of STATIONS) {
+    if (stationDone[s.name]) continue;
+    if (pos < s.at - 6) continue;
+    stationDone[s.name] = true;
+    const errM = Math.abs(pos - s.at);                   // 离站点的距离（米）
+    const errV = speed * D.kmh;                          // 到站时的速度（km/h）
+    let pts = 0, msg;
+    if (errV > 5) { msg = "没停 · " + s.name; }
+    else {
+      pts = Math.max(0, Math.round(60 - errM * 8));
+      msg = (errM < 2 ? "完美对位！" : "停靠偏了") + " " + s.name + " +" + pts + " 分";
+    }
+    score += pts;
+    toast(msg, pts > 0 && errM < 2 ? "#6ee7a8" : "#ffb347", 1.6);
+  }
+  if (pos >= D.trackLen) { running = false; done = true; finish(); }
+}
+function finish() {
+  $("overlay").classList.remove("hide");
+  $("overlay").innerHTML = '<h1>跑完全程</h1>' +
+    '<p class="big">得分 <b>' + Math.round(score) + '</b></p>' +
+    '<p>轴温峰值惩罚：档位被锁的次数 = ' + lockCount + ' 次</p>' +
+    '<p>把右下角滑块改一改再跑一次，比较一下？</p>' +
+    '<p style="margin-top:16px"><button id="btnAgain">再跑一次（R）</button></p>';
+  $("btnAgain").onclick = reset;
+}
+// ---------- 绘制 ----------
+function draw() {
+  const W = cv.width, H = cv.height;
+  ctx.clearRect(0, 0, W, H);
+  // 天空
+  const g = ctx.createLinearGradient(0, 0, 0, H);
+  g.addColorStop(0, "#2472a8"); g.addColorStop(0.55, "#7fb4d8"); g.addColorStop(1, "#dfeaf2");
+  ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+  // 远山（视差）
+  ctx.fillStyle = "#6f8fa8";
+  for (let i = -1; i < 8; i++) {
+    const x = ((i * 320 - pos * 0.25) % (W + 640)) - 320;
+    ctx.beginPath(); ctx.moveTo(x, 430); ctx.lineTo(x + 160, 250); ctx.lineTo(x + 320, 430); ctx.fill();
+  }
+  const horizon = 430;
+  // 限速区间的色带（画在轨道上方，随镜头滚动）
+  const camX = pos * 8;
+  for (const z of ZONES) {
+    const x0 = z.from * 8 - camX + 300, x1 = z.to * 8 - camX + 300;
+    if (x1 < -50 || x0 > W + 50) continue;
+    const inside = z === zoneAt(pos);
+    ctx.fillStyle = inside ? "#ffb34733" : "#ffffff22";
+    ctx.fillRect(x0, horizon - 96, x1 - x0, 26);
+    ctx.fillStyle = "#123"; ctx.font = "16px sans-serif";
+    ctx.fillText("限速 " + z.lo + "~" + z.hi, x0 + 8, horizon - 78);
+  }
+  // 道砟 + 双轨 + 轨枕
+  ctx.fillStyle = "#5b6470"; ctx.fillRect(0, horizon + 60, W, 60);
+  ctx.fillStyle = "#8d7860";
+  for (let x = -((camX % 36) + 36); x < W + 36; x += 36) ctx.fillRect(x, horizon + 62, 26, 56);
+  ctx.fillStyle = "#c9d2dc"; ctx.fillRect(0, horizon + 78, W, 6); ctx.fillRect(0, horizon + 106, W, 6);
+  // 车站
+  for (const s of STATIONS) {
+    const x = s.at * 8 - camX + 300;
+    if (x > -200 && x < W + 200) {
+      ctx.fillStyle = "#e8eef7"; ctx.fillRect(x, horizon - 40, 120, 100);
+      ctx.fillStyle = "#123"; ctx.font = "18px sans-serif"; ctx.fillText(s.name, x + 14, horizon - 14);
+    }
+  }
+  // 列车（车头 + 两节车厢）
+  const baseX = 300, baseY = horizon + 58;
+  const speedFactor = Math.min(1, speed / 25);
+  drawCar(baseX + 150, baseY, 140, 62, "#7a4a2b", speedFactor);   // 后车厢
+  drawCar(baseX + 60, baseY, 150, 62, "#8a5630", speedFactor);
+  drawLoco(baseX - 40, baseY, 180, 74, speedFactor);
+  // 挡风/蒸汽（速度越快越明显）
+  ctx.fillStyle = "#ffffff" + Math.round(40 + 120 * speedFactor).toString(16).padStart(2, "0");
+  for (let i = 0; i < 6; i++) {
+    const r = 8 + i * 6 + speedFactor * 10;
+    ctx.beginPath(); ctx.arc(baseX - 60 - i * 26, baseY - 30 - i * 8, r, 0, 7); ctx.fill();
+  }
+  // 速度拾取（画面上方一条"速度尺"，绿区=限速）
+  const z = zoneAt(pos), v = speed * D.kmh;
+  const sx = 420, sy = 96, sw = 560, sh = 16;
+  ctx.fillStyle = "#0006"; ctx.fillRect(sx, sy, sw, sh);
+  if (z) {
+    const a = sx + (z.lo / 120) * sw, b = sx + (z.hi / 120) * sw;
+    ctx.fillStyle = "#6ee7a855"; ctx.fillRect(a, sy, b - a, sh);
+  }
+  const mx = sx + Math.min(1, v / 120) * sw;
+  ctx.fillStyle = (z && v >= z.lo && v <= z.hi) ? "#6ee7a8" : "#ff6b4a";
+  ctx.fillRect(mx - 3, sy - 6, 6, sh + 12);
+  ctx.fillStyle = "#e8eef7"; ctx.font = "13px sans-serif";
+  ctx.fillText("0", sx - 16, sy + 14); ctx.fillText("120 km/h", sx + sw + 6, sy + 14);
+}
+function drawCar(x, y, w, h, color, sf) {
+  ctx.fillStyle = color; ctx.fillRect(x, y - h, w, h);
+  ctx.fillStyle = "#00000033"; ctx.fillRect(x, y - h, w, 10);
+  ctx.fillStyle = "#d8e4ee";
+  for (let i = 0; i < 3; i++) ctx.fillRect(x + 12 + i * (w / 3.4), y - h + 16, w / 5, 18);
+  ctx.fillStyle = "#2b2b2b";
+  ctx.beginPath(); ctx.arc(x + w * 0.22, y, 9, 0, 7); ctx.arc(x + w * 0.78, y, 9, 0, 7); ctx.fill();
+}
+function drawLoco(x, y, w, h, sf) {
+  ctx.fillStyle = "#3f3f46"; ctx.fillRect(x, y - h, w, h);
+  ctx.fillStyle = "#5b5b66"; ctx.fillRect(x + 10, y - h - 26, w - 60, 26);
+  ctx.fillStyle = "#ffd166"; ctx.fillRect(x + w - 26, y - h + 10, 18, 20);
+  ctx.fillStyle = "#d8e4ee"; ctx.fillRect(x + 22, y - h + 16, 44, 26);
+  ctx.fillStyle = "#111";
+  ctx.beginPath(); ctx.arc(x + w * 0.2, y, 11, 0, 7); ctx.arc(x + w * 0.62, y, 11, 0, 7); ctx.fill();
+  // 前灯
+  const lightA = 30 + 120 * sf;
+  ctx.fillStyle = "rgba(255,240,180," + (0.20 + 0.35 * sf).toFixed(2) + ")";
+  ctx.beginPath(); ctx.moveTo(x + w, y - h + 24);
+  ctx.lineTo(x + w + lightA, y - h + 4); ctx.lineTo(x + w + lightA, y - h + 52); ctx.closePath(); ctx.fill();
+}
+
+// ---------- HUD ----------
+const dots = $("gearDots");
+for (let i = 0; i < 7; i++) { const d = document.createElement("div"); d.className = "dot"; dots.appendChild(d); }
+const GEAR_NAME = { "-3":"−3 急退", "-2":"−2 退二", "-1":"−1 退一", "0":"0 空档", "1":"+1 一档", "2":"+2 二档", "3":"+3 三档" };
+function hud() {
+  const v = speed * D.kmh, z = zoneAt(pos);
+  const els = dots.children;
+  for (let i = 0; i < 7; i++) {
+    const g = i - 3;
+    els[i].className = "dot" + (g === gear ? " on" : "");
+    els[i].style.background = g === gear ? (g > 0 ? "#ffb347" : g < 0 ? "#6ea8ff" : "#c9d2dc") : "";
+  }
+  $("gearTxt").textContent = GEAR_NAME[String(gear)] + (lock > 0 ? "（锁定中）" : "");
+  $("spd").textContent = v.toFixed(0);
+  $("spd").style.color = (z && v >= z.lo && v <= z.hi) ? "#6ee7a8" : (z && v > z.hi ? "#ff6b4a" : "#e8eef7");
+  $("zoneTxt").textContent = z ? ("区间：" + z.lo + "~" + z.hi + "　" + z.name) : "区间：—";
+  $("heatFill").style.width = (heat * 100).toFixed(0) + "%";
+  $("heatTxt").textContent = (heat * 100).toFixed(0) + "%" + (heat > 0.8 ? "　⚠ 快满了" : "");
+  $("score").textContent = Math.round(score);
+  $("dist").textContent = pos.toFixed(0) + " m / " + D.trackLen + " m";
+  const el = $("toast");
+  if (t > toastUntil) el.style.opacity = 0;
+}
+setInterval(() => { if (running) hud(); }, 50);
+
+// ---------- 滑块 / 按钮 ----------
+// 记录限速带的原始中心（滑块按中心重算，避免累积漂移）
+const ZONE_CENTERS = ZONES.map(z => (z.lo + z.hi) / 2);
+const bind = (id, valId, key, fmt) => {
+  const el = $(id), out = $(valId);
+  const upd = () => { P[key] = parseFloat(el.value); out.textContent = fmt ? fmt(el.value) : el.value; };
+  el.addEventListener("input", upd); upd();
+};
+bind("sHeat", "vHeat", "heatPerShift", v => v + (Math.abs(v - 1/3) < 0.02 ? "（1/3：3 次满）" : Math.abs(v - 0.25) < 0.02 ? "（1/4：4 次满）" : ""));
+bind("sCool", "vCool", "coolPerSec");
+bind("sAcc",  "vAcc",  "accelUnit");
+bind("sZone", "vZone", "zoneHalf");
+$("sZone").addEventListener("input", () => {
+  // ★ 以"原始中心"为基准重算，避免每拖一次就在上一次结果上累积变窄
+  const half = parseFloat($("sZone").value);
+  ZONES.forEach((z, i) => {
+    z.lo = Math.max(1, Math.round(ZONE_CENTERS[i] - half / 2));
+    z.hi = Math.round(ZONE_CENTERS[i] + half / 2);
+  });
+});
+document.querySelectorAll("#presets button").forEach(b => b.addEventListener("click", () => {
+  const p = b.dataset.p, v = (p === "design") ? 1/3 : 0.25;
+  $("sHeat").value = v; $("sHeat").dispatchEvent(new Event("input"));
+}));
+$("btnUp").onclick = () => shift(1);
+$("btnDown").onclick = () => shift(-1);
+$("btnStart").onclick = reset;
+
+// 画布缩放时保持鼠标/按钮不错位（按钮是 DOM，无需处理）
+requestAnimationFrame(loop);
+</script>
+</body>
+</html>

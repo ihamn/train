@@ -1,0 +1,28 @@
+{
+  "format": "qxqy-autotest",
+  "version": 1,
+  "name": "m0-readonly",
+  "canvasId": "mobile-16-9",
+  "dt": 0.03333333333333333,
+  "playerCount": 1,
+  "events": [],
+  "_note": "只读诊断阶段（M0 收口）的用例。这一版探针只允许**读**：打印挂载点类型/几何、画布尺寸、roots 数量与名字。断言分三类：(1) 该打的行都打了；(2) 该不打的东西一个都没有 —— 没有建控件、没有改挂载点几何、没有探测扫描；(3) 连**持续行为**都没有 —— 不调 EnableUpdate、不逐帧回调。后两类是 2026-10-06 客户端无响应事故后的硬性要求（见 docs/tech-architecture.md §7）。",
+  "asserts": [
+    { "kind": "log", "contains": "M0 boot", "at": 0 },
+    { "kind": "log", "contains": "M0 readonly probe", "at": 0 },
+    { "kind": "log", "contains": "M0 canvas=", "at": 0 },
+    { "kind": "log", "contains": "M0 roots=", "at": 0 },
+    { "kind": "log", "contains": "M0 mount type=", "at": 0 },
+    { "kind": "log", "contains": "M0 mount name=", "at": 0 },
+    { "kind": "log", "contains": "M0 mount size=", "at": 0 },
+    { "kind": "log", "contains": "M0 mount probe ", "at": 0 },
+    { "kind": "log", "contains": "M0 readonly probe stays quiet", "at": 0 },
+    {
+      "kind": "lua",
+      "at": 0,
+      "source": "assert(query.logContains('M0 readonly probe'), 'readonly banner missing')\nassert(not query.logContains('M0 detect '), 'readonly probe must NOT scan templates')\nassert(not query.logContains('M0 start built='), 'readonly probe must NOT build controls')\nassert(not query.logContains('M0 writefail'), 'readonly probe must NOT write anything')\nassert(not query.logContains('M0 mount pinned'), 'readonly probe must NOT pin mount geometry')\nassert(not query.logContains('M0 enableUpdate'), 'readonly probe must NOT call EnableUpdate')\nassert(not query.logContains('M0 update tick='), 'readonly probe must NOT run OnUpdate')\nlocal loco = query.control('LOCO')\nassert(loco == nil, 'readonly probe must not create LOCO')\nlocal bg = query.control('BG')\nassert(bg == nil, 'readonly probe must not create BG')"
+    },
+    { "kind": "lua", "at": 0.5, "source": "assert(not query.logContains('M0 start built='), 'still no building after 0.5s')\nassert(not query.logContains('M0 detect '), 'still no scanning after 0.5s')\nassert(not query.logContains('M0 update tick='), 'still no per-frame update after 0.5s')\nassert(not query.logContains('M0 writefail'), 'still no writes after 0.5s')" },
+    { "kind": "control", "name": "STAGE", "field": "active", "equals": true, "at": 0 }
+  ]
+}

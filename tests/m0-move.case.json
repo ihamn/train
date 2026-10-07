@@ -1,0 +1,92 @@
+{
+  "format": "qxqy-autotest",
+  "version": 1,
+  "name": "m0-move",
+  "canvasId": "mobile-16-9",
+  "dt": 0.03333333333333333,
+  "playerCount": 1,
+  "events": [],
+  "_note": "几何空间：v8 自建容器钉在画布原点（拉伸锚点轴不参与 pivot，公式修正后容器 left=0）⇒ 子控件 box 坐标 = 画布左下角坐标，left == anchoredPositionX。",
+  "asserts": [
+    {
+      "kind": "control",
+      "name": "LOCO",
+      "field": "anchoredPositionX",
+      "equals": 100,
+      "at": 0
+    },
+    {
+      "kind": "control",
+      "name": "LOCO",
+      "field": "left",
+      "equals": 100,
+      "at": 0
+    },
+    {
+      "kind": "control",
+      "name": "LOCO",
+      "field": "anchoredPositionY",
+      "equals": 400,
+      "at": 0
+    },
+    {
+      "kind": "control",
+      "name": "WAGON",
+      "field": "sizeDeltaX",
+      "equals": 120,
+      "at": 0
+    },
+    {
+      "kind": "control",
+      "name": "LOCO",
+      "field": "anchoredPositionX",
+      "equals": 250,
+      "at": 0.48
+    },
+    {
+      "kind": "control",
+      "name": "LOCO",
+      "field": "left",
+      "equals": 250,
+      "at": 0.48
+    },
+    {
+      "kind": "control",
+      "name": "WAGON",
+      "field": "sizeDeltaX",
+      "equals": 180,
+      "at": 0.48
+    },
+    {
+      "kind": "log",
+      "contains": "M0 alive 15",
+      "at": 0.48
+    },
+    {
+      "kind": "control",
+      "name": "LOCO",
+      "field": "anchoredPositionX",
+      "equals": 400,
+      "at": 0.98
+    },
+    {
+      "kind": "control",
+      "name": "LOCO",
+      "field": "left",
+      "equals": 400,
+      "at": 0.98
+    },
+    {
+      "kind": "control",
+      "name": "WAGON",
+      "field": "sizeDeltaX",
+      "equals": 240,
+      "at": 0.98
+    },
+    {
+      "kind": "lua",
+      "at": 0.98,
+      "source": "local loco = query.control('LOCO')\nassert(loco ~= nil, 'missing LOCO')\nassert(loco.active == true, 'LOCO not active')\nlocal wagon = query.control('WAGON')\nassert(wagon ~= nil, 'missing WAGON')\nassert(wagon.active == true, 'WAGON not active')\nassert(query.logContains('M0 alive 15'), 'no mid-run liveness log')\nassert(query.logContains('M0 probes='), 'no budget log')\nassert(query.logContains('M0 built='), 'no built log')"
+    }
+  ]
+}
