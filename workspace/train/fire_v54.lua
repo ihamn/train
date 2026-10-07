@@ -231,7 +231,7 @@ function OnUpdate(dt)
 
   updates = updates + 1
   stepFire()
-  local wrote, maxLen = 0, 0
+  local wrote, maxLen, hsum = 0, 0, 0
   for r = 0, ROWS - 1 do
     local s = build_row(r)                      -- 脏检查：串没变就不写
     if #s > maxLen then maxLen = #s end
@@ -242,7 +242,10 @@ function OnUpdate(dt)
       end
     end
   end
+  -- 状态校验和：用来判断"火焰到底有没有在变"（wrote=0 时尤其需要）
+  for i = 1, COLS * ROWS do hsum = hsum + (heat[i] or 1) end
   if updates == 1 or updates % 60 == 0 then
-    say("u=" .. updates .. " wrote=" .. wrote .. " maxRowLen=" .. maxLen .. " tick=" .. tick)
+    say("u=" .. updates .. " wrote=" .. wrote .. " maxRowLen=" .. maxLen
+      .. " heatSum=" .. hsum .. " tick=" .. tick)
   end
 end
