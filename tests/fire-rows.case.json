@@ -6,7 +6,7 @@
   "dt": 0.03333333333333333,
   "playerCount": 1,
   "events": [],
-  "_note": "像素火 v53 的行距契约：一行一个文本框（FROW0..FROW26），行距 = 脚本给的 ROW_STEP = floor(FONT × ROW_K)。FONT=44、ROW_K=0.95 ⇒ ROW_STEP=41。本用例只验'行距与行数'这种可在模拟器里查清的事（真机渲染细节模拟器验不了）。 另加：建完只报一次 + 动画阶段确实启动（TR u=1 / TR u=60）。",
+  "_note": "像素火 v54 的行距契约（以 v41 好基线为准）：一行一个文本框 FROW0..FROW26，行距 = floor(FONT×SIZE_K×ROW_K) = floor(20×1.10×0.955) = 21。v41 的两个机制保留：SIZE_K=1.10 的 <size> 闭合列缝、0.955 的间距系数。",
   "asserts": [
     {
       "kind": "tree",
@@ -24,42 +24,42 @@
       "kind": "control",
       "name": "FROW0",
       "field": "anchoredPositionY",
-      "equals": 845,
+      "equals": 607,
       "at": 1.2
     },
     {
       "kind": "control",
       "name": "FROW1",
       "field": "anchoredPositionY",
-      "equals": 804,
+      "equals": 586,
       "at": 1.2
     },
     {
       "kind": "control",
       "name": "FROW2",
       "field": "anchoredPositionY",
-      "equals": 763,
+      "equals": 565,
       "at": 1.2
     },
     {
       "kind": "control",
       "name": "FROW5",
       "field": "anchoredPositionY",
-      "equals": 640,
+      "equals": 502,
       "at": 1.2
     },
     {
       "kind": "control",
       "name": "FROW26",
       "field": "anchoredPositionY",
-      "equals": -221,
+      "equals": 61,
       "at": 1.2
     },
     {
       "kind": "control",
       "name": "FROW0",
       "field": "fontSize",
-      "equals": 44,
+      "equals": 20,
       "at": 1.2
     },
     {
