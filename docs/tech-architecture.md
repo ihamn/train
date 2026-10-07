@@ -123,7 +123,7 @@ qxqy_studio_play { "action": "runCase", "args": { "case": <tests/m0-frames.case.
 | 容器控件可读字段 | 容器上**只有** `active/visible/activeInHierarchy/prefabIndex/sizeDeltaX,Y/anchoredPositionX,Y/localScaleX,Y` 可读；`parent/childCount/rotationZ/interactable/imageType/imageSource/imageId/text` 均为 `nil`（字段集随控件类型不同） |
 | `GetAnchorMin/GetAnchorMax/GetPivot` 的返回 | 方法**可调**；**无参只返回 x 分量**（`0.0 / 1.0 / 0.5`）。要 y 分量需传轴参数（未验证） |
 | 界面控件叠在 3D 画面上（M0 前提④） | **叠加成立／范围未解**（2026-10-06）：客户端 UI 确实画在关卡画面上，但只盖住左下角，裁定为挂载点几何问题，证据待取 |
-| 单网格 65,535 顶点 / 运行时 1,000 实体 / 控件预算 | `unknown` —— 模拟器不模拟这些上限；真机实测的是 **单控件组 1000 / 单屏 10000**（zuma 工程记录） |
+| 顶点上限 = **65,535**（用户 2026-10-07 确认）／ 运行时 1,000 实体 ／ 控件预算 | **顶点已知**：每个方块字形占 4 顶点 ⇒ 文本像素理论上限 ≈ 16,383 格；当前像素火 32×54=1728 格 ⇒ 6,912 顶点（仅 10.5%）⇒ **顶点不是瓶颈**（先顶到的是每行文本长度 ~1500） |
 | 官方素材真实 `imageId` 的显示 | **部分成立**：`100001–100006` 是**真实的官方素材号**（基础形状），`SetImage` 真机无报错、UI 已出现；逐项可见性受挂载点裁切影响，未逐项确认 |
 | 真机上控件位置/尺寸写入 | **方法式成立**（真机写回与目标逐帧一致）：`SetAnchoredPosition` / `SetSizeDelta`。**字段式 `.anchoredPositionX =` 仍未验证**（zuma 工程 0 次使用） |
 | 文本像素能否在**运行时**生成（Lua 字符串拼接 → `textbox.text`） | `unknown` —— 仓库原记录说"没有字符串拼接节点"，但那指节点图；Lua 侧 `..` 是标准能力，需单独探针 |
