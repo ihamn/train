@@ -38,3 +38,5 @@ records/_screen/
 
 # generated variant saves (regenerate on demand)
 workspace/*/readonly.save.json
+# local archives (old script versions, device backups)
+backups/
