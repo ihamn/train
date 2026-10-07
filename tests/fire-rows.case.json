@@ -1,0 +1,85 @@
+{
+  "format": "qxqy-autotest",
+  "version": 1,
+  "name": "fire-rows",
+  "canvasId": "mobile-16-9",
+  "dt": 0.03333333333333333,
+  "playerCount": 1,
+  "events": [],
+  "_note": "像素火 v53 的行距契约：一行一个文本框（FROW0..FROW26），行距 = 脚本给的 ROW_STEP = floor(FONT × ROW_K)。FONT=44、ROW_K=0.95 ⇒ ROW_STEP=41。本用例只验'行距与行数'这种可在模拟器里查清的事（真机渲染细节模拟器验不了）。",
+  "asserts": [
+    {
+      "kind": "tree",
+      "name": "FROW0",
+      "exists": true,
+      "at": 1.2
+    },
+    {
+      "kind": "tree",
+      "name": "FROW26",
+      "exists": true,
+      "at": 1.2
+    },
+    {
+      "kind": "control",
+      "name": "FROW0",
+      "field": "anchoredPositionY",
+      "equals": 845,
+      "at": 1.2
+    },
+    {
+      "kind": "control",
+      "name": "FROW1",
+      "field": "anchoredPositionY",
+      "equals": 804,
+      "at": 1.2
+    },
+    {
+      "kind": "control",
+      "name": "FROW2",
+      "field": "anchoredPositionY",
+      "equals": 763,
+      "at": 1.2
+    },
+    {
+      "kind": "control",
+      "name": "FROW5",
+      "field": "anchoredPositionY",
+      "equals": 640,
+      "at": 1.2
+    },
+    {
+      "kind": "control",
+      "name": "FROW26",
+      "field": "anchoredPositionY",
+      "equals": -221,
+      "at": 1.2
+    },
+    {
+      "kind": "control",
+      "name": "FROW0",
+      "field": "fontSize",
+      "equals": 44,
+      "at": 1.2
+    },
+    {
+      "kind": "control",
+      "name": "FROW0",
+      "field": "active",
+      "equals": true,
+      "at": 1.2
+    },
+    {
+      "kind": "control",
+      "name": "FROW26",
+      "field": "active",
+      "equals": true,
+      "at": 1.2
+    },
+    {
+      "kind": "lua",
+      "at": 1.2,
+      "source": "local n = 0\nfor i = 0, 26 do\n  local c = query.control('FROW' .. i)\n  assert(c ~= nil, 'FROW' .. i .. ' missing')\n  assert(c.active == true, 'FROW' .. i .. ' inactive')\n  n = n + 1\nend\nassert(n == 27, 'expected 27 rows, got ' .. n)\nassert(query.logContains('rowStep='), 'no rowStep log')\nassert(query.logContains('rowsBuilt='), 'no rowsBuilt log')"
+    }
+  ]
+}
