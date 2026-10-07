@@ -48,13 +48,11 @@ end
 
 function OnInit()
   print("M0 boot")
-  print("M0 readonly probe (no instantiate / no geometry write / no scan)")
-  local okColon, errColon = pcall(function() script:EnableUpdate(true) end)
-  print("M0 enableUpdate colon=" .. tostring(okColon) .. " err=" .. tostring(errColon))
-  if not okColon then
-    local okDot, errDot = pcall(function() script.EnableUpdate(script, true) end)
-    print("M0 enableUpdate dot(self)=" .. tostring(okDot) .. " err=" .. tostring(errDot))
-  end
+  print("M0 readonly probe (no instantiate / no geometry write / no scan / no per-frame update)")
+  -- ⚠ 本版**故意不调 EnableUpdate**：这是整个探针里唯一会让引擎"持续"回调我们的东西。
+  -- "OnUpdate 在真机确实会被调用"上一轮已经取证过（v5 真机 tick=1…420），不必再测，
+  -- 所以这里把最后一个持续行为也去掉 —— 探针退化成"只打一次日志就安静"。
+  print("M0 readonly probe stays quiet after this (no EnableUpdate, no OnUpdate)")
 end
 
 function OnStart()
@@ -123,13 +121,6 @@ function OnStart()
   print("M0 readonly probe done (nothing was created or modified)")
 end
 
--- ⚠ 模拟器实测：`script` 是**封闭对象**，写自定义字段会报
--- "OnUpdate: cannot set _tick, no such field" ⇒ 逐帧计数只能用模块级局部变量。
-local tick = 0
-
-function OnUpdate(dt)
-  tick = tick + 1
-  if tick == 1 or tick == 60 then
-    print("M0 update tick=" .. tick .. " (readonly, dt=" .. tostring(dt) .. ")")
-  end
-end
+-- 本版**故意没有 OnUpdate**：不调 EnableUpdate ⇒ 引擎不会逐帧回调我们。
+-- （踩坑留档：模拟器实测 `script` 是封闭对象，`script._tick = 1` 会报
+--  "cannot set _tick, no such field" ⇒ 逐帧计数只能用模块级局部变量。本版不用逐帧。）
