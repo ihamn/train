@@ -4,19 +4,42 @@
 
 ## 当前步骤
 
-**步骤 5–6（Lua 实现 + 模拟器测试），以「M0 平台前提探针」形式执行。**
+**步骤 5–6 + 真机（M0 平台前提探针）—— ⚠️ 尚未收口，还剩三件：**
+
+| 未完成 | 卡在哪 |
+|---|---|
+| ③ 3D 实体 + 运动器沿轨移动 | 模拟器测不了（无实体/运动器）；需在编辑器里摆一个实体，属用户侧动作，且必须先满足 §7 真机硬性规则 |
+| ④b 真机 UI **只盖住左下角**（范围/裁切） | 挂载点几何未知：v5.3 那轮本来要打印 `type/size/pos/scale`，结果触发客户端无响应，证据没拿到 |
+| 真机 `roots=0` | 官方判据说"没有显示中的画布"，与"UI 确实画出来了"矛盾，需一条只读探针澄清 |
+
+**收口方式（v7 已就绪、模拟器 12/12 绿，待用户点头再上真机）**：
+`workspace/train/probe_readonly.lua` —— 只打印 `typeof(script.object)`、挂载点
+`name/size/pos/scale/active/visible/inHierarchy/prefabIndex/…`、父级几何、`GetAnchor*/GetPivot/GetSizeDelta`
+是否能调、`GetUICanvasSize`、`GetClientUIRoots` 数量与名字；**不建控件、不改几何、不开探测扫描**。
+用例 `tests/probe-readonly.case.json` 有 12 条断言，其中 5 条是**负向断言**（必须没有
+`M0 detect` / `M0 start built=` / `M0 writefail` / `M0 mount pinned`，且 `LOCO`、`BG` 必须不存在）
+—— 事故后的硬性要求。
+
+跑法（模拟器，不需要真机）：
+
+```powershell
+python -c "import json,pathlib;p=pathlib.Path('workspace/train/train.save.json');d=json.loads(p.read_text(encoding='utf-8'));s=pathlib.Path('workspace/train/probe_readonly.lua').read_text(encoding='utf-8');[e.__setitem__('source',s) for e in d['assets']['scripts']];p.write_text(json.dumps(d,ensure_ascii=False),encoding='utf-8')"
+$env:QXQY_STUDIO="D:/miliastra-beyond-simulator/studio/index.js"; node tools/run-cases.mjs tests/probe-readonly.case.json
+git checkout -- workspace/train/train.save.json   # 跑完还原交付存档
+```
+
+2026-10-07 实测结果：`m0-readonly PASS (12/12)`；模拟器日志形状
+`M0 boot → M0 readonly probe → M0 canvas=… → M0 roots=1 → M0 mount type=… size=0x0 … → M0 update tick=1`。
+
+**步骤 3（HTML）不在本轮**：M0 是能力探针，HTML 答不了 ③/④b/roots 任何一条
+（这也是它在 M0 阶段被跳过的同一个理由）。**M0 收口后**才按 M1 的 P0 范围补步骤 3。
 
 已完成的步骤：
 * 步骤 1 策划案 —— 设计文档已在仓库里，`docs/gdd.md` 是汇总入口（本轮未新增玩法设计）
-* 步骤 2 TDD 用例 —— `docs/tests-m0.md` + `tests/m0-*.case.json`（**先写用例，后写 Lua**）
+* 步骤 2 TDD 用例 —— `docs/tests-m0.md` + `tests/m0-*.case.json`（**先写用例，后写 Lua**），42 断言全绿
 * 步骤 4 素材 —— 复用已有 `至冬列车/列车_64x20.png` 与 `序列帧_测试.png`；模拟器内用图元 100001–100006 代位
-
-**步骤 3（HTML 效果展示）本轮跳过**，理由记录在 `records/playtest.md`：
-M0 是**平台能力探针**，问的是"千星能不能做逐帧换图 / 运行时移动控件"，
-HTML 无法回答任何一条；它不是体验决策，所以不适用"先给 HTML 判断好不好玩"。
-**M1 开始做内容前必须补齐步骤 3。**
-
-步骤 7（真机）未开始：模拟器绿灯不是发布通过。
+* 步骤 5–6 —— `workspace/train/spike.lua`（v6，运行时按模板建控件）+ `train.save.json`（完整存档）
+* 步骤 7（部分）—— 真机四前提取证，见 `records/playtest.md` 第五、六轮
 
 ## 本轮退出证据
 
@@ -33,13 +56,21 @@ HTML 无法回答任何一条；它不是体验决策，所以不适用"先给 H
 
 ## 结论（对 M0 四前提的回答）
 
+真机证据见 `records/playtest.md`「真机第五/六轮」：客户端脚本 dump
+`M0 start built=15 missing=0`、`M0 update tick=1…420+`、
+`M0 writeback x/w = want`（逐帧一致）、`M0 canvas=1814.86x900`、`roots=0`。
+
 | 前提 | 结论 | 证据强度 |
 |---|---|---|
-| ① 逐帧换图可行 | **成立**：6 个图片控件按 tick 分频切换 `SetActive`，恰好一个可见，索引循环 | 模拟器用例 + 截图 + 28s 运行 |
-| ② 能摆一条轨道 | **成立（UI 层）**：道砟 + 双轨 + 6 轨枕共 9 个控件，横跨 1280/1600 两画布 | 模拟器用例 + 截图 |
-| ③ 实体沿运动器移动 | **未验证**，模拟器测不了 | 需真机 |
-| ③' 界面控件运行时移动/改大小 | **成立**：`anchoredPositionX`/`sizeDeltaX` 写入后 `box.left` 同步变化 | 模拟器用例（字段 + 渲染布局双证） |
-| ④ 控件叠在 3D 画面上 | **未验证**，模拟器测不了 | 需真机 |
+| ① 逐帧换图可行 | **成立** | 模拟器用例（14 断言）+ 截图 + 28s 连续运行 + **真机 `OnUpdate` 在跑** |
+| ② 能摆一条轨道 | **成立（UI 层）** | 模拟器用例（8+8 断言）+ 截图 + **真机 15 控件全建成** |
+| ③ 实体沿运动器移动 | **未验证** | 模拟器测不了；需在编辑器里摆实体，属用户侧动作 |
+| ③' 控件运行时移动/改大小 | **成立** | 模拟器（12 断言，字段+渲染双证）+ **真机方法式写回与目标逐帧一致** |
+| ④ 控件叠在 3D 画面上 | **成立（叠加本身）／范围未解** | **真机**：客户端 UI 已画在关卡画面上；但只盖住左下角，裁定为**挂载点几何**问题，尚未取到证据（见"当前步骤"） |
+
+⚠️ **同轮出了一次客户端无响应事故**（v5.3 改动导致，关卡被服务端续进、任何端进去都卡）。
+复盘、性质定性与**真机硬性规则**见 `docs/tech-architecture.md` §7；
+客服材料包见 `records/support-2026-10-06/`。**真机操作前必须重读该节。**
 
 ## 这对美术路线的影响（重要）
 

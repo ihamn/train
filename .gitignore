@@ -35,3 +35,6 @@ tools/variants/
 
 # transient playtest captures (screenshots/logs), not committed
 records/_screen/
+
+# generated variant saves (regenerate on demand)
+workspace/*/readonly.save.json
