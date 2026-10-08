@@ -23,13 +23,13 @@
   #topbar{left:0;top:0;width:100%;height:190px;
           background:linear-gradient(#0b1220ee,#0b122000)}
   .dial{position:absolute;top:14px}
-  #speedDial{left:60px}
-  #tempDial{right:60px}
+  #speedDial{left:36px}
+  #tempDial{right:44px}
   #gearBox{left:50%;top:16px;transform:translateX(-50%);text-align:center;color:#cfe0ef}
-  #gearNum{font-size:74px;font-weight:800;line-height:1;color:#EAF3FB;
+  #gearNum{font-size:66px;font-weight:800;line-height:1;color:#EAF3FB;
            text-shadow:0 3px 0 #0008}
   #gearLbl{font-size:20px;letter-spacing:.32em;opacity:.75;margin-top:2px}
-  #zoneName{position:absolute;left:50%;top:118px;transform:translateX(-50%);
+  #zoneName{position:absolute;left:50%;top:132px;transform:translateX(-50%);
             font-size:24px;font-weight:700;color:#FFD98A;text-shadow:0 2px 0 #0007;white-space:nowrap}
 
   /* ── 进度条 ── */
@@ -49,10 +49,10 @@
   .btn[disabled]{opacity:.35;filter:grayscale(.6)}
   #btnUp{right:38px;bottom:96px;width:230px;height:132px;font-size:40px}
   #btnDn{right:38px;bottom:242px;width:230px;height:132px;font-size:40px}
-  #btnAgain{left:38px;top:20px;width:160px;height:70px;font-size:26px;
+  #btnAgain{left:38px;bottom:88px;width:150px;height:66px;font-size:24px;
             background:linear-gradient(#5a4a3a,#3e3226);box-shadow:0 6px 0 #241d15,0 10px 18px #0007}
-  #btnGo{left:50%;top:50%;transform:translate(-50%,-50%);width:420px;height:120px;font-size:44px}
-  #btnGo:active{transform:translate(-50%,calc(-50% + 5px))}
+  #btnStart{left:50%;top:50%;transform:translate(-50%,-50%);width:420px;height:120px;font-size:44px}
+  #btnStart:active{transform:translate(-50%,calc(-50% + 5px))}
 
   /* ── 遮罩 ── */
   #ov{position:absolute;inset:0;background:#050a12e8;display:flex;
@@ -95,15 +95,28 @@
     <p>读限速区间 → <b>升档 / 降档</b> → 稳在区间里持续得分</p>
     <p>每次换档会让<b>轴温 +1/4</b>。轴温满 ⇒ 档位锁 0，强制空档冷却。</p>
     <p style="opacity:.65">没有 game over —— 只有"被罚站"。</p>
-    <button class="btn" id="btnGo">开始</button>
+    <button class="btn" id="btnStart">开始</button>
   </div>
 </div>
 
 <script>
 "use strict";
+/* ★ 关键：脚本必须等 DOM 就绪后再跑。
+   否则 getElementById("stage") 返回 null，fit() 抛异常，整个脚本死掉 —— 
+   表现就是"所有元素堆在一起、canvas 空白"。 */
+function main(){
+
+/* ══════════ 定稿列车 sprite（240×66，14色，来自 至冬列车/final/列车_240x66.png） ══════════ */
+const TRAIN_PNG = "data:image/png;base64,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";
+const trainImg = new Image();
+let trainReady = false;
+trainImg.onload = ()=>{ trainReady = true; };
+trainImg.src = TRAIN_PNG;
+
 /* ══════════ 自适应：设计 1280×720，等比缩放并居中 ══════════ */
 const DESIGN_W = 1280, DESIGN_H = 720;
 const stage = document.getElementById("stage");
+if(!stage){ document.body.innerHTML = '<p style="color:#fff;font-size:20px;padding:20px">错误：找不到 #stage 元素</p>'; return; }
 function fit(){
   const s = Math.min(innerWidth / DESIGN_W, innerHeight / DESIGN_H);
   stage.style.transform = `translate(-50%,-50%) scale(${s})`;
@@ -260,74 +273,18 @@ function drawTrackside(W,H){
     ctx.fillText(z.hi, x, H*0.60-77);
   }
 }
-/* 列车：用定稿 sprite 的风格手绘（240×66 缩到 ~300×82） */
+/* 列车：直接用定稿 sprite（240×66 → 缩放到 330×91） */
 function drawTrain(x,y){
-  const s=1.25, w=240*s, h=66*s;
-  const X=x-w/2, Y=y-h;
+  const SCALE = 1.375;                 // 240*1.375 = 330 px 宽
+  const w = 240*SCALE, h = 66*SCALE;
   // 影子
-  ctx.fillStyle="#00000038";
-  ctx.beginPath(); ctx.ellipse(x+8,y+8,w*0.52,10,0,0,7); ctx.fill();
-
-  const body="#425767", dark="#334655", lite="#707F8C",
-        win="#F6E1BA", gold="#D1AB6D", ink="#1A1D22",
-        plow="#C24D43", crys="#4BDEE3";
-  // 车厢（第二节）
-  rr(X+w*0.60, Y+h*0.22, w*0.38, h*0.60, 6, body);
-  for(let i=0;i<4;i++){
-    rr(X+w*0.63+i*w*0.088, Y+h*0.34, w*0.068, h*0.26, 3, win);
+  ctx.fillStyle="#00000040";
+  ctx.beginPath(); ctx.ellipse(x+6, y+6, w*0.46, 9, 0, 0, 7); ctx.fill();
+  if(trainReady){
+    ctx.imageSmoothingEnabled = false;   // ★ 像素画必须关掉插值
+    ctx.drawImage(trainImg, Math.round(x-w/2), Math.round(y-h-6), Math.round(w), Math.round(h));
   }
-  hline(X+w*0.61, X+w*0.97, Y+h*0.645, gold, 3);
-  // 第一节
-  rr(X+w*0.24, Y+h*0.20, w*0.38, h*0.62, 6, body);
-  for(let i=0;i<4;i++){
-    rr(X+w*0.27+i*w*0.088, Y+h*0.32, w*0.068, h*0.28, 3, win);
-  }
-  hline(X+w*0.25, X+w*0.61, Y+h*0.655, gold, 3);
-  // 车头
-  rr(X+w*0.02, Y+h*0.16, w*0.24, h*0.66, 7, body);
-  // 顶冠
-  ctx.fillStyle=dark;
-  ctx.beginPath();
-  ctx.moveTo(X+w*0.02,Y+h*0.16); ctx.lineTo(X+w*0.06,Y+h*0.01);
-  ctx.lineTo(X+w*0.18,Y+h*0.16); ctx.closePath(); ctx.fill();
-  // 驾驶窗
-  rr(X+w*0.07, Y+h*0.26, w*0.16, h*0.13, 3, win);
-  // 船首
-  ctx.fillStyle=dark;
-  ctx.beginPath();
-  ctx.moveTo(X+w*0.02,Y+h*0.42); ctx.lineTo(X-w*0.03,Y+h*0.70);
-  ctx.lineTo(X+w*0.10,Y+h*0.86); ctx.lineTo(X+w*0.02,Y+h*0.86);
-  ctx.closePath(); ctx.fill();
-  ctx.fillStyle=plow;
-  ctx.beginPath();
-  ctx.moveTo(X+w*0.00,Y+h*0.66); ctx.lineTo(X+w*0.11,Y+h*0.86);
-  ctx.lineTo(X+w*0.02,Y+h*0.86); ctx.closePath(); ctx.fill();
-  // 蓝晶体
-  ctx.fillStyle=crys;
-  ctx.beginPath();
-  ctx.moveTo(X+w*0.045,Y+h*0.40); ctx.lineTo(X+w*0.062,Y+h*0.475);
-  ctx.lineTo(X+w*0.045,Y+h*0.55); ctx.lineTo(X+w*0.028,Y+h*0.475);
-  ctx.closePath(); ctx.fill();
-  // 车轮
-  ctx.fillStyle=ink;
-  const wheelPairs=[0.14,0.34,0.52,0.70,0.86];
-  for(const f of wheelPairs){
-    for(const r of [9,13]){
-      ctx.beginPath(); ctx.arc(X+w*f, Y+h*0.88, r,0,7);
-      ctx.fillStyle = r>10?ink:"#2c3a47"; ctx.fill();
-    }
-  }
-  hline(X-w*0.02, X+w*0.98, Y+h*0.86, ink, 4);
 }
-function rr(x,y,w,h,r,c){
-  ctx.fillStyle=c; ctx.beginPath();
-  const rr2=Math.min(r,w/2,h/2);
-  ctx.moveTo(x+rr2,y); ctx.arcTo(x+w,y,x+w,y+h,rr2);
-  ctx.arcTo(x+w,y+h,x,y+h,rr2); ctx.arcTo(x,y+h,x,y,rr2);
-  ctx.arcTo(x,y,x+w,y,rr2); ctx.closePath(); ctx.fill();
-}
-function hline(x0,x1,y,c,th){ ctx.fillStyle=c; ctx.fillRect(x0,y,x1-x0,th); }
-
 /* ── 速度表 ── */
 const cvS=document.getElementById("speedDial"), gS=cvS.getContext("2d");
 function drawSpeed(){
@@ -421,8 +378,8 @@ function finish(){
     '<p class="big">得分 '+Math.round(score)+'</p>'+
     '<p>合规行驶 '+heldSec.toFixed(0)+' 秒　·　超速/低速 '+badSec.toFixed(0)+' 秒　·　合规率 '+(100*acc).toFixed(0)+'%</p>'+
     '<p>轴温满导致锁档 <b>'+lockCount+'</b> 次</p>'+
-    '<button class="btn" id="btnGo" style="position:static;transform:none;margin-top:22px">再跑一次</button>';
-  document.getElementById("btnGo").onclick=reset;
+    '<button class="btn" id="btnRetry" style="position:static;transform:none;margin-top:22px">再跑一次</button>';
+  document.getElementById("btnStart").onclick=reset;
 }
 
 /* ══════════ 主循环 ══════════ */
@@ -453,12 +410,19 @@ function bindHold(el, fn){
 }
 bindHold(btnUp, ()=>shift(1));
 bindHold(btnDn, ()=>shift(-1));
-document.getElementById("btnGo").onclick=reset;
+document.getElementById("btnStart").onclick=reset;
 document.getElementById("btnAgain").onclick=()=>{ running=false; done=false; reset(); };
 
 gear=0;speed=0;heat=0;pos=0;score=0;t=0;lock=0;
 running=false;done=false;lockCount=0;heldSec=0;badSec=0;
 requestAnimationFrame(loop);
+}   /* end main() */
+
+if(document.readyState === "loading"){
+  document.addEventListener("DOMContentLoaded", main);
+} else {
+  main();
+}
 </script>
 </body>
 </html>
