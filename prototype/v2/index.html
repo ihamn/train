@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>至冬列车 · 玩法小样</title>
+<style>
+  :root{
+    --ink:#0E1114; --hull:#425767; --hull-d:#334655; --hull-l:#707F8C;
+    --win:#F6E1BA; --gold:#D1AB6D; --crys:#4BDEE3; --plow:#C24D43;
+    --band-cy:#3AA0C8; --band-gr:#4FA85E; --band-ye:#D6A32E; --band-rd:#C8382E;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
+  html,body{margin:0;height:100%;overflow:hidden;background:#0a0d10;
+            font-family:"PingFang SC","Noto Sans CJK SC",system-ui,sans-serif;
+            user-select:none;-webkit-user-select:none}
+  #stage{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+         width:1280px;height:720px;overflow:hidden;background:#0d1420}
+  canvas{display:block;width:100%;height:100%}
+
+  /* ── HUD ── */
+  .hud{position:absolute;pointer-events:none}
+  #topbar{left:0;top:0;width:100%;height:190px;
+          background:linear-gradient(#0b1220ee,#0b122000)}
+  .dial{position:absolute;top:14px}
+  #speedDial{left:60px}
+  #tempDial{right:60px}
+  #gearBox{left:50%;top:16px;transform:translateX(-50%);text-align:center;color:#cfe0ef}
+  #gearNum{font-size:74px;font-weight:800;line-height:1;color:#EAF3FB;
+           text-shadow:0 3px 0 #0008}
+  #gearLbl{font-size:20px;letter-spacing:.32em;opacity:.75;margin-top:2px}
+  #zoneName{position:absolute;left:50%;top:118px;transform:translateX(-50%);
+            font-size:24px;font-weight:700;color:#FFD98A;text-shadow:0 2px 0 #0007;white-space:nowrap}
+
+  /* ── 进度条 ── */
+  #progWrap{position:absolute;left:70px;right:70px;bottom:26px;height:34px}
+  #progBg{position:absolute;inset:0;top:12px;height:10px;border-radius:5px;background:#ffffff22}
+  #progFill{position:absolute;left:0;top:12px;height:10px;border-radius:5px;
+            background:linear-gradient(90deg,#6fd3de,#F6E1BA);width:0}
+  #progMsg{position:absolute;left:0;right:0;top:-16px;text-align:center;
+           font-size:19px;color:#cfe0ef;text-shadow:0 2px 0 #0007}
+
+  /* ── 按钮 ── */
+  .btn{position:absolute;pointer-events:auto;border:none;border-radius:22px;
+       color:#EAF3FB;font-weight:800;letter-spacing:.04em;
+       background:linear-gradient(#3d5164,#2a3a48);
+       box-shadow:0 6px 0 #1a252e, 0 10px 18px #0007; transition:transform .05s, box-shadow .05s}
+  .btn:active{transform:translateY(5px); box-shadow:0 1px 0 #1a252e}
+  .btn[disabled]{opacity:.35;filter:grayscale(.6)}
+  #btnUp{right:38px;bottom:96px;width:230px;height:132px;font-size:40px}
+  #btnDn{right:38px;bottom:242px;width:230px;height:132px;font-size:40px}
+  #btnAgain{left:38px;top:20px;width:160px;height:70px;font-size:26px;
+            background:linear-gradient(#5a4a3a,#3e3226);box-shadow:0 6px 0 #241d15,0 10px 18px #0007}
+  #btnGo{left:50%;top:50%;transform:translate(-50%,-50%);width:420px;height:120px;font-size:44px}
+  #btnGo:active{transform:translate(-50%,calc(-50% + 5px))}
+
+  /* ── 遮罩 ── */
+  #ov{position:absolute;inset:0;background:#050a12e8;display:flex;
+      flex-direction:column;align-items:center;justify-content:center;
+      color:#dbe8f4;text-align:center;padding:40px}
+  #ov.hide{display:none}
+  #ov h1{font-size:56px;margin:0 0 8px;color:#F6E1BA}
+  #ov p{font-size:24px;line-height:1.6;margin:8px 0;max-width:900px;opacity:.9}
+  #ov .big{font-size:44px;color:#4BDEE3;font-weight:800}
+  #toast{position:absolute;left:50%;top:330px;transform:translateX(-50%);
+         font-size:34px;font-weight:800;opacity:0;transition:opacity .25s;
+         text-shadow:0 3px 0 #0008;white-space:nowrap;pointer-events:none}
+</style>
+</head>
+<body>
+<div id="stage">
+  <canvas id="cv" width="1280" height="720"></canvas>
+
+  <div class="hud" id="topbar"></div>
+  <canvas class="hud dial" id="speedDial" width="380" height="230"></canvas>
+  <canvas class="hud dial" id="tempDial"  width="300" height="230"></canvas>
+
+  <div class="hud" id="gearBox"><div id="gearNum">0</div><div id="gearLbl">档 位</div></div>
+  <div class="hud" id="zoneName">—</div>
+
+  <div class="hud" id="progWrap">
+    <div id="progMsg"></div>
+    <div id="progBg"></div>
+    <div id="progFill"></div>
+  </div>
+
+  <button class="btn" id="btnAgain">↻ 重来</button>
+  <button class="btn" id="btnDn">▼ 降档</button>
+  <button class="btn" id="btnUp">▲ 升档</button>
+
+  <div id="toast"></div>
+
+  <div id="ov">
+    <h1>至冬列车</h1>
+    <p>读限速区间 → <b>升档 / 降档</b> → 稳在区间里持续得分</p>
+    <p>每次换档会让<b>轴温 +1/4</b>。轴温满 ⇒ 档位锁 0，强制空档冷却。</p>
+    <p style="opacity:.65">没有 game over —— 只有"被罚站"。</p>
+    <button class="btn" id="btnGo">开始</button>
+  </div>
+</div>
+
+<script>
+"use strict";
+/* ══════════ 自适应：设计 1280×720，等比缩放并居中 ══════════ */
+const DESIGN_W = 1280, DESIGN_H = 720;
+const stage = document.getElementById("stage");
+function fit(){
+  const s = Math.min(innerWidth / DESIGN_W, innerHeight / DESIGN_H);
+  stage.style.transform = `translate(-50%,-50%) scale(${s})`;
+}
+addEventListener("resize", fit); addEventListener("orientationchange", fit); fit();
+
+/* ══════════ 参数（经可解性校验，见 README） ══════════ */
+const CFG = {
+  gears: 6,              // 0..6
+  accelUnit: 0.278,      // 每档牵引力
+  drag: 0.060,           // 线性风阻 ⇒ terminal = gear*accelUnit/drag
+  heatPerShift: 0.25,    // ★ 已裁决：1/4 = 4 次满
+  coolPerSec: 0.07,      // 每 3.6 秒可换一档（实测此值下轴温机制可被触发但不卡死）
+  lockSec: 3.0,          // 轴温满后强制空档
+  kmh: 3.6,
+  ptsPerSec: 10,
+  timeScale: 2.0,        // ★ 时间尺度：物理快进 2 倍
+                         //   理由：不改档位阶梯（那会破坏可解性），
+                         //   只压缩时间。实测起步 31s→16s，全程 127s→65s
+  trackLen: 1500,        // 米 ⇒ 约 125 秒一局（无头实测）
+};
+// 区间长度按 1500 m 总长分配；每段都被【相邻两档】夹住（见 README 的可解性校验）
+const ZONES = [
+  {from:   0, to: 250, lo:25, hi: 55, name:"出站加速"},   // 2档33 / 3档50
+  {from: 250, to: 515, lo:55, hi: 85, name:"正线"},       // 4档67 / 5档83
+  {from: 515, to: 735, lo:30, hi: 55, name:"施工慢行"},   // 2档33 / 3档50
+  {from: 735, to:1040, lo:70, hi:100, name:"长直道"},     // 5档83 / 6档100
+  {from:1040, to:1290, lo:40, hi: 70, name:"进站前"},     // 3档50 / 4档67
+  {from:1290, to:1500, lo:10, hi: 40, name:"终到停车"},   // 1档17 / 2档33
+];
+const STATIONS = [{at: 515, name:"青墟站"}, {at: 1500, name:"至冬站"}];
+
+/* ══════════ 状态 ══════════ */
+let gear, speed, heat, pos, score, t, lock, running, done, lockCount, heldSec, badSec;
+let lastZone = null, stationDone = {}, firstHold = false;
+let stillSec = 0;          // 连续停住时长，用于提示
+const S = { toastUntil:0, toastText:"", toastColor:"#fff" };
+
+function reset(){
+  gear=0; speed=0; heat=0; pos=0; score=0; t=0; lock=0;
+  running=true; done=false; lockCount=0; heldSec=0; badSec=0; stillSec=0;
+  lastZone=null; stationDone={}; firstHold=false;
+  document.getElementById("ov").classList.add("hide");
+  toast("先点【▲ 升档】让车动起来","#7FE0A8",3.0);
+}
+function toast(msg,color,secs){
+  S.toastText=msg; S.toastColor=color||"#fff"; S.toastUntil=t+(secs||1.3);
+  const el=document.getElementById("toast");
+  el.textContent=msg; el.style.color=S.toastColor; el.style.opacity=1;
+}
+function zoneAt(p){ for(const z of ZONES) if(p>=z.from && p<z.to) return z; return null; }
+
+/* ★ 换档：锁档计数写在函数体内（旧版把它放在事后包装里，导致键盘路径漏计） */
+function shift(d){
+  if(!running || done || lock>0) return;
+  const ng = Math.max(0, Math.min(CFG.gears, gear+d));
+  if(ng===gear) return;
+  gear = ng;
+  const before = heat;
+  heat = Math.min(1, heat + CFG.heatPerShift);
+  if(heat>=1 && before<1){
+    lock = CFG.lockSec; gear = 0; lockCount++;
+    toast("轴温满！档位锁 0 —— 强制空档","#FF7A55",1.8);
+  }
+}
+
+/* ══════════ 物理与计分 ══════════ */
+function step(dt){
+  t += dt;
+  if(lock>0){ lock-=dt; if(lock<=0) toast("冷却完成","#7FE0A8",1.0); }
+  const acc = gear*CFG.accelUnit - speed*CFG.drag;
+  speed = Math.max(0, speed + acc*dt);
+  heat = Math.max(0, heat - CFG.coolPerSec*dt);
+  pos += speed*dt;
+  // 停住检测：0 档无牵引力，不换档车不会动 —— 给玩家提示
+  if(speed < 0.15 && lock<=0){
+    stillSec += dt;
+    if(stillSec > 1.6 && stillSec-dt <= 1.6 && !done){
+      toast(gear===0 ? "点【▲ 升档】起步！" : "档位太低，再升一档","#FFB347",2.2);
+      stillSec = 0;
+    }
+  } else stillSec = 0;
+
+  const z = zoneAt(pos);
+  if(z){
+    if(z!==lastZone){
+      lastZone=z; toast("进入 "+z.name+"  "+z.lo+"~"+z.hi,"#FFB347",1.5);
+    }
+    const v = speed*CFG.kmh;
+    if(v>=z.lo && v<=z.hi){
+      score += CFG.ptsPerSec*dt; heldSec += dt;
+      if(!firstHold){ firstHold=true; toast("第一次稳住限速！","#7FE0A8",2.0); }
+    } else badSec += dt;
+  }
+  // 停靠：要真的停下来且停得准
+  for(const st of STATIONS){
+    if(stationDone[st.name]) continue;
+    if(pos < st.at-8) continue;
+    stationDone[st.name]=true;
+    const errM = Math.abs(pos-st.at), errV = speed*CFG.kmh;
+    let pts=0, msg;
+    if(errV>6){ msg="没停 · "+st.name; }
+    else{
+      pts = Math.max(0, Math.round(70 - errM*7));
+      msg = (errM<2.5?"完美对位！":"停靠偏了 ")+st.name+" +"+pts+" 分";
+    }
+    score += pts;
+    toast(msg, pts>0&&errM<2.5 ? "#7FE0A8":"#FFB347", 1.8);
+  }
+  if(pos>=CFG.trackLen){ running=false; done=true; finish(); }
+}
+
+/* ══════════ 绘制 ══════════ */
+const cv=document.getElementById("cv"), ctx=cv.getContext("2d");
+function draw(){
+  const W=cv.width, H=cv.height;
+  // 雪原背景
+  const g=ctx.createLinearGradient(0,0,0,H);
+  g.addColorStop(0,"#0b1220"); g.addColorStop(.45,"#16283f"); g.addColorStop(1,"#2a4a6b");
+  ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
+  // 远山
+  ctx.fillStyle="#1d3350";
+  for(let i=-1;i<6;i++){
+    const x=((i*300 - pos*0.15)%(W+600))-300;
+    ctx.beginPath(); ctx.moveTo(x,H*0.62);
+    ctx.lineTo(x+170,H*0.30); ctx.lineTo(x+340,H*0.62); ctx.closePath(); ctx.fill();
+  }
+  // 雪地
+  ctx.fillStyle="#31527a"; ctx.fillRect(0,H*0.60,W,H*0.40);
+  ctx.fillStyle="#3d6390"; ctx.fillRect(0,H*0.60,W,8);
+  // 轨道（枕木 + 双轨）
+  const railY=H*0.795;
+  for(let x=-((pos*3)%56);x<W+56;x+=56){
+    ctx.fillStyle="#24374f"; ctx.fillRect(x,railY-14,26,34);
+  }
+  ctx.fillStyle="#8fa6bd"; ctx.fillRect(0,railY-4,W,4);
+  ctx.fillStyle="#6d8399"; ctx.fillRect(0,railY+18,W,3);
+
+  drawTrain(W*0.30, railY);
+  drawTrackside(W,H);
+}
+function drawTrackside(W,H){
+  // 限速牌
+  const zs=ZONES;
+  for(const z of zs){
+    const d=z.from-pos;
+    if(d<-30||d>420) continue;
+    const x=W*0.30+d*1.1;
+    if(x<-60||x>W+60) continue;
+    ctx.fillStyle="#4a5f75"; ctx.fillRect(x-3,H*0.60-70,6,70);
+    const col = z.hi>=100?"#C8382E" : z.hi>=85?"#D6A32E" : "#4FA85E";
+    ctx.fillStyle=col; ctx.beginPath(); ctx.arc(x,H*0.60-84,26,0,7); ctx.fill();
+    ctx.fillStyle="#0d1420"; ctx.font="bold 20px sans-serif"; ctx.textAlign="center";
+    ctx.fillText(z.hi, x, H*0.60-77);
+  }
+}
+/* 列车：用定稿 sprite 的风格手绘（240×66 缩到 ~300×82） */
+function drawTrain(x,y){
+  const s=1.25, w=240*s, h=66*s;
+  const X=x-w/2, Y=y-h;
+  // 影子
+  ctx.fillStyle="#00000038";
+  ctx.beginPath(); ctx.ellipse(x+8,y+8,w*0.52,10,0,0,7); ctx.fill();
+
+  const body="#425767", dark="#334655", lite="#707F8C",
+        win="#F6E1BA", gold="#D1AB6D", ink="#1A1D22",
+        plow="#C24D43", crys="#4BDEE3";
+  // 车厢（第二节）
+  rr(X+w*0.60, Y+h*0.22, w*0.38, h*0.60, 6, body);
+  for(let i=0;i<4;i++){
+    rr(X+w*0.63+i*w*0.088, Y+h*0.34, w*0.068, h*0.26, 3, win);
+  }
+  hline(X+w*0.61, X+w*0.97, Y+h*0.645, gold, 3);
+  // 第一节
+  rr(X+w*0.24, Y+h*0.20, w*0.38, h*0.62, 6, body);
+  for(let i=0;i<4;i++){
+    rr(X+w*0.27+i*w*0.088, Y+h*0.32, w*0.068, h*0.28, 3, win);
+  }
+  hline(X+w*0.25, X+w*0.61, Y+h*0.655, gold, 3);
+  // 车头
+  rr(X+w*0.02, Y+h*0.16, w*0.24, h*0.66, 7, body);
+  // 顶冠
+  ctx.fillStyle=dark;
+  ctx.beginPath();
+  ctx.moveTo(X+w*0.02,Y+h*0.16); ctx.lineTo(X+w*0.06,Y+h*0.01);
+  ctx.lineTo(X+w*0.18,Y+h*0.16); ctx.closePath(); ctx.fill();
+  // 驾驶窗
+  rr(X+w*0.07, Y+h*0.26, w*0.16, h*0.13, 3, win);
+  // 船首
+  ctx.fillStyle=dark;
+  ctx.beginPath();
+  ctx.moveTo(X+w*0.02,Y+h*0.42); ctx.lineTo(X-w*0.03,Y+h*0.70);
+  ctx.lineTo(X+w*0.10,Y+h*0.86); ctx.lineTo(X+w*0.02,Y+h*0.86);
+  ctx.closePath(); ctx.fill();
+  ctx.fillStyle=plow;
+  ctx.beginPath();
+  ctx.moveTo(X+w*0.00,Y+h*0.66); ctx.lineTo(X+w*0.11,Y+h*0.86);
+  ctx.lineTo(X+w*0.02,Y+h*0.86); ctx.closePath(); ctx.fill();
+  // 蓝晶体
+  ctx.fillStyle=crys;
+  ctx.beginPath();
+  ctx.moveTo(X+w*0.045,Y+h*0.40); ctx.lineTo(X+w*0.062,Y+h*0.475);
+  ctx.lineTo(X+w*0.045,Y+h*0.55); ctx.lineTo(X+w*0.028,Y+h*0.475);
+  ctx.closePath(); ctx.fill();
+  // 车轮
+  ctx.fillStyle=ink;
+  const wheelPairs=[0.14,0.34,0.52,0.70,0.86];
+  for(const f of wheelPairs){
+    for(const r of [9,13]){
+      ctx.beginPath(); ctx.arc(X+w*f, Y+h*0.88, r,0,7);
+      ctx.fillStyle = r>10?ink:"#2c3a47"; ctx.fill();
+    }
+  }
+  hline(X-w*0.02, X+w*0.98, Y+h*0.86, ink, 4);
+}
+function rr(x,y,w,h,r,c){
+  ctx.fillStyle=c; ctx.beginPath();
+  const rr2=Math.min(r,w/2,h/2);
+  ctx.moveTo(x+rr2,y); ctx.arcTo(x+w,y,x+w,y+h,rr2);
+  ctx.arcTo(x+w,y+h,x,y+h,rr2); ctx.arcTo(x,y+h,x,y,rr2);
+  ctx.arcTo(x,y,x+w,y,rr2); ctx.closePath(); ctx.fill();
+}
+function hline(x0,x1,y,c,th){ ctx.fillStyle=c; ctx.fillRect(x0,y,x1-x0,th); }
+
+/* ── 速度表 ── */
+const cvS=document.getElementById("speedDial"), gS=cvS.getContext("2d");
+function drawSpeed(){
+  const W=cvS.width,H=cvS.height; gS.clearRect(0,0,W,H);
+  const cx=W/2, cy=H-24, R=150;
+  const bands=[[0,40,"#3AA0C8"],[40,70,"#4FA85E"],[70,88,"#D6A32E"],[88,120,"#C8382E"]];
+  const A0=Math.PI, A1=2*Math.PI;
+  const a2=(v)=>A0+(A1-A0)*Math.min(1,v/120);
+  // 底
+  gS.lineWidth=22; gS.lineCap="butt";
+  gS.strokeStyle="#ffffff18"; gS.beginPath();
+  gS.arc(cx,cy,R,A0,A1); gS.stroke();
+  for(const [lo,hi,col] of bands){
+    gS.strokeStyle=col; gS.beginPath(); gS.arc(cx,cy,R,a2(lo),a2(hi)); gS.stroke();
+  }
+  // 限速区间高亮
+  const z=zoneAt(pos);
+  if(z){
+    gS.lineWidth=6; gS.strokeStyle="#ffffffcc";
+    gS.beginPath(); gS.arc(cx,cy,R+16,a2(z.lo),a2(z.hi)); gS.stroke();
+  }
+  // 指针
+  const v=speed*CFG.kmh, a=a2(v);
+  gS.strokeStyle="#F6E1BA"; gS.lineWidth=6; gS.lineCap="round";
+  gS.beginPath(); gS.moveTo(cx,cy);
+  gS.lineTo(cx+Math.cos(a)*(R-14), cy+Math.sin(a)*(R-14)); gS.stroke();
+  gS.fillStyle="#F6E1BA"; gS.beginPath(); gS.arc(cx,cy,8,0,7); gS.fill();
+  // 数字
+  gS.fillStyle="#EAF3FB"; gS.font="bold 46px sans-serif"; gS.textAlign="center";
+  gS.fillText(Math.round(v), cx, cy-30);
+  gS.fillStyle="#9fb4c8"; gS.font="18px sans-serif";
+  gS.fillText("km/h", cx, cy-6);
+}
+/* ── 轴温表 ── */
+const cvT=document.getElementById("tempDial"), gT=cvT.getContext("2d");
+function drawTemp(){
+  const W=cvT.width,H=cvT.height; gT.clearRect(0,0,W,H);
+  const cx=W/2, cy=H-24, R=110;
+  const A0=Math.PI*1.15, A1=Math.PI*1.85;   // 约 126°
+  gT.lineWidth=20; gT.lineCap="butt";
+  gT.strokeStyle="#ffffff18"; gT.beginPath(); gT.arc(cx,cy,R,A0,A1); gT.stroke();
+  const a=a=>A0+(A1-A0)*Math.min(1,Math.max(0,a));
+  gT.strokeStyle="#3AA0C8"; gT.beginPath(); gT.arc(cx,cy,R,A0,a(0.5)); gT.stroke();
+  gT.strokeStyle= heat>0.75 ? "#D6A32E" : "#D6A32E";
+  gT.beginPath(); gT.arc(cx,cy,R,a(0.5),a(1)); gT.stroke();
+  // 当前值指针
+  const av=a(heat);
+  gT.strokeStyle = lock>0 ? "#FF6B4A" : (heat>0.75 ? "#FF9A3C" : "#EAF3FB");
+  gT.lineWidth=6; gT.beginPath(); gT.moveTo(cx,cy);
+  gT.lineTo(cx+Math.cos(av)*(R-16), cy+Math.sin(av)*(R-16)); gT.stroke();
+  gT.fillStyle="#EAF3FB"; gT.beginPath(); gT.arc(cx,cy,7,0,7); gT.fill();
+  // 四格刻度
+  for(let i=0;i<=4;i++){
+    const aa=a(i/4), r0=R-14, r1=R+14;
+    gT.strokeStyle="#0d1420"; gT.lineWidth=3;
+    gT.beginPath();
+    gT.moveTo(cx+Math.cos(aa)*r0, cy+Math.sin(aa)*r0);
+    gT.lineTo(cx+Math.cos(aa)*r1, cy+Math.sin(aa)*r1); gT.stroke();
+  }
+  gT.fillStyle="#9fb4c8"; gT.font="17px sans-serif"; gT.textAlign="center";
+  gT.fillText("轴温", cx, cy-46);
+}
+
+/* ══════════ HUD 更新 ══════════ */
+const elGear=document.getElementById("gearNum"), elZone=document.getElementById("zoneName");
+const elFill=document.getElementById("progFill"), elMsg=document.getElementById("progMsg");
+const btnUp=document.getElementById("btnUp"), btnDn=document.getElementById("btnDn");
+function hud(){
+  elGear.textContent = lock>0 ? "0" : gear;
+  elGear.style.color = lock>0 ? "#FF7A55" : "#EAF3FB";
+  const z=zoneAt(pos);
+  if(z){
+    const v=speed*CFG.kmh, inz = v>=z.lo&&v<=z.hi;
+    elZone.textContent = z.name+"  "+z.lo+"~"+z.hi+" km/h";
+    elZone.style.color = inz ? "#7FE0A8" : "#FFD98A";
+  } else elZone.textContent="—";
+  elFill.style.width = (100*Math.min(1,pos/CFG.trackLen))+"%";
+  elMsg.textContent = "得分 "+Math.round(score)+"　·　被锁 "+lockCount+" 次　·　"+Math.round(pos)+" / "+CFG.trackLen+" m";
+  btnUp.disabled = lock>0 || !running;
+  btnDn.disabled = lock>0 || !running;
+  // toast 淡出
+  const el=document.getElementById("toast");
+  if(t>S.toastUntil) el.style.opacity=0;
+  el.style.left = "50%";
+}
+function finish(){
+  const acc = heldSec+badSec>0 ? heldSec/(heldSec+badSec) : 0;
+  document.getElementById("ov").classList.remove("hide");
+  document.getElementById("ov").innerHTML =
+    '<h1>跑完全程</h1>'+
+    '<p class="big">得分 '+Math.round(score)+'</p>'+
+    '<p>合规行驶 '+heldSec.toFixed(0)+' 秒　·　超速/低速 '+badSec.toFixed(0)+' 秒　·　合规率 '+(100*acc).toFixed(0)+'%</p>'+
+    '<p>轴温满导致锁档 <b>'+lockCount+'</b> 次</p>'+
+    '<button class="btn" id="btnGo" style="position:static;transform:none;margin-top:22px">再跑一次</button>';
+  document.getElementById("btnGo").onclick=reset;
+}
+
+/* ══════════ 主循环 ══════════ */
+let last=performance.now();
+function loop(now){
+  const dt=Math.min(0.05,(now-last)/1000); last=now;
+  if(running && !done) step(dt * CFG.timeScale);   // ★ 物理快进
+  draw(); drawSpeed(); drawTemp(); hud();
+  requestAnimationFrame(loop);
+}
+
+/* ══════════ 输入 ══════════ */
+addEventListener("keydown", e=>{
+  const k=e.key.toLowerCase();
+  if(k==="arrowup"||k==="w"){ shift(1); e.preventDefault(); }
+  else if(k==="arrowdown"||k==="s"){ shift(-1); e.preventDefault(); }
+  else if(k==="r"){ running=false; done=false; reset(); }
+});
+function bindHold(el, fn){
+  let timer=null, iv=null;
+  const start=e=>{ e.preventDefault(); fn();
+    timer=setTimeout(()=>{ iv=setInterval(fn,110); },320); };
+  const end=()=>{ clearTimeout(timer); clearInterval(iv); timer=iv=null; };
+  el.addEventListener("touchstart",start,{passive:false});
+  el.addEventListener("touchend",end); el.addEventListener("touchcancel",end);
+  el.addEventListener("mousedown",start);
+  addEventListener("mouseup",end);
+}
+bindHold(btnUp, ()=>shift(1));
+bindHold(btnDn, ()=>shift(-1));
+document.getElementById("btnGo").onclick=reset;
+document.getElementById("btnAgain").onclick=()=>{ running=false; done=false; reset(); };
+
+gear=0;speed=0;heat=0;pos=0;score=0;t=0;lock=0;
+running=false;done=false;lockCount=0;heldSec=0;badSec=0;
+requestAnimationFrame(loop);
+</script>
+</body>
+</html>
