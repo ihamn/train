@@ -8,7 +8,8 @@ const lua=process.env.LUA||'lua';
 function run(file,input='') {
   const r=spawnSync(lua,[file],{input,encoding:'utf8',maxBuffer:8*1024*1024});
   assert.ifError(r.error);assert.equal(r.status,0,r.stderr||r.stdout);
-  return r.stdout.trim().split('\n').filter(Boolean);
+  // Windows 版 Lua 的 print 会输出 \r\n（文本模式 stdout）⇒ 统一成 \n，避免测试依赖行尾符
+  return r.stdout.replace(/\r\n/g,'\n').trim().split('\n').filter(Boolean);
 }
 function near(a,b) {assert.ok(Math.abs(a-b)<2e-6,`${a} != ${b}`);}
 test('Lua deterministic routes match JS for 128 seeds and trip combinations',()=>{
@@ -49,5 +50,6 @@ test('Lua invariants, continuation, perfect boundaries, temperature and client w
   const template=fs.readFileSync('workspace/train/train_client.template.lua','utf8');
   const core=fs.readFileSync('workspace/train/train_core.lua','utf8');
   const bundled=fs.readFileSync('workspace/train/train_game.lua','utf8');
-  assert.equal(bundled,template.replace('__TRAIN_CORE__',()=>`(function()\n${core}\nend)()`),'rebuild stale single file');
+  const normalize=s=>s.replace(/\r\n/g,'\n');
+  assert.equal(normalize(bundled),normalize(template.replace('__TRAIN_CORE__',()=>`(function()\n${core}\nend)()`)),'rebuild stale single file');
 });
