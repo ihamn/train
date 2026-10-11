@@ -108,6 +108,10 @@ function OnStart()
   guard(function()
     local root=script.object
     assert(root,'需要客户端容器挂载点')
+    -- ★ 光标事件的前置条件（平台事实）：控件必须能显示常驻光标，否则 AddCursorEventListener 不触发。
+    -- 运行时是否允许写这个字段未逐一验证 ⇒ 用 pcall 兜住并记一行日志，便于真机核对。
+    local okCursor=pcall(function() root.showCursor=true end)
+    if print then print('TRAIN showCursor='..tostring(okCursor)) end
     local names={'SPEED','GEAR','TEMP','SCORE','TARGET','STATUS','HINT','HINT_BG',
       'START','UP','DOWN','PAUSE','CONTINUE','END','TRIAL','ENDLESS','PROGRESS_MARKER','TARGET_RANGE'}
     for i=1,11 do names[#names+1]='SEG'..i end
