@@ -319,9 +319,15 @@ local function color(name,hex)
   local c=controls[name];local key=name..':color'
   if c and cache[key]~=hex then c.imageColor=tonumber('ff'..hex:sub(2),16);cache[key]=hex end
 end
+local bindCount,bindFail=0,0
 local function bind(name,fn)
   local c=controls[name]
-  if c then c:AddCursorEventListener(Enum.CursorEventType.CursorClick,fn) end
+  if c then
+    -- 真机有 AddCursorEventListener；模拟器尚未实现 ⇒ pcall 兜住，避免一条 API 缺口挡住整段验证。
+    -- 计数并打印，等于让「真机/模拟器各自有没有这个 API」自报出来。
+    local ok=pcall(function() c:AddCursorEventListener(Enum.CursorEventType.CursorClick,fn) end)
+    if ok then bindCount=bindCount+1 else bindFail=bindFail+1 end
+  end
 end
 local function render()
   local v=Core.view(state)
@@ -433,6 +439,7 @@ function OnStart()
     end
     bind('TRIAL',function() choose('trial') end)
     bind('ENDLESS',function() choose('endless') end)
+    if print then print('TRAIN bound='..bindCount..' failed='..bindFail) end
     active=true;render()
   end)
 end
