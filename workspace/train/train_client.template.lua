@@ -156,7 +156,41 @@ function OnStart()
       if name:match('^SEG%d') or name=='PROGRESS_MARKER' then path='PROGRESS/'..name
       elseif name:match('^TIE%d') then path='SCENE/'..name
       elseif name=='TARGET_RANGE' then path='DIAL/'..name end
-      controls[name]=root:FindChild(path)
+      local c=root:FindChild(path)
+      if not c and path~=name then c=root:FindChild(name) end
+      controls[name]=c
+    end
+    -- ★ 兜底：真机导入后编辑器可能改名/再套一层容器（实测 TRAIN_UI 变成了默认名），
+    --   而 FindChild 只认 'A/B' 斜杠路径、不做深层搜索 ⇒ 直接按名字找会整片失败。
+    --   做法：**只走一次**子树建 name→控件 映射，再补上缺的（不是每个名字都遍历一遍 ✗）。
+    --   有界：只遍历 LOOKUP_MAX 个节点，队列长度也设上限，绝不无限扫描。
+    local missing=0
+    for _,name in ipairs(names) do if not controls[name] then missing=missing+1 end end
+    if missing>0 then
+      local LOOKUP_MAX=200
+      local function kidsOf(c)
+        local ok,list=pcall(function() return c:GetChildren() end)
+        if ok and type(list)=='table' then return list end
+        return {}
+      end
+      local map,queue,head,seen={},{},1,0
+      for _,c in ipairs(kidsOf(root)) do queue[#queue+1]=c end
+      while head<=#queue and seen<LOOKUP_MAX do
+        local c=queue[head];head=head+1;seen=seen+1
+        local ok,nm=pcall(function() return c.name end)
+        if ok and nm~=nil and map[nm]==nil then map[nm]=c end
+        if #queue < LOOKUP_MAX*2 then
+          for _,gc in ipairs(kidsOf(c)) do queue[#queue+1]=gc end
+        end
+      end
+      local stillMissing=0
+      for _,name in ipairs(names) do
+        if not controls[name] then
+          controls[name]=map[name]
+          if not controls[name] then stillMissing=stillMissing+1 end
+        end
+      end
+      if print then print('TRAIN lookup 兜底：遍历 '..seen..' 个节点，仍缺 '..stillMissing..' 个') end
     end
     for _,name in ipairs({'SPEED','GEAR','TEMP','SCORE','TARGET','STATUS','HINT','START','UP','DOWN'}) do
       assert(controls[name],'缺少控件 '..name)
