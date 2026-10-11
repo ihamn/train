@@ -79,3 +79,6 @@ Voodoo爆款清单.md
 至冬列车/ai2/
 至冬列车/ai3/
 至冬列车/v*/
+
+# third-party clone (ImageToRichTextConverter), local only
+tools/irt/
