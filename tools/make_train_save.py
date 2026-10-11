@@ -175,10 +175,11 @@ def build_children():
 
     # ---- 右侧：两个表盘（★ 实心圆 100002 + 径向填充 ⇒ 填充显示为扇形；替代 37+43 帧美术）
     #      注意都必须在 720 高以内：y + 220 + 标签 ≤ 720
-    kids.append(textbox("SPEED_DIAL_T", (1040, 692), (200, 26), 18, "速度"))
+    #      ★ 同级【先出现的在上】⇒ 先放圆、后放标签，标签才不会被自己的圆压住
     kids.append(image("SPEED_DIAL", 100002, C_GREEN, (1030, 462), (220, 220), fill=True))
-    kids.append(textbox("TEMP_DIAL_T", (1040, 512), (200, 26), 18, "轴温"))
+    kids.append(textbox("SPEED_DIAL_T", (1040, 692), (200, 26), 18, "速度"))
     kids.append(image("TEMP_DIAL", 100002, C_RED, (1030, 282), (220, 220), fill=True))
+    kids.append(textbox("TEMP_DIAL_T", (1040, 512), (200, 26), 18, "轴温"))
 
     # ---- 底部按钮一行（含用户指定的加速/减速素材号） ----
     row = [

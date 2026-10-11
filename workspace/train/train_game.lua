@@ -320,6 +320,7 @@ local function color(name,hex)
   if c and cache[key]~=hex then c.imageColor=tonumber('ff'..hex:sub(2),16);cache[key]=hex end
 end
 local bindCount,bindFail=0,0
+local fillFail=0
 local function bind(name,fn)
   local c=controls[name]
   if c then
@@ -387,6 +388,24 @@ local function render()
     local world=math.max(0,state.position+(x-240)/8)
     local y=-(Core.terrainAt(world,state).height-v.terrain.height)
     move('TIE'..i,x,y)
+  end
+  -- ★ 表盘：实心圆 + 径向填充（替代 37+43 帧美术 ⇒ 80 帧变 2 个控件、0 张上传素材）
+  --   两个控件缺失时整段跳过（旧存档/未摆表盘也能跑）
+  if controls.SPEED_DIAL or controls.TEMP_DIAL then
+    local function fill(name,frac)
+      local c=controls[name]
+      if not c then return end
+      frac=math.max(0,math.min(1,frac))
+      local key=name..':fill'
+      if cache[key]~=frac then
+        local ok=pcall(function() c.fillAmount=frac end)
+        if not ok and fillFail==0 and print then print('TRAIN fillAmount 不可写（表盘填充停在首值）') end
+        if not ok then fillFail=fillFail+1 end
+        cache[key]=frac
+      end
+    end
+    fill('SPEED_DIAL',v.speedAngle/180)   -- speedAngle 是 0..180°
+    fill('TEMP_DIAL',v.temperatureAngle/210)
   end
   visible('CONTINUE',state.mode=='endless' and state.phase=='finished' and not state.result.ended)
 end
