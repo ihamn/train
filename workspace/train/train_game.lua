@@ -449,27 +449,55 @@ function OnStart()
       if not c and path~=name then c=root:FindChild(name) end
       controls[name]=c
     end
-    -- ★ 兜底：真机导入后编辑器可能改名/再套一层容器（实测 TRAIN_UI 变成了默认名），
-    --   而 FindChild 只认 'A/B' 斜杠路径、不做深层搜索 ⇒ 直接按名字找会整片失败。
-    --   做法：**只走一次**子树建 name→控件 映射，再补上缺的（不是每个名字都遍历一遍 ✗）。
-    --   有界：只遍历 LOOKUP_MAX 个节点，队列长度也设上限，绝不无限扫描。
+    -- ★ 真机查找阶梯（来源：zuma.lua 在真机跑通的写法，不是推测）：
+    --   ① 契约路径 ② 裸名 ③ 挂载点向下 walk ④ 挂载点向上 3 层 walk ⑤ game.GetClientUIRoots() 各自 walk
+    --   为什么必须这样：真机上 FindChild **一次都没成功过**（zuma.lua 里 FindChild 出现 0 次），
+    --   真机成立的是 GetChildren() 枚举 + .parent 回溯 + GetClientUIRoots()（"实际显示的画布默认容器节点"）。
+    --   有界：总节点预算 LOOKUP_MAX + 深度上限 + seen 去重 + 共享预算 ⇒ 绝不可能无限扫描。
     local missing=0
     for _,name in ipairs(names) do if not controls[name] then missing=missing+1 end end
     if missing>0 then
-      local LOOKUP_MAX=200
+      local LOOKUP_MAX=400
+      local budget=LOOKUP_MAX
+      local map,visited={},{}
       local function kidsOf(c)
         local ok,list=pcall(function() return c:GetChildren() end)
         if ok and type(list)=='table' then return list end
         return {}
       end
-      local map,queue,head,seen={},{},1,0
-      for _,c in ipairs(kidsOf(root)) do queue[#queue+1]=c end
-      while head<=#queue and seen<LOOKUP_MAX do
-        local c=queue[head];head=head+1;seen=seen+1
-        local ok,nm=pcall(function() return c.name end)
-        if ok and nm~=nil and map[nm]==nil then map[nm]=c end
-        if #queue < LOOKUP_MAX*2 then
-          for _,gc in ipairs(kidsOf(c)) do queue[#queue+1]=gc end
+      local function collect(start,depthMax)
+        if start==nil or budget<=0 then return 0 end
+        local stack,seen={{start,0}},0
+        while #stack>0 and budget>0 do
+          local item=table.remove(stack)
+          local c,d=item[1],item[2]
+          if c~=nil and not visited[c] then
+            visited[c]=true;budget=budget-1;seen=seen+1
+            local ok,nm=pcall(function() return c.name end)
+            if ok and nm~=nil and map[nm]==nil then map[nm]=c end
+            if d<depthMax then
+              for _,gc in ipairs(kidsOf(c)) do stack[#stack+1]={gc,d+1} end
+            end
+          end
+        end
+        return seen
+      end
+      local nDown=collect(root,4)
+      local nUp=0
+      local up=root
+      for _=1,3 do
+        if budget<=0 then break end
+        local okp,p=pcall(function() return up.parent end)
+        if not okp or p==nil then break end
+        up=p
+        nUp=nUp+collect(up,3)
+      end
+      local nRoots,rootCount=0,0
+      if budget>0 then
+        local okr,roots=pcall(function() return game.GetClientUIRoots() end)
+        if okr and type(roots)=='table' then
+          rootCount=#roots
+          for i=1,#roots do nRoots=nRoots+collect(roots[i],4) end
         end
       end
       local stillMissing=0
@@ -479,7 +507,12 @@ function OnStart()
           if not controls[name] then stillMissing=stillMissing+1 end
         end
       end
-      if print then print('TRAIN lookup 兜底：遍历 '..seen..' 个节点，仍缺 '..stillMissing..' 个') end
+      local mountName='?'
+      pcall(function() mountName=tostring(root.name) end)
+      if print then
+        print('TRAIN lookup: down='..nDown..' up='..nUp..' roots='..nRoots..'/'..rootCount
+          ..' miss='..stillMissing..' mount='..mountName)
+      end
     end
     for _,name in ipairs({'SPEED','GEAR','TEMP','SCORE','TARGET','STATUS','HINT','START','UP','DOWN'}) do
       assert(controls[name],'缺少控件 '..name)

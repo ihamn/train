@@ -38,14 +38,14 @@
     },
     {
       "file": "列车 · 控件树 + 接线脚本 · 脚本.gia",
-      "bytes": 24646,
+      "bytes": 25790,
       "warnings": [
         "脚本挂载关系不进入 GIA：官方 script.gia 只含映射（ID/名称/路径/源码），导入后需重新挂载。"
       ]
     },
     {
       "file": "列车 · 控件树 + 接线脚本 · 整合包.gia",
-      "bytes": 59329,
+      "bytes": 60473,
       "warnings": [
         "整合包把服务端 UIControlGroup 与客户端 UIControlTemplate 并排写入同一 GIA 的 Root.graph；导入时拆回两类资产，模板边界、脚本映射与控件挂载关系会保留。",
         "客户端控件容器: 新服务端控件模板写入显式空 Info.related，避免跨沙箱复用伴生资源 GUID 产生无法加载的索引。",
