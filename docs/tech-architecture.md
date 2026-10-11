@@ -182,3 +182,4 @@ qxqy_studio_play { "action": "runCase", "args": { "case": <tests/m0-frames.case.
 15. **日志纪律**：真机脚本全程行数必须有界（本项目：boot / 结构几行 / alive×3 / 换帧前 3 次 / stop）。
     **绝不逐帧打日志**；日志是排查工具，不是进度条。
 | **随机数/整数语义：模拟器 ≠ 真机** | 真机 Lua 5.3 是 **64 位整数**；模拟器（wasm/Fengari）按**双精度**算。LCG 型 `rseed = (rseed*1103515245+12345) % 2^31` 的乘积 ≈2.4e18 超出 2^53 ⇒ **两边序列不同**。实测：同一份 `fire_v54`，真机 `wrote=19~24/27`（火在动），模拟器 `wrote=0`（静止）⇒ **凡依赖随机数的观感/节奏，模拟器结论无效，必须真机看** |
+| **showCursor 运行时可写（2026-10-11 真机）** | `root.showCursor = true` 在真机上**成功**（接线脚本自报 `TRAIN showCursor=true`）⇒ `AddCursorEventListener` 的前置条件可以**由脚本运行时满足**，不必只在编辑器里配。另：`root:FindChild(path)` **可调用**（未报 'attempt to call a nil value'）—— 但它**能否真的找到已存在的子控件**仍未验证（本次那些控件不存在） |

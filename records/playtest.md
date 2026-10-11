@@ -353,3 +353,27 @@ M0 writeback w=124/240/360… = want            ← SetSizeDelta 真机生效
   ③ 自建容器（❓ 就是这步冻的，v9 要去掉轴参数调用重做）
 * 事故材料：`records/support-2026-10-06/追加_第二次无响应_2026-10-07.md`
   （含 output_log 两件 + 卡死截图 + 可复制的客服话术）
+
+### 列车第一次真机导入（2026-10-11 09:59，关卡 1073741825）
+
+部署物：`external_lua_file\train.lua`（平铺名，21322 B，sha256 `E576743D9D75`，= ChatGPT 版单文件包 + 我们补的 `showCursor`）
+
+真机日志（`records/_screen/realdevice/train-first-run.gia`）：
+
+```
+TRAIN showCursor=true
+TRAIN stopped: train: 419: in function <train:397>:
+```
+
+**判定：这一趟成功，且是预期结果。**
+
+| 事实 | 依据 |
+|---|---|
+| 脚本被加载、`OnStart` 执行到 | 两行都出自脚本自身 |
+| `script.object` 拿到了挂载点 | 若为 nil，第 399 行的 assert 会先报 |
+| **`root.showCursor = true` 运行时可写** | `TRAIN showCursor=true`（新平台事实） |
+| `root:FindChild(path)` **可调用** | 第 416 行未报 'attempt to call a nil value' |
+| **缺控件时干净停下、不刷屏、不卡** | 第 419 行 assert ⇒ `guard()` 首错即停（只 1 行日志） |
+| 停下原因 | 107 个具名控件尚未摆出（下一步工作） |
+
+⇒ 下一步：**生成横屏控件树存档**（1680×900 布局 + 107 个具名控件 + `showCursor` + 表盘用「圆环 100006 + `SetFillRadial360`」代替 80 帧美术）。
