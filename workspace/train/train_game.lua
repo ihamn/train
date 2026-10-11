@@ -320,7 +320,7 @@ local function color(name,hex)
   if c and cache[key]~=hex then c.imageColor=tonumber('ff'..hex:sub(2),16);cache[key]=hex end
 end
 local bindCount,bindFail=0,0
-local fillFail=0
+local fillDead={}   -- 填充不可写的控件名；失败即停写，避免每次数值变化都再写一次失败属性
 local function bind(name,fn)
   local c=controls[name]
   if c then
@@ -390,22 +390,27 @@ local function render()
     move('TIE'..i,x,y)
   end
   -- ★ 表盘：实心圆 + 径向填充（替代 37+43 帧美术 ⇒ 80 帧变 2 个控件、0 张上传素材）
-  --   两个控件缺失时整段跳过（旧存档/未摆表盘也能跑）
+  --   ① /360：Radial360 的 1.0 是整圈 ⇒ 要保留原设计的扫角，必须用 angle/360
+  --      （speed 最大 180° ⇒ 0.5；temperature 最大 210° ⇒ ≈0.5833）
+  --   ② 失败即"marker 不可用"并停止后续写入（不能每次数值变化都再写一次失败属性 — 那正是逐帧刷 API 的坑）
   if controls.SPEED_DIAL or controls.TEMP_DIAL then
     local function fill(name,frac)
       local c=controls[name]
-      if not c then return end
+      if not c or fillDead[name] then return end
       frac=math.max(0,math.min(1,frac))
       local key=name..':fill'
       if cache[key]~=frac then
         local ok=pcall(function() c.fillAmount=frac end)
-        if not ok and fillFail==0 and print then print('TRAIN fillAmount 不可写（表盘填充停在首值）') end
-        if not ok then fillFail=fillFail+1 end
-        cache[key]=frac
+        if ok then
+          cache[key]=frac
+        else
+          fillDead[name]=true
+          if print then print('TRAIN fillAmount 不可写，已停用 '..name..' 的后续填充写入') end
+        end
       end
     end
-    fill('SPEED_DIAL',v.speedAngle/180)   -- speedAngle 是 0..180°
-    fill('TEMP_DIAL',v.temperatureAngle/210)
+    fill('SPEED_DIAL',v.speedAngle/360)
+    fill('TEMP_DIAL',v.temperatureAngle/360)
   end
   visible('CONTINUE',state.mode=='endless' and state.phase=='finished' and not state.result.ended)
 end
@@ -426,12 +431,14 @@ function OnStart()
     -- 运行时是否允许写这个字段未逐一验证 ⇒ 用 pcall 兜住并记一行日志，便于真机核对。
     local okCursor=pcall(function() root.showCursor=true end)
     if print then print('TRAIN showCursor='..tostring(okCursor)) end
+    -- ★ 表盘两个控件必须在这张表里：漏了它们 ⇒ controls.SPEED_DIAL 永远 nil ⇒ 填充代码整段被跳过
+    --   （ChatGPT 审核用 mock 复现过这个遗漏；教训：新增控件时要同时改"查找表"）
     local names={'SPEED','GEAR','TEMP','SCORE','TARGET','STATUS','HINT','HINT_BG',
-      'START','UP','DOWN','PAUSE','CONTINUE','END','TRIAL','ENDLESS','PROGRESS_MARKER','TARGET_RANGE'}
+      'START','UP','DOWN','PAUSE','CONTINUE','END','TRIAL','ENDLESS','PROGRESS_MARKER','TARGET_RANGE',
+      'SPEED_DIAL','TEMP_DIAL'}
     for i=1,11 do names[#names+1]='SEG'..i end
     for i=1,4 do names[#names+1]='TIE'..i end
-    for i=0,36 do names[#names+1]='SPEED_F'..i end
-    for i=0,42 do names[#names+1]='TEMP_F'..i end
+    -- 37+43 帧针图方案已弃用（改为实心圆 + fillAmount）⇒ 不再查找这些控件；git 历史里有旧方案可恢复
     -- 按固定层级查找；进度/场景/目标环容器必须预先摆好，不修改父级几何。
     for _,name in ipairs(names) do
       local path=name

@@ -144,10 +144,11 @@ def container(name, offset, size, show_cursor=False):
 
 
 def btn(name, art, x, y, w, h, label, label_px=18):
-    """按钮 = 底板图片（可点击）+ 盖在上面的文字标签。"""
+    """按钮 = 底板图片（可点击）+ 文字标签。
+    ★ 同级【先出现的在上层】⇒ 标签必须先生成，否则不透明底板会盖住文字（ChatGPT 审核指出的第 3 处不一致）。"""
     return [
-        image(name, art, C_BTN, (x, y), (w, h)),
         textbox(name + "_T", (x + 6, y + h // 2 - 12), (w - 12, 24), label_px, label),
+        image(name, art, C_BTN, (x, y), (w, h)),
     ]
 
 
@@ -159,7 +160,8 @@ def build_children():
     kids.append(textbox("HINT", (640, 646), (600, 36), 22, "点击出发"))
     kids.append(image("HINT_BG", ART_BLOCK, C_HINT, (626, 640), (628, 48)))
 
-    prog = container("PROGRESS", (40, 620), (560, 56))
+    # ★ 宽 620 ≥ 脚本定位上限 600 + MARKER 宽 8（原来只给 560 ⇒ 末端游标会越出容器，ChatGPT 审核指出）
+    prog = container("PROGRESS", (40, 620), (620, 56))
     segs = [image("PROGRESS_MARKER", ART_BLOCK, C_GOLD, (0, 24), (8, 20))]
     for i in range(1, 12):
         segs.append(image("SEG%d" % i, ART_BLOCK, C_BLUE, (0, 0), (40, 12)))
@@ -174,12 +176,13 @@ def build_children():
     kids.append(textbox("STATUS", (24, 278), (560, 34), 22, "第 1 站 · 剩余 0 m"))
 
     # ---- 右侧：两个表盘（★ 实心圆 100002 + 径向填充 ⇒ 填充显示为扇形；替代 37+43 帧美术）
-    #      注意都必须在 720 高以内：y + 220 + 标签 ≤ 720
-    #      ★ 同级【先出现的在上】⇒ 先放圆、后放标签，标签才不会被自己的圆压住
-    kids.append(image("SPEED_DIAL", 100002, C_GREEN, (1030, 462), (220, 220), fill=True))
-    kids.append(textbox("SPEED_DIAL_T", (1040, 692), (200, 26), 18, "速度"))
-    kids.append(image("TEMP_DIAL", 100002, C_RED, (1030, 282), (220, 220), fill=True))
-    kids.append(textbox("TEMP_DIAL_T", (1040, 512), (200, 26), 18, "轴温"))
+    #      ★ 同级【先出现的在上】⇒ 标签必须先生成，否则圆会压住标签
+    #      ★ 两个圆不能重叠（ChatGPT 审核指出原来 220 直径只隔 180 ⇒ 重叠 40px）：
+    #         直径 200；speed y=480..680、temp y=250..450，间隔 30
+    kids.append(textbox("SPEED_DIAL_T", (1040, 684), (200, 26), 18, "速度"))
+    kids.append(image("SPEED_DIAL", 100002, C_GREEN, (1040, 480), (200, 200), fill=True))
+    kids.append(textbox("TEMP_DIAL_T", (1040, 454), (200, 26), 18, "轴温"))
+    kids.append(image("TEMP_DIAL", 100002, C_RED, (1040, 250), (200, 200), fill=True))
 
     # ---- 底部按钮一行（含用户指定的加速/减速素材号） ----
     row = [
