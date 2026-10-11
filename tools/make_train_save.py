@@ -173,11 +173,12 @@ def build_children():
     kids.append(textbox("TARGET", (24, 320), (320, 34), 22, "不限速"))
     kids.append(textbox("STATUS", (24, 278), (560, 34), 22, "第 1 站 · 剩余 0 m"))
 
-    # ---- 右侧：两个表盘（圆环 + 径向填充，替代 37+43 帧美术） ----
-    kids.append(textbox("SPEED_DIAL_T", (1040, 566), (200, 28), 18, "速度"))
-    kids.append(image("SPEED_DIAL", ART_RING, C_GREEN, (1030, 580), (220, 220), fill=True))
-    kids.append(textbox("TEMP_DIAL_T", (1040, 246), (200, 28), 18, "轴温"))
-    kids.append(image("TEMP_DIAL", ART_RING, C_RED, (1030, 260), (220, 220), fill=True))
+    # ---- 右侧：两个表盘（★ 实心圆 100002 + 径向填充 ⇒ 填充显示为扇形；替代 37+43 帧美术）
+    #      注意都必须在 720 高以内：y + 220 + 标签 ≤ 720
+    kids.append(textbox("SPEED_DIAL_T", (1040, 692), (200, 26), 18, "速度"))
+    kids.append(image("SPEED_DIAL", 100002, C_GREEN, (1030, 462), (220, 220), fill=True))
+    kids.append(textbox("TEMP_DIAL_T", (1040, 512), (200, 26), 18, "轴温"))
+    kids.append(image("TEMP_DIAL", 100002, C_RED, (1030, 282), (220, 220), fill=True))
 
     # ---- 底部按钮一行（含用户指定的加速/减速素材号） ----
     row = [
