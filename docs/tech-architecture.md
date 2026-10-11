@@ -1,5 +1,7 @@
 # 技术架构 —— 千星「列车」M0 探针（workspace/train）
 
+> **2026-10-11 新增 Lua 玩法层**：`train_core.lua`（纯规则）+ `train_client.template.lua`（固定命名 UI 接线）由 `tools/build-train-lua.mjs` 合为 `train_game.lua`。新层的交付、测试与真机边界见 [`lua-v1.md`](lua-v1.md)。以下 M0 存档/GIA 未改成新游戏，仍是探针；不能混用导入说明。
+
 > 交付后可运维手册。**每次结构性改动都要更新这里**；过时条目比没有更糟。
 > 本文描述的是当前真实存在的 M0 探针工程，不是 M1 的目标架构。
 

@@ -2,374 +2,43 @@
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8">
-<title>至冬列车 · M1 效果展示（HTML 小样）</title>
-<style>
-  :root { --ink:#e8eef7; --dim:#8b9bb4; --warm:#ffb347; --hot:#ff6b4a; --ok:#6ee7a8; }
-  * { box-sizing:border-box; }
-  body { margin:0; background:#0d1117; color:var(--ink);
-         font:14px/1.5 "Microsoft YaHei",system-ui,sans-serif;
-         display:flex; align-items:center; justify-content:center; min-height:100vh; }
-  #wrap { position:relative; width:1280px; max-width:98vw; }
-  canvas { width:100%; height:auto; display:block; border-radius:10px; background:#1b2430; }
-  #hud { position:absolute; left:16px; top:14px; right:16px; display:flex; gap:18px;
-         align-items:flex-start; pointer-events:none; text-shadow:0 1px 3px #000a; }
-  .box { background:#0009; border:1px solid #ffffff22; border-radius:8px; padding:8px 12px; }
-  .lbl { color:var(--dim); font-size:12px; }
-  .big { font-size:22px; font-weight:700; }
-  #gearDots { display:flex; gap:6px; margin-top:4px; }
-  .dot { width:22px; height:12px; border-radius:3px; background:#ffffff22; }
-  .dot.on { background:var(--warm); box-shadow:0 0 8px #ffb34788; }
-  #heatBar { width:180px; height:12px; border-radius:3px; background:#ffffff22; margin-top:4px; overflow:hidden; }
-  #heatFill { height:100%; width:0%; background:linear-gradient(90deg,#6ee7a8,#ffb347,#ff6b4a); }
-  #ctrl { position:absolute; left:50%; transform:translateX(-50%); bottom:14px; display:flex; gap:14px; }
-  button { font:16px/1 "Microsoft YaHei",sans-serif; color:#e8eef7; background:#ffffff18;
-           border:1px solid #ffffff33; border-radius:10px; padding:12px 22px; cursor:pointer; }
-  button:hover { background:#ffffff28; }
-  button:active { transform:translateY(1px); }
-  #panel { position:absolute; right:16px; bottom:14px; background:#0009; border:1px solid #ffffff22;
-           border-radius:8px; padding:10px 12px; width:260px; }
-  #panel label { display:flex; justify-content:space-between; gap:8px; margin:6px 0; color:var(--dim); }
-  #panel input[type=range] { width:120px; }
-  #presets { display:flex; gap:8px; margin-top:6px; }
-  #presets button { flex:1; padding:6px 8px; font-size:12px; }
-  #overlay { position:absolute; inset:0; background:#0d1117e6; border-radius:10px;
-             display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:40px; }
-  #overlay h1 { margin:0 0 8px; font-size:30px; }
-  #overlay p { margin:6px 0; color:var(--dim); max-width:760px; }
-  #overlay .k { color:var(--ink); background:#ffffff14; border-radius:5px; padding:1px 7px; }
-  #toast { position:absolute; left:50%; top:96px; transform:translateX(-50%);
-           font-size:20px; font-weight:700; opacity:0; transition:opacity .18s; pointer-events:none; }
-  .hide { display:none !important; }
-</style>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#142838">
+<title>至冬列车 · 雪原试行</title>
+<link rel="stylesheet" href="style.css?v=20261011-15">
+<script defer src="endless.js?v=20261011-15"></script>
+<script defer src="game.js?v=20261011-15"></script>
+<script defer src="scene.js?v=20261011-15"></script>
+<script defer src="app.js?v=20261011-15"></script>
 </head>
 <body>
-<div id="wrap">
-  <canvas id="cv" width="1280" height="720"></canvas>
-
-  <div id="hud">
-    <div class="box">
-      <div class="lbl">档位（−3 ~ +3）</div>
-      <div id="gearDots"></div>
-      <div class="big" id="gearTxt">0 空档</div>
+<main class="game" id="game">
+  <header class="header">
+    <div class="brand"><div class="emblem" aria-hidden="true"><span>❖</span></div><div><h1>至冬列车</h1><p class="eyebrow" id="route-length">雪原试行 · 4200 M</p></div></div>
+    <div class="top-stats"><div class="stat"><small>行驶得分</small><strong id="score">0</strong></div><div class="stat"><small id="time-label">行驶时间</small><strong id="time">00:00</strong></div></div>
+    <button class="text-button" id="pause" aria-label="暂停行驶" disabled>暂停</button>
+  </header>
+  <section class="route-panel" aria-label="路线进度与前方路段">
+    <div class="route-meta"><small id="section-name">车站出发</small><div class="upcoming"><small>前方路段</small><strong id="upcoming">240 m 后 · 平地慢行</strong></div></div>
+    <div class="route-footer"><span class="route-start">出发</span><div class="route-line" id="route-line" role="group" aria-label="路段进度：标注限速区间与目标速度"><div class="route-cursor" id="route-cursor"></div></div><span class="route-end">终点</span><span class="route-legend">间隔不限速</span><span class="distance-readout" id="distance">0 / 4200 m</span><span class="journey-info" id="journey-info" hidden></span></div>
+  </section>
+  <section class="landscape" aria-label="像素雪原与向右行驶的列车">
+    <canvas id="scene" width="960" height="540" aria-label="列车在雪原轨道上向右行驶"></canvas>
+    <div class="approach-warning" id="approach-warning" role="status" aria-live="polite" hidden><span>即将进入<span id="approach-word">限速</span>区间，请提前调整车速</span><small id="approach-distance"></small></div>
+    <div class="scene-caption" id="scene-caption">雪原线路 / 车站出发 · 环境加速度 0</div>
+    <div class="docking" id="docking"><div class="docking-header"><span>停靠对位</span><span id="dock-distance">距停车点 100 m</span></div><div class="dock-track"><div class="dock-target" style="left:70.37%;width:7.41%"></div><div class="dock-marker" id="dock-marker"></div></div><small>白针是列车 · 金框是停车范围 · 降至负档制动</small></div>
+    <div class="notice" id="notice" role="status" aria-live="polite"></div>
+  </section>
+  <section class="cockpit" aria-label="驾驶仪表与档位操作">
+    <div class="section-hint-slot"><span id="section-hint" class="section-hint" role="status" aria-live="polite" hidden></span></div>
+    <div class="instruments">
+      <div class="heat-panel" id="heat-panel" data-state="normal"><svg class="heat-dial" id="heat-dial" viewBox="0 0 112 108" role="img" aria-label="核心温度 0%，正常"><circle cx="56" cy="56" r="36" fill="rgba(16,36,49,.65)"/><path d="M 13.499 67.388 A 44 44 0 1 1 98.501 67.388" fill="none" stroke="#8ba7b34a" stroke-width="7"/><path id="heat-fill" d="M 13.499 67.388 A 44 44 0 1 1 98.501 67.388" fill="none" stroke="currentColor" stroke-width="7" stroke-dasharray="161.26842288427602" stroke-dashoffset="161.26842288427602"/><g id="heat-ticks"></g><g class="thermometer" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M 51 60 V 38 A 5 5 0 0 1 61 38 V 60 A 12 12 0 1 1 51 60 Z"/><path d="M 56 47 V 66 M 67 42 H 73 M 67 49 H 71"/><circle cx="56" cy="69" r="4" fill="currentColor" stroke="none"/></g></svg><div class="heat-value"><strong id="heat">0</strong><span>%</span></div><div class="heat-status" id="heat-status">核心温度</div></div>
+      <div class="speed-instrument"><div class="target-caption dial-target"><small>目标速度</small><strong><span id="target-speed">不限速</span> <span id="target-unit" hidden>km/h</span></strong></div><div class="dial"><svg id="speed-dial" viewBox="0 0 260 155" role="img" aria-label="半圆速度表"><path d="M 20 132 A 110 110 0 0 1 240 132" fill="none" stroke="#2e4656" stroke-width="15"/><g id="dial-bands"></g><path id="target-range" class="dial-target-range" hidden/><g id="dial-ticks"></g><line id="needle" x1="130" y1="132" x2="34" y2="132" stroke="#f1dfb8" stroke-width="3"/><circle cx="130" cy="132" r="6" fill="#d5b783"/></svg><div class="dial-value"><span id="speed">0.0</span><small>km/h</small></div></div><div class="acceleration" id="acceleration">空档 · 平地弱减速</div></div>
+      <div><div class="instrument-label" style="text-align:center">牵引档位</div><div class="gear-control"><button id="down" aria-label="降低一档" disabled>⌄</button><div><div class="gear-value" id="gear">0</div><div class="gear-description" id="gear-description">空档</div></div><button id="up" aria-label="升高一档" disabled>⌃</button></div><div class="gear-hint">−3 制动　·　0 空档　·　+3 牵引</div></div>
     </div>
-    <div class="box">
-      <div class="lbl">速度 / 区间限速</div>
-      <div class="big"><span id="spd">0</span> <span class="lbl">km/h</span></div>
-      <div class="lbl" id="zoneTxt">区间：—</div>
-    </div>
-    <div class="box">
-      <div class="lbl">轴温（换挡累积，满则锁档）</div>
-      <div id="heatBar"><div id="heatFill"></div></div>
-      <div class="lbl" id="heatTxt">0%</div>
-    </div>
-    <div class="box">
-      <div class="lbl">合规行驶得分</div>
-      <div class="big" id="score">0</div>
-      <div class="lbl" id="dist">0 m / 2400 m</div>
-    </div>
-  </div>
-
-  <div id="toast"></div>
-
-  <div id="ctrl">
-    <button id="btnDown">▼▼ 减速档</button>
-    <button id="btnUp">▲▲ 加速档</button>
-  </div>
-
-  <div id="panel">
-    <div class="lbl" style="color:#e8eef7;font-weight:700">调参（玩着改，马上有感觉）</div>
-    <label>每次换挡升温 <input id="sHeat" type="range" min="0.15" max="0.5" step="0.01" value="0.25"><span id="vHeat"></span></label>
-    <label>轴温冷却/秒 <input id="sCool" type="range" min="0.02" max="0.20" step="0.01" value="0.07"><span id="vCool"></span></label>
-    <label>牵引加速度 <input id="sAcc" type="range" min="0.3" max="1.6" step="0.1" value="0.9"><span id="vAcc"></span></label>
-    <label>限速带宽度 <input id="sZone" type="range" min="10" max="50" step="2" value="24"><span id="vZone"></span></label>
-    <div id="presets">
-      <button data-p="design">按设计文档 1/3</button>
-      <button data-p="handoff">按 HANDOFF 1/4</button>
-    </div>
-  </div>
-
-  <div id="overlay">
-    <h1>至冬列车 · M1 效果展示</h1>
-    <p>目标：<b>把速度保持在限速区间里</b>，合规行驶就一直加分；<b>换挡会累积轴温</b>，轴温满了被迫停车冷却（不会 game over）。</p>
-    <p>操作：<span class="k">↑ / W</span> 升档　<span class="k">↓ / S</span> 降档　<span class="k">R</span> 重开　（也可点下方两个按钮）</p>
-    <p>这一版是给你<b>判断好不好玩</b>的：右下角四个滑块可以直接改数值 —— 尤其"每次换挡升温"，仓库里有两种说法（1/3 与 1/4），你玩完告诉我哪个更对。</p>
-    <p style="margin-top:18px"><button id="btnStart">开始试玩</button></p>
-  </div>
-</div>
-
-<script>
-"use strict";
-// ---------- 可调参数（滑块会实时改这里） ----------
-const P = {
-  heatPerShift: 0.25,   // 每次换挡升温（★ 已裁决：1/4 = 4 次满）
-  coolPerSec:   0.07,   // 轴温冷却
-  accelUnit:    0.278,  // 每档牵引加速度 —— 使相邻档终速间隔 ≈ 16.7 km/h
-  zoneHalf:     24,     // 限速带半宽（km/h，越小越难维持）
-};
-const D = {
-  trackLen: 2400,       // 全程米数
-  kmh: 3.6,             // m/s -> km/h
-  drag: 0.06,           // 风阻系数
-  lockTime: 1.6,        // 轴温满后的强制空档时间（秒）
-  ptsPerSec: 10,        // 合规行驶每秒得分
-};
-
-// ---------- 关卡数据：限速区间 + 停靠站 ----------
-// 档位终速阶梯（accelUnit/drag）：0档0  1档17  2档33  3档50  4档67  5档83  6档100 km/h
-// 区间设计原则：宽度 ≥ 档间间隔(16.7)，使相邻两档能跨着区间来回切
-const ZONES = [
-  { from:   0, to: 420, lo: 25, hi: 55, name: "出站加速" },      // 跨 2档(33)|3档(50)
-  { from: 420, to: 900, lo: 55, hi: 85, name: "正线" },          // 跨 4档(67)|5档(83)
-  { from: 900, to:1250, lo: 30, hi: 55, name: "施工慢行" },      // 跨 2档(33)|3档(50)
-  { from:1250, to:1740, lo: 70, hi:100, name: "长直道" },        // 跨 5档(83)|6档(100)
-  { from:1740, to:2050, lo: 40, hi: 70, name: "进站前" },        // 跨 3档(50)|4档(67)
-  { from:2050, to:2400, lo: 10, hi: 40, name: "终到停车" },      // 跨 1档(17)|2档(33)
-];
-const STATIONS = [{at: 900, name:"青墟站"}, {at: 2400, name:"至冬站"}];
-
-// ---------- 状态 ----------
-let gear = 0, speed = 0, heat = 0, pos = 0, score = 0, t = 0;
-let lock = 0, running = false, done = false, lastZone = -1, stationDone = {};
-let toastUntil = 0, toastText = "", toastColor = "#fff";
-let lockCount = 0, firstHold = false;
-
-const cv = document.getElementById("cv"), ctx = cv.getContext("2d");
-const $ = id => document.getElementById(id);
-
-function reset() {
-  gear = 0; speed = 0; heat = 0; pos = 0; score = 0; t = 0; lock = 0;
-  lastZone = -1; stationDone = {}; done = false;
-  lockCount = 0; firstHold = false;
-  $("overlay").classList.add("hide");
-  running = true; toast("开始！读区间、稳速度", "#6ee7a8", 1.6);
-}
-function toast(msg, color, secs) {
-  toastText = msg; toastColor = color || "#fff"; toastUntil = t + (secs || 1.2);
-  const el = $("toast"); el.textContent = msg; el.style.color = toastColor; el.style.opacity = 1;
-}
-function zoneAt(p) { for (const z of ZONES) if (p >= z.from && p < z.to) return z; return null; }
-function shift(d) {
-  if (!running || done || lock > 0) return;
-  const ng = Math.max(0, Math.min(6, gear + d));
-  if (ng === gear) return;
-  gear = ng;
-  const before = heat;
-  heat = Math.min(1, heat + P.heatPerShift);        // ★ 换挡的代价
-  if (heat >= 1 && before < 1) {                    // ★ 只在"这次换挡导致满格"时计一次
-    lock = D.lockTime; gear = 0; lockCount++;
-    toast("轴温满！档位锁 0 —— 强制空档冷却", "#ff6b4a", 1.6);
-  }
-}
-addEventListener("keydown", e => {
-  const k = e.key.toLowerCase();
-  if (k === "arrowup" || k === "w") { shift(1); e.preventDefault(); }
-  else if (k === "arrowdown" || k === "s") { shift(-1); e.preventDefault(); }
-  else if (k === "r") { running = false; done = false; reset(); }
-});
-
-// ---------- 主循环 ----------
-let last = performance.now();
-function loop(now) {
-  const dt = Math.min(0.05, (now - last) / 1000); last = now;
-  if (running && !done) step(dt);
-  draw();
-  requestAnimationFrame(loop);
-}
-function step(dt) {
-  t += dt;
-  if (lock > 0) { lock -= dt; if (lock <= 0) toast("冷却完成，可以换挡了", "#6ee7a8", 1.0); }
-
-  // 物理：档位牵引 - 风阻 - 坡度（这里先用一段固定"上坡"，让玩家必须靠档位拉）
-  const slope = (pos > 1250 && pos < 1740) ? -0.35 : 0;
-  const acc = gear * P.accelUnit + slope - speed * D.drag;
-  speed = Math.max(0, speed + acc * dt);
-
-  // 轴温冷却
-  heat = Math.max(0, heat - P.coolPerSec * dt);
-
-  // 位移与计分
-  pos += speed * dt;
-  const z = zoneAt(pos);
-  if (z) {
-    if (z !== lastZone) { lastZone = z; toast("进入区间：" + z.name + "（" + z.lo + "~" + z.hi + "）", "#ffb347", 1.4); }
-    const v = speed * D.kmh;
-    if (v >= z.lo && v <= z.hi) {
-      score += D.ptsPerSec * dt;
-      if (!firstHold) { firstHold = true; toast("第一次稳住限速！保持住就持续加分", "#6ee7a8", 1.8); }
-    }
-  }
-  // 停靠对位
-  // 停靠：要"停得下来且停得准"
-  // ⚠ 待定：原版是"经过 6 米内就加分"，不要求停车。这里改成要求低速，
-  //    以免与策划案"停靠对位"矛盾。若设计上其实是"通过式检查点"，请改回。
-  for (const s of STATIONS) {
-    if (stationDone[s.name]) continue;
-    if (pos < s.at - 6) continue;
-    stationDone[s.name] = true;
-    const errM = Math.abs(pos - s.at);                   // 离站点的距离（米）
-    const errV = speed * D.kmh;                          // 到站时的速度（km/h）
-    let pts = 0, msg;
-    if (errV > 5) { msg = "没停 · " + s.name; }
-    else {
-      pts = Math.max(0, Math.round(60 - errM * 8));
-      msg = (errM < 2 ? "完美对位！" : "停靠偏了") + " " + s.name + " +" + pts + " 分";
-    }
-    score += pts;
-    toast(msg, pts > 0 && errM < 2 ? "#6ee7a8" : "#ffb347", 1.6);
-  }
-  if (pos >= D.trackLen) { running = false; done = true; finish(); }
-}
-function finish() {
-  $("overlay").classList.remove("hide");
-  $("overlay").innerHTML = '<h1>跑完全程</h1>' +
-    '<p class="big">得分 <b>' + Math.round(score) + '</b></p>' +
-    '<p>轴温峰值惩罚：档位被锁的次数 = ' + lockCount + ' 次</p>' +
-    '<p>把右下角滑块改一改再跑一次，比较一下？</p>' +
-    '<p style="margin-top:16px"><button id="btnAgain">再跑一次（R）</button></p>';
-  $("btnAgain").onclick = reset;
-}
-// ---------- 绘制 ----------
-function draw() {
-  const W = cv.width, H = cv.height;
-  ctx.clearRect(0, 0, W, H);
-  // 天空
-  const g = ctx.createLinearGradient(0, 0, 0, H);
-  g.addColorStop(0, "#2472a8"); g.addColorStop(0.55, "#7fb4d8"); g.addColorStop(1, "#dfeaf2");
-  ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
-  // 远山（视差）
-  ctx.fillStyle = "#6f8fa8";
-  for (let i = -1; i < 8; i++) {
-    const x = ((i * 320 - pos * 0.25) % (W + 640)) - 320;
-    ctx.beginPath(); ctx.moveTo(x, 430); ctx.lineTo(x + 160, 250); ctx.lineTo(x + 320, 430); ctx.fill();
-  }
-  const horizon = 430;
-  // 限速区间的色带（画在轨道上方，随镜头滚动）
-  const camX = pos * 8;
-  for (const z of ZONES) {
-    const x0 = z.from * 8 - camX + 300, x1 = z.to * 8 - camX + 300;
-    if (x1 < -50 || x0 > W + 50) continue;
-    const inside = z === zoneAt(pos);
-    ctx.fillStyle = inside ? "#ffb34733" : "#ffffff22";
-    ctx.fillRect(x0, horizon - 96, x1 - x0, 26);
-    ctx.fillStyle = "#123"; ctx.font = "16px sans-serif";
-    ctx.fillText("限速 " + z.lo + "~" + z.hi, x0 + 8, horizon - 78);
-  }
-  // 道砟 + 双轨 + 轨枕
-  ctx.fillStyle = "#5b6470"; ctx.fillRect(0, horizon + 60, W, 60);
-  ctx.fillStyle = "#8d7860";
-  for (let x = -((camX % 36) + 36); x < W + 36; x += 36) ctx.fillRect(x, horizon + 62, 26, 56);
-  ctx.fillStyle = "#c9d2dc"; ctx.fillRect(0, horizon + 78, W, 6); ctx.fillRect(0, horizon + 106, W, 6);
-  // 车站
-  for (const s of STATIONS) {
-    const x = s.at * 8 - camX + 300;
-    if (x > -200 && x < W + 200) {
-      ctx.fillStyle = "#e8eef7"; ctx.fillRect(x, horizon - 40, 120, 100);
-      ctx.fillStyle = "#123"; ctx.font = "18px sans-serif"; ctx.fillText(s.name, x + 14, horizon - 14);
-    }
-  }
-  // 列车（车头 + 两节车厢）
-  const baseX = 300, baseY = horizon + 58;
-  const speedFactor = Math.min(1, speed / 25);
-  drawCar(baseX + 150, baseY, 140, 62, "#7a4a2b", speedFactor);   // 后车厢
-  drawCar(baseX + 60, baseY, 150, 62, "#8a5630", speedFactor);
-  drawLoco(baseX - 40, baseY, 180, 74, speedFactor);
-  // 挡风/蒸汽（速度越快越明显）
-  ctx.fillStyle = "#ffffff" + Math.round(40 + 120 * speedFactor).toString(16).padStart(2, "0");
-  for (let i = 0; i < 6; i++) {
-    const r = 8 + i * 6 + speedFactor * 10;
-    ctx.beginPath(); ctx.arc(baseX - 60 - i * 26, baseY - 30 - i * 8, r, 0, 7); ctx.fill();
-  }
-  // 速度拾取（画面上方一条"速度尺"，绿区=限速）
-  const z = zoneAt(pos), v = speed * D.kmh;
-  const sx = 420, sy = 96, sw = 560, sh = 16;
-  ctx.fillStyle = "#0006"; ctx.fillRect(sx, sy, sw, sh);
-  if (z) {
-    const a = sx + (z.lo / 120) * sw, b = sx + (z.hi / 120) * sw;
-    ctx.fillStyle = "#6ee7a855"; ctx.fillRect(a, sy, b - a, sh);
-  }
-  const mx = sx + Math.min(1, v / 120) * sw;
-  ctx.fillStyle = (z && v >= z.lo && v <= z.hi) ? "#6ee7a8" : "#ff6b4a";
-  ctx.fillRect(mx - 3, sy - 6, 6, sh + 12);
-  ctx.fillStyle = "#e8eef7"; ctx.font = "13px sans-serif";
-  ctx.fillText("0", sx - 16, sy + 14); ctx.fillText("120 km/h", sx + sw + 6, sy + 14);
-}
-function drawCar(x, y, w, h, color, sf) {
-  ctx.fillStyle = color; ctx.fillRect(x, y - h, w, h);
-  ctx.fillStyle = "#00000033"; ctx.fillRect(x, y - h, w, 10);
-  ctx.fillStyle = "#d8e4ee";
-  for (let i = 0; i < 3; i++) ctx.fillRect(x + 12 + i * (w / 3.4), y - h + 16, w / 5, 18);
-  ctx.fillStyle = "#2b2b2b";
-  ctx.beginPath(); ctx.arc(x + w * 0.22, y, 9, 0, 7); ctx.arc(x + w * 0.78, y, 9, 0, 7); ctx.fill();
-}
-function drawLoco(x, y, w, h, sf) {
-  ctx.fillStyle = "#3f3f46"; ctx.fillRect(x, y - h, w, h);
-  ctx.fillStyle = "#5b5b66"; ctx.fillRect(x + 10, y - h - 26, w - 60, 26);
-  ctx.fillStyle = "#ffd166"; ctx.fillRect(x + w - 26, y - h + 10, 18, 20);
-  ctx.fillStyle = "#d8e4ee"; ctx.fillRect(x + 22, y - h + 16, 44, 26);
-  ctx.fillStyle = "#111";
-  ctx.beginPath(); ctx.arc(x + w * 0.2, y, 11, 0, 7); ctx.arc(x + w * 0.62, y, 11, 0, 7); ctx.fill();
-  // 前灯
-  const lightA = 30 + 120 * sf;
-  ctx.fillStyle = "rgba(255,240,180," + (0.20 + 0.35 * sf).toFixed(2) + ")";
-  ctx.beginPath(); ctx.moveTo(x + w, y - h + 24);
-  ctx.lineTo(x + w + lightA, y - h + 4); ctx.lineTo(x + w + lightA, y - h + 52); ctx.closePath(); ctx.fill();
-}
-
-// ---------- HUD ----------
-const dots = $("gearDots");
-for (let i = 0; i < 7; i++) { const d = document.createElement("div"); d.className = "dot"; dots.appendChild(d); }
-const GEAR_NAME = { "-3":"−3 急退", "-2":"−2 退二", "-1":"−1 退一", "0":"0 空档", "1":"+1 一档", "2":"+2 二档", "3":"+3 三档" };
-function hud() {
-  const v = speed * D.kmh, z = zoneAt(pos);
-  const els = dots.children;
-  for (let i = 0; i < 7; i++) {
-    const g = i - 3;
-    els[i].className = "dot" + (g === gear ? " on" : "");
-    els[i].style.background = g === gear ? (g > 0 ? "#ffb347" : g < 0 ? "#6ea8ff" : "#c9d2dc") : "";
-  }
-  $("gearTxt").textContent = GEAR_NAME[String(gear)] + (lock > 0 ? "（锁定中）" : "");
-  $("spd").textContent = v.toFixed(0);
-  $("spd").style.color = (z && v >= z.lo && v <= z.hi) ? "#6ee7a8" : (z && v > z.hi ? "#ff6b4a" : "#e8eef7");
-  $("zoneTxt").textContent = z ? ("区间：" + z.lo + "~" + z.hi + "　" + z.name) : "区间：—";
-  $("heatFill").style.width = (heat * 100).toFixed(0) + "%";
-  $("heatTxt").textContent = (heat * 100).toFixed(0) + "%" + (heat > 0.8 ? "　⚠ 快满了" : "");
-  $("score").textContent = Math.round(score);
-  $("dist").textContent = pos.toFixed(0) + " m / " + D.trackLen + " m";
-  const el = $("toast");
-  if (t > toastUntil) el.style.opacity = 0;
-}
-setInterval(() => { if (running) hud(); }, 50);
-
-// ---------- 滑块 / 按钮 ----------
-// 记录限速带的原始中心（滑块按中心重算，避免累积漂移）
-const ZONE_CENTERS = ZONES.map(z => (z.lo + z.hi) / 2);
-const bind = (id, valId, key, fmt) => {
-  const el = $(id), out = $(valId);
-  const upd = () => { P[key] = parseFloat(el.value); out.textContent = fmt ? fmt(el.value) : el.value; };
-  el.addEventListener("input", upd); upd();
-};
-bind("sHeat", "vHeat", "heatPerShift", v => v + (Math.abs(v - 1/3) < 0.02 ? "（1/3：3 次满）" : Math.abs(v - 0.25) < 0.02 ? "（1/4：4 次满）" : ""));
-bind("sCool", "vCool", "coolPerSec");
-bind("sAcc",  "vAcc",  "accelUnit");
-bind("sZone", "vZone", "zoneHalf");
-$("sZone").addEventListener("input", () => {
-  // ★ 以"原始中心"为基准重算，避免每拖一次就在上一次结果上累积变窄
-  const half = parseFloat($("sZone").value);
-  ZONES.forEach((z, i) => {
-    z.lo = Math.max(1, Math.round(ZONE_CENTERS[i] - half / 2));
-    z.hi = Math.round(ZONE_CENTERS[i] + half / 2);
-  });
-});
-document.querySelectorAll("#presets button").forEach(b => b.addEventListener("click", () => {
-  const p = b.dataset.p, v = (p === "design") ? 1/3 : 0.25;
-  $("sHeat").value = v; $("sHeat").dispatchEvent(new Event("input"));
-}));
-$("btnUp").onclick = () => shift(1);
-$("btnDown").onclick = () => shift(-1);
-$("btnStart").onclick = reset;
-
-// 画布缩放时保持鼠标/按钮不错位（按钮是 DOM，无需处理）
-requestAnimationFrame(loop);
-</script>
+  </section>
+  <div class="overlay" id="overlay"><section class="brief" aria-labelledby="brief-title"><div class="kicker" id="brief-kicker">雪原试行</div><h2 id="brief-title">把列车稳稳开到站</h2><div id="mode-picker" class="mode-picker" role="group" aria-label="选择行驶模式"><button id="mode-trial" aria-pressed="true">雪原试行</button><button id="mode-endless" aria-pressed="false">无尽远行</button></div><div id="intro"><p id="endless-intro" hidden>每趟经过一组限速与坡道，到站后可继续下一趟，累计得分和里程保留。前方路线提前可见，偶尔遇到需要提前判断的下坡。可暂停并结束远行。</p><p id="trial-intro">从车站出发，出站段不限速，环境加速度为 0。试玩线路以约 4–5 分钟的合规驾驶节奏编排。进入前会有预告；进入进度条标出的限速路段后，将速度保持在速度仪表盘的金色框内，按合规行驶距离得分。全程合规通过一段另奖 100 分。</p><ul><li><b>控速</b>　−3～+3 档控制加减速。空档会受坡道影响，不会自动定速。</li><li><b>轴温</b>　每换一档升温 25%，每 5 秒冷却 25%。过热扣 200 分，锁空档冷却 3 秒。</li><li><b>停靠</b>　最后 100 米出现对位条。提前降档制动，在金框内停稳获得停靠分。</li></ul></div><div id="results" hidden></div><button class="primary" id="start">开始行驶 →</button><button id="end-journey" class="text-button journey-end" hidden>结束远行并结算</button><p class="footnote" id="brief-footnote">触屏点按升降档 · 键盘 ↑ / ↓ 或 W / S</p></section></div>
+</main>
+<img id="train-art" width="240" height="66" src="data:image/png;base64,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" hidden alt="定稿列车像素素材">
 </body>
 </html>

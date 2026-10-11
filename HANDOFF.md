@@ -1,4 +1,8 @@
+> **当前网页状态更新（2026-10-10）**：网页玩法小样已重写，入口为 `prototype/index.html`（兼容 `prototype/v2/index.html`）。最新规则、参数和验证范围以 `prototype/README.md` 为准。下文“一行没写”及旧素材/工具状态属于历史记录，不能代表当前网页状态；此次未新增千星 Lua 游戏交付。
+
 # HANDOFF — 给新接手的人 / AI 读这份
+
+> **2026-10-11 更新**：网页加入站间无尽模式，开始面板可选“无尽远行”。到站继续时保留累计成绩，生成下一趟路线；真实速度上限为 120 km/h，限速段完美通过额外加 100 分。当前规则、生成限制和验证范围见 `prototype/README.md`，33 项测试通过，手机手感待试玩。
 
 > 你在接手一个**进行中**的项目。这份文档让你不用读完整段开发对话就能接着干。
 > 读完这份 + `README.md`，你就掌握了全部前置状态。
@@ -185,6 +189,10 @@ git clone https://github.com/ihamn/train.git   ← 标准 https，无需特殊�
 **⚠️ 不要试图迁移 DSH 会话数据** —— 那些结论已经沉淀进仓库文档了。
 
 ---
+
+## Lua v1（2026-10-11）
+
+`workspace/train/train_core.lua` 是纯玩法；`train_client.template.lua` 是千星接线层；运行 `node tools/build-train-lua.mjs` 生成挂载单文件 `train_game.lua`。接线、来源与验证边界见 `docs/lua-v1.md`。旧 `train.save.json`/GIA 不包含此次游戏，禁止混称。36 项模型测试通过，其中 Lua 需 `LUA=/path/to/lua`（Lua 5.3+）；本机已验证的运行器为 `/data/data/com.termux/files/usr/tmp/zuma-lua/lua`。尚未导入真机；没有新增平台美术资源。
 
 ## 8. 协作注意
 

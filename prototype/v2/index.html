@@ -1,381 +1,44 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-<title>至冬列车 · 玩法小样</title>
-<style>
-  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-  html,body{margin:0;height:100%;overflow:hidden;background:#07090c;
-    font-family:"PingFang SC","Noto Sans CJK SC",system-ui,sans-serif;
-    user-select:none;-webkit-user-select:none}
-  /* ★ 竖屏设计稿 720×1280 —— 真机 411×914 视口下 scale≈0.57，铺满屏幕 */
-  #stage{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
-         width:720px;height:1280px;overflow:hidden;background:#0d1420}
-  canvas{display:block;width:100%;height:100%}
-  .hud{position:absolute;pointer-events:none}
-
-  /* 进度条 + 站点 */
-  #progWrap{left:24px;right:24px;top:20px;height:70px}
-  #progBg{position:absolute;left:0;right:0;top:44px;height:14px;border-radius:7px;background:#ffffff22}
-  #progFill{position:absolute;left:0;top:44px;height:14px;border-radius:7px;
-            background:linear-gradient(90deg,#6fd3de,#F6E1BA);width:0}
-  #progMsg{position:absolute;left:0;right:0;top:0;text-align:center;
-           font-size:28px;color:#cfe0ef;text-shadow:0 2px 0 #0007}
-  #stationMark{position:absolute;left:0;right:0;top:44px;height:14px}
-  .stn{position:absolute;top:-7px;width:6px;height:28px;border-radius:3px;background:#F6E1BA}
-
-  /* 表盘 */
-  #speedDial{left:24px;top:100px}
-  #tempDial{right:24px;top:100px}
-
-  /* 档位 */
-  #gearBox{left:270px;top:322px;width:180px;text-align:center}
-  #gearNum{font-size:118px;font-weight:800;line-height:1;color:#EAF3FB;text-shadow:0 5px 0 #0009}
-  #gearLbl{font-size:26px;letter-spacing:.34em;opacity:.7;color:#cfe0ef;margin-top:-4px}
-  #zoneName{left:160px;top:474px;width:400px;text-align:center;
-            font-size:34px;font-weight:700;color:#FFD98A;text-shadow:0 3px 0 #0008}
-
-  /* 按钮 */
-  .btn{position:absolute;pointer-events:auto;border:none;border-radius:26px;
-       color:#EAF3FB;font-weight:800;letter-spacing:.05em;
-       background:linear-gradient(#3d5164,#2a3a48);
-       box-shadow:0 8px 0 #16202a,0 12px 22px #0008;transition:transform .05s,box-shadow .05s}
-  .btn:active{transform:translateY(6px);box-shadow:0 2px 0 #16202a}
-  .btn[disabled]{opacity:.32;filter:grayscale(.6)}
-  #btnUp{right:24px;bottom:24px;width:330px;height:150px;font-size:50px}
-  #btnDn{right:24px;bottom:188px;width:330px;height:150px;font-size:50px}
-  #btnAgain{left:24px;bottom:188px;width:300px;height:150px;font-size:34px;
-            background:linear-gradient(#5a4a3a,#3e3226);box-shadow:0 8px 0 #241d15,0 12px 22px #0008}
-  #btnStart{left:50%;top:50%;transform:translate(-50%,-50%);
-            width:420px;height:140px;font-size:50px}
-  #btnStart:active{transform:translate(-50%,calc(-50% + 6px))}
-
-  /* 遮罩 */
-  #ov{position:absolute;inset:0;background:#050a12ee;display:flex;flex-direction:column;
-      align-items:center;justify-content:center;color:#dbe8f4;text-align:center;padding:48px}
-  #ov.hide{display:none}
-  #ov h1{font-size:66px;margin:0 0 16px;color:#F6E1BA}
-  #ov p{font-size:30px;line-height:1.65;margin:10px 0;max-width:600px;opacity:.92}
-  #ov .big{font-size:56px;color:#4BDEE3;font-weight:800}
-  #toast{left:50%;top:560px;transform:translateX(-50%);font-size:42px;font-weight:800;
-         opacity:0;transition:opacity .25s;text-shadow:0 3px 0 #0009;
-         white-space:nowrap;pointer-events:none}
-</style>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#142838">
+<title>至冬列车 · 雪原试行</title>
+<link rel="stylesheet" href="../style.css?v=20261011-15">
+<script defer src="../endless.js?v=20261011-15"></script>
+<script defer src="../game.js?v=20261011-15"></script>
+<script defer src="../scene.js?v=20261011-15"></script>
+<script defer src="../app.js?v=20261011-15"></script>
 </head>
 <body>
-<div id="stage">
-  <canvas id="cv" width="720" height="1280"></canvas>
-
-  <div class="hud" id="progWrap">
-    <div id="progMsg"></div>
-    <div id="progBg"></div>
-    <div id="progFill"></div>
-    <div id="stationMark"></div>
-  </div>
-
-  <canvas class="hud" id="speedDial" width="326" height="210"></canvas>
-  <canvas class="hud" id="tempDial"  width="316" height="210"></canvas>
-
-  <div class="hud" id="gearBox"><div id="gearNum">0</div><div id="gearLbl">档 位</div></div>
-  <div class="hud" id="zoneName">—</div>
-
-  <button class="btn" id="btnAgain">↻ 重来</button>
-  <button class="btn" id="btnDn">▼ 降档</button>
-  <button class="btn" id="btnUp">▲ 升档</button>
-
-  <div class="hud" id="toast"></div>
-
-  <div id="ov">
-    <h1>至冬列车</h1>
-    <p>读限速区间 → <b>升档 / 降档</b> → 稳在区间里持续得分</p>
-    <p>每次换档 <b>轴温 +1/4</b>。轴温满 ⇒ 档位锁 0，强制空档冷却。</p>
-    <p style="opacity:.6">没有 game over —— 只有"被罚站"。</p>
-    <button class="btn" id="btnStart">开始</button>
-  </div>
-</div>
-
-<script>
-"use strict";
-/* ══════ 定稿列车 sprite（240×66，来自 至冬列车/final/列车_240x66.png）══════ */
-const TRAIN_PNG = "data:image/png;base64,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";
-const trainImg = new Image();
-let trainReady = false;
-trainImg.onload = ()=>{ trainReady = true; };
-trainImg.src = TRAIN_PNG;
-
-/* ══════ 自适应：竖屏 720×1280，等比缩放并居中 ══════ */
-const DESIGN_W = 720, DESIGN_H = 1280;
-
-/* ══════ 参数 ══════ */
-const CFG = {
-  gears: 6, accelUnit: 0.278, drag: 0.060,
-  heatPerShift: 0.25, coolPerSec: 0.07, lockSec: 3.0,
-  kmh: 3.6, ptsPerSec: 10, timeScale: 2.0, trackLen: 1500,
-};
-const ZONES = [
-  {from:   0, to: 250, lo:25, hi: 55, name:"出站加速"},
-  {from: 250, to: 515, lo:55, hi: 85, name:"正线"},
-  {from: 515, to: 735, lo:30, hi: 55, name:"施工慢行"},
-  {from: 735, to:1040, lo:70, hi:100, name:"长直道"},
-  {from:1040, to:1290, lo:40, hi: 70, name:"进站前"},
-  {from:1290, to:1500, lo:10, hi: 40, name:"终到停车"},
-];
-const STATIONS = [{at: 515, name:"青墟站"}, {at: 1500, name:"至冬站"}];
-const zoneAt = p => ZONES.find(z => p>=z.from && p<z.to) || null;
-
-/* ══════ 状态 ══════ */
-let gear=0, speed=0, heat=0, pos=0, score=0, t=0, lock=0;
-let running=false, done=false, lockCount=0, heldSec=0, badSec=0, stillSec=0;
-let lastZone=null, stationDone={}, firstHold=false;
-const S={toastUntil:0};
-
-function main(){
-  const stage = document.getElementById("stage");
-  if(!stage){ document.body.innerHTML='<p style="color:#fff;padding:20px;font-size:20px">错误：找不到 #stage</p>'; return; }
-  const cv=document.getElementById("cv"), ctx=cv.getContext("2d");
-  const cvS=document.getElementById("speedDial"), gS=cvS.getContext("2d");
-  const cvT=document.getElementById("tempDial"), gT=cvT.getContext("2d");
-  const elGear=document.getElementById("gearNum"), elZone=document.getElementById("zoneName");
-  const elFill=document.getElementById("progFill"), elMsg=document.getElementById("progMsg");
-  const elMark=document.getElementById("stationMark"), elToast=document.getElementById("toast");
-  const btnUp=document.getElementById("btnUp"), btnDn=document.getElementById("btnDn");
-
-  function fit(){
-    const s=Math.min(innerWidth/DESIGN_W, innerHeight/DESIGN_H);
-    stage.style.transform=`translate(-50%,-50%) scale(${s})`;
-  }
-  addEventListener("resize",fit); addEventListener("orientationchange",fit); fit();
-
-  /* 站点标记 */
-  for(const st of STATIONS){
-    const d=document.createElement("div");
-    d.className="stn"; d.style.left=(100*st.at/CFG.trackLen)+"%";
-    elMark.appendChild(d);
-  }
-
-  function reset(){
-    gear=0;speed=0;heat=0;pos=0;score=0;t=0;lock=0;
-    running=true;done=false;lockCount=0;heldSec=0;badSec=0;stillSec=0;
-    lastZone=null;stationDone={};firstHold=false;
-    document.getElementById("ov").classList.add("hide");
-    toast("先点【▲ 升档】让车动起来","#7FE0A8",3.0);
-  }
-  function toast(msg,color,secs){
-    S.toastUntil=t+(secs||1.3);
-    elToast.textContent=msg; elToast.style.color=color||"#fff"; elToast.style.opacity=1;
-  }
-  function shift(d){
-    if(!running||done||lock>0) return;
-    const ng=Math.max(0,Math.min(CFG.gears,gear+d));
-    if(ng===gear) return;
-    gear=ng;
-    const before=heat; heat=Math.min(1,heat+CFG.heatPerShift);
-    if(heat>=1&&before<1){
-      lock=CFG.lockSec; gear=0; lockCount++;
-      toast("轴温满！档位锁 0 —— 强制空档","#FF7A55",1.8);
-    } else if(heat>=0.8&&before<0.8){
-      toast("轴温偏高，注意冷却","#FFB347",1.4);
-    }
-  }
-  function step(dt){
-    t+=dt;
-    if(lock>0){ lock-=dt; if(lock<=0) toast("冷却完成","#7FE0A8",1.0); }
-    speed=Math.max(0, speed+(gear*CFG.accelUnit - speed*CFG.drag)*dt);
-    heat=Math.max(0, heat-CFG.coolPerSec*dt);
-    pos+=speed*dt;
-    if(speed<0.15 && lock<=0){
-      stillSec+=dt;
-      if(stillSec>1.6 && stillSec-dt<=1.6 && !done){
-        toast(gear===0?"点【▲ 升档】起步！":"档位太低，再升一档","#FFB347",2.2);
-        stillSec=0;
-      }
-    } else stillSec=0;
-
-    const z=zoneAt(pos);
-    if(z){
-      if(z!==lastZone){ lastZone=z; toast("进入 "+z.name+"  "+z.lo+"~"+z.hi,"#FFB347",1.5); }
-      const v=speed*CFG.kmh;
-      if(v>=z.lo&&v<=z.hi){
-        score+=CFG.ptsPerSec*dt; heldSec+=dt;
-        if(!firstHold){ firstHold=true; toast("第一次稳住限速！","#7FE0A8",2.0); }
-      } else badSec+=dt;
-    }
-    for(const st of STATIONS){
-      if(stationDone[st.name]) continue;
-      if(pos<st.at-8) continue;
-      stationDone[st.name]=true;
-      const errM=Math.abs(pos-st.at), errV=speed*CFG.kmh;
-      let pts=0,msg;
-      if(errV>6){ msg="没停 · "+st.name; }
-      else { pts=Math.max(0,Math.round(70-errM*7));
-             msg=(errM<2.5?"完美对位！":"停靠偏了 ")+st.name+" +"+pts+" 分"; }
-      score+=pts;
-      toast(msg, pts>0&&errM<2.5?"#7FE0A8":"#FFB347",1.8);
-    }
-    if(pos>=CFG.trackLen){ running=false; done=true; finish(); }
-  }
-
-  /* ══════ 场景绘制（竖屏：轨道横穿，列车居中）══════ */
-  const RAIL_Y = 830;                     // 轨道在设计坐标里的 y
-  function draw(){
-    const W=cv.width,H=cv.height;
-    const g=ctx.createLinearGradient(0,0,0,H);
-    g.addColorStop(0,"#0b1220"); g.addColorStop(.38,"#16283f"); g.addColorStop(.62,"#2a4a6b");
-    g.addColorStop(1,"#1b3550");
-    ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
-    // 远山
-    ctx.fillStyle="#1d3350";
-    for(let i=-1;i<5;i++){
-      const x=((i*260 - pos*0.12)%(W+520))-260;
-      ctx.beginPath(); ctx.moveTo(x,RAIL_Y-60);
-      ctx.lineTo(x+150,RAIL_Y-320); ctx.lineTo(x+300,RAIL_Y-60); ctx.closePath(); ctx.fill();
-    }
-    // 雪地
-    ctx.fillStyle="#31527a"; ctx.fillRect(0,RAIL_Y-40,W,H-(RAIL_Y-40));
-    ctx.fillStyle="#3d6390"; ctx.fillRect(0,RAIL_Y-40,W,8);
-    // 枕木 + 双轨
-    for(let x=-((pos*2.6)%64);x<W+64;x+=64){
-      ctx.fillStyle="#24374f"; ctx.fillRect(x,RAIL_Y-16,30,40);
-    }
-    ctx.fillStyle="#8fa6bd"; ctx.fillRect(0,RAIL_Y-5,W,5);
-    ctx.fillStyle="#6d8399"; ctx.fillRect(0,RAIL_Y+21,W,4);
-    // 限速牌（在列车前方出现）
-    for(const z of ZONES){
-      const d=z.from-pos;
-      if(d<-20||d>330) continue;
-      const x=W*0.50+d*1.5;
-      if(x<-50||x>W+50) continue;
-      ctx.fillStyle="#4a5f75"; ctx.fillRect(x-4,RAIL_Y-150,8,150);
-      const col = z.hi>=100?"#C8382E" : z.hi>=85?"#D6A32E" : "#4FA85E";
-      ctx.fillStyle=col; ctx.beginPath(); ctx.arc(x,RAIL_Y-172,34,0,7); ctx.fill();
-      ctx.fillStyle="#0d1420"; ctx.font="bold 26px sans-serif"; ctx.textAlign="center";
-      ctx.fillText(z.hi,x,RAIL_Y-163);
-    }
-    drawTrain(W*0.50, RAIL_Y);
-  }
-  function drawTrain(cx, railY){
-    const SCALE=2.55;                       // 240*2.55 = 612 px 宽
-    const w=240*SCALE, h=66*SCALE;
-    ctx.fillStyle="#00000045";
-    ctx.beginPath(); ctx.ellipse(cx+8, railY-4, w*0.44, 12, 0, 0, 7); ctx.fill();
-    if(trainReady){
-      ctx.imageSmoothingEnabled=false;      // ★ 像素画关插值
-      ctx.drawImage(trainImg, Math.round(cx-w/2), Math.round(railY-h-6),
-                    Math.round(w), Math.round(h));
-    }
-  }
-
-  /* ══════ 速度表 ══════ */
-  function drawSpeed(){
-    const W=cvS.width,H=cvS.height; gS.clearRect(0,0,W,H);
-    const cx=W/2, cy=H-26, R=132;
-    const A0=Math.PI, A1=2*Math.PI;
-    const a2=v=>A0+(A1-A0)*Math.min(1,v/120);
-    gS.lineWidth=26; gS.lineCap="butt";
-    gS.strokeStyle="#ffffff18"; gS.beginPath(); gS.arc(cx,cy,R,A0,A1); gS.stroke();
-    for(const [lo,hi,col] of [[0,40,"#3AA0C8"],[40,70,"#4FA85E"],[70,88,"#D6A32E"],[88,120,"#C8382E"]]){
-      gS.strokeStyle=col; gS.beginPath(); gS.arc(cx,cy,R,a2(lo),a2(hi)); gS.stroke();
-    }
-    const z=zoneAt(pos);
-    if(z){ gS.lineWidth=7; gS.strokeStyle="#ffffffdd";
-      gS.beginPath(); gS.arc(cx,cy,R+19,a2(z.lo),a2(z.hi)); gS.stroke(); }
-    const v=speed*CFG.kmh, a=a2(v);
-    gS.strokeStyle="#F6E1BA"; gS.lineWidth=7; gS.lineCap="round";
-    gS.beginPath(); gS.moveTo(cx,cy); gS.lineTo(cx+Math.cos(a)*(R-16), cy+Math.sin(a)*(R-16)); gS.stroke();
-    gS.fillStyle="#F6E1BA"; gS.beginPath(); gS.arc(cx,cy,9,0,7); gS.fill();
-    gS.fillStyle="#EAF3FB"; gS.font="bold 54px sans-serif"; gS.textAlign="center";
-    gS.fillText(Math.round(v), cx, cy-34);
-    gS.fillStyle="#9fb4c8"; gS.font="22px sans-serif";
-    gS.fillText("km/h", cx, cy-8);
-  }
-  /* ══════ 轴温表 ══════ */
-  function drawTemp(){
-    const W=cvT.width,H=cvT.height; gT.clearRect(0,0,W,H);
-    const cx=W/2, cy=H-26, R=104;
-    const A0=Math.PI*1.12, A1=Math.PI*1.88;
-    const a=v=>A0+(A1-A0)*Math.min(1,Math.max(0,v));
-    gT.lineWidth=24; gT.lineCap="butt";
-    gT.strokeStyle="#ffffff18"; gT.beginPath(); gT.arc(cx,cy,R,A0,A1); gT.stroke();
-    gT.strokeStyle="#3AA0C8"; gT.beginPath(); gT.arc(cx,cy,R,A0,a(0.5)); gT.stroke();
-    gT.strokeStyle="#D6A32E"; gT.beginPath(); gT.arc(cx,cy,R,a(0.5),a(1)); gT.stroke();
-    for(let i=0;i<=4;i++){
-      const aa=a(i/4);
-      gT.strokeStyle="#0d1420"; gT.lineWidth=4;
-      gT.beginPath();
-      gT.moveTo(cx+Math.cos(aa)*(R-15), cy+Math.sin(aa)*(R-15));
-      gT.lineTo(cx+Math.cos(aa)*(R+15), cy+Math.sin(aa)*(R+15)); gT.stroke();
-    }
-    const av=a(heat);
-    gT.strokeStyle = lock>0 ? "#FF6B4A" : (heat>0.75 ? "#FF9A3C" : "#EAF3FB");
-    gT.lineWidth=7; gT.lineCap="round";
-    gT.beginPath(); gT.moveTo(cx,cy);
-    gT.lineTo(cx+Math.cos(av)*(R-18), cy+Math.sin(av)*(R-18)); gT.stroke();
-    gT.fillStyle="#EAF3FB"; gT.beginPath(); gT.arc(cx,cy,8,0,7); gT.fill();
-    gT.fillStyle="#9fb4c8"; gT.font="22px sans-serif"; gT.textAlign="center";
-    gT.fillText("轴温", cx, cy-56);
-  }
-
-  function hud(){
-    elGear.textContent = lock>0 ? "0" : gear;
-    elGear.style.color = lock>0 ? "#FF7A55" : "#EAF3FB";
-    const z=zoneAt(pos);
-    if(z){
-      const v=speed*CFG.kmh, inz=v>=z.lo&&v<=z.hi;
-      elZone.textContent=z.name+"  "+z.lo+"~"+z.hi;
-      elZone.style.color=inz?"#7FE0A8":"#FFD98A";
-    } else elZone.textContent="—";
-    elFill.style.width=(100*Math.min(1,pos/CFG.trackLen))+"%";
-    elMsg.textContent="得分 "+Math.round(score)+"　·　被锁 "+lockCount+" 次　·　"+Math.round(pos)+"/"+CFG.trackLen+" m";
-    btnUp.disabled = lock>0 || !running;
-    btnDn.disabled = lock>0 || !running;
-    if(t>S.toastUntil) elToast.style.opacity=0;
-  }
-  function finish(){
-    const acc = heldSec+badSec>0 ? heldSec/(heldSec+badSec) : 0;
-    const ov=document.getElementById("ov");
-    ov.classList.remove("hide");
-    ov.innerHTML='<h1>跑完全程</h1>'+
-      '<p class="big">得分 '+Math.round(score)+'</p>'+
-      '<p>合规 '+heldSec.toFixed(0)+' 秒　·　越界 '+badSec.toFixed(0)+' 秒　·　合规率 '+(100*acc).toFixed(0)+'%</p>'+
-      '<p>轴温满导致锁档 <b>'+lockCount+'</b> 次</p>'+
-      '<button class="btn" id="btnRetry" style="position:static;transform:none;margin-top:28px">再跑一次</button>';
-    document.getElementById("btnRetry").onclick=reset;
-  }
-
-  let last=performance.now();
-  function loop(now){
-    const dt=Math.min(0.05,(now-last)/1000); last=now;
-    if(running&&!done) step(dt*CFG.timeScale);
-    draw(); drawSpeed(); drawTemp(); hud();
-    requestAnimationFrame(loop);
-  }
-
-  addEventListener("keydown",e=>{
-    const k=e.key.toLowerCase();
-    if(k==="arrowup"||k==="w"){ shift(1); e.preventDefault(); }
-    else if(k==="arrowdown"||k==="s"){ shift(-1); e.preventDefault(); }
-    else if(k==="r"){ running=false; done=false; reset(); }
-  });
-  function bindHold(el,fn){
-    let timer=null,iv=null;
-    const start=e=>{ e.preventDefault(); fn();
-      timer=setTimeout(()=>{ iv=setInterval(fn,110); },320); };
-    const end=()=>{ clearTimeout(timer); clearInterval(iv); timer=iv=null; };
-    el.addEventListener("touchstart",start,{passive:false});
-    el.addEventListener("touchend",end); el.addEventListener("touchcancel",end);
-    el.addEventListener("mousedown",start);
-    addEventListener("mouseup",end);
-  }
-  bindHold(btnUp,()=>shift(1));
-  bindHold(btnDn,()=>shift(-1));
-  document.getElementById("btnStart").onclick=reset;
-  document.getElementById("btnAgain").onclick=()=>{ running=false; done=false; reset(); };
-
-  requestAnimationFrame(loop);
-}
-if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",main);
-else main();
-</script>
+<main class="game" id="game">
+  <header class="header">
+    <div class="brand"><div class="emblem" aria-hidden="true"><span>❖</span></div><div><h1>至冬列车</h1><p class="eyebrow" id="route-length">雪原试行 · 4200 M</p></div></div>
+    <div class="top-stats"><div class="stat"><small>行驶得分</small><strong id="score">0</strong></div><div class="stat"><small id="time-label">行驶时间</small><strong id="time">00:00</strong></div></div>
+    <button class="text-button" id="pause" aria-label="暂停行驶" disabled>暂停</button>
+  </header>
+  <section class="route-panel" aria-label="路线进度与前方路段">
+    <div class="route-meta"><small id="section-name">车站出发</small><div class="upcoming"><small>前方路段</small><strong id="upcoming">240 m 后 · 平地慢行</strong></div></div>
+    <div class="route-footer"><span class="route-start">出发</span><div class="route-line" id="route-line" role="group" aria-label="路段进度：标注限速区间与目标速度"><div class="route-cursor" id="route-cursor"></div></div><span class="route-end">终点</span><span class="route-legend">间隔不限速</span><span class="distance-readout" id="distance">0 / 4200 m</span><span class="journey-info" id="journey-info" hidden></span></div>
+  </section>
+  <section class="landscape" aria-label="像素雪原与向右行驶的列车">
+    <canvas id="scene" width="960" height="540" aria-label="列车在雪原轨道上向右行驶"></canvas>
+    <div class="approach-warning" id="approach-warning" role="status" aria-live="polite" hidden><span>即将进入<span id="approach-word">限速</span>区间，请提前调整车速</span><small id="approach-distance"></small></div>
+    <div class="scene-caption" id="scene-caption">雪原线路 / 车站出发 · 环境加速度 0</div>
+    <div class="docking" id="docking"><div class="docking-header"><span>停靠对位</span><span id="dock-distance">距停车点 100 m</span></div><div class="dock-track"><div class="dock-target" style="left:70.37%;width:7.41%"></div><div class="dock-marker" id="dock-marker"></div></div><small>白针是列车 · 金框是停车范围 · 降至负档制动</small></div>
+    <div class="notice" id="notice" role="status" aria-live="polite"></div>
+  </section>
+  <section class="cockpit" aria-label="驾驶仪表与档位操作">
+    <div class="section-hint-slot"><span id="section-hint" class="section-hint" role="status" aria-live="polite" hidden></span></div>
+    <div class="instruments">
+      <div class="heat-panel" id="heat-panel" data-state="normal"><svg class="heat-dial" id="heat-dial" viewBox="0 0 112 108" role="img" aria-label="核心温度 0%，正常"><circle cx="56" cy="56" r="36" fill="rgba(16,36,49,.65)"/><path d="M 13.499 67.388 A 44 44 0 1 1 98.501 67.388" fill="none" stroke="#8ba7b34a" stroke-width="7"/><path id="heat-fill" d="M 13.499 67.388 A 44 44 0 1 1 98.501 67.388" fill="none" stroke="currentColor" stroke-width="7" stroke-dasharray="161.26842288427602" stroke-dashoffset="161.26842288427602"/><g id="heat-ticks"></g><g class="thermometer" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M 51 60 V 38 A 5 5 0 0 1 61 38 V 60 A 12 12 0 1 1 51 60 Z"/><path d="M 56 47 V 66 M 67 42 H 73 M 67 49 H 71"/><circle cx="56" cy="69" r="4" fill="currentColor" stroke="none"/></g></svg><div class="heat-value"><strong id="heat">0</strong><span>%</span></div><div class="heat-status" id="heat-status">核心温度</div></div>
+      <div class="speed-instrument"><div class="target-caption dial-target"><small>目标速度</small><strong><span id="target-speed">不限速</span> <span id="target-unit" hidden>km/h</span></strong></div><div class="dial"><svg id="speed-dial" viewBox="0 0 260 155" role="img" aria-label="半圆速度表"><path d="M 20 132 A 110 110 0 0 1 240 132" fill="none" stroke="#2e4656" stroke-width="15"/><g id="dial-bands"></g><path id="target-range" class="dial-target-range" hidden/><g id="dial-ticks"></g><line id="needle" x1="130" y1="132" x2="34" y2="132" stroke="#f1dfb8" stroke-width="3"/><circle cx="130" cy="132" r="6" fill="#d5b783"/></svg><div class="dial-value"><span id="speed">0.0</span><small>km/h</small></div></div><div class="acceleration" id="acceleration">空档 · 平地弱减速</div></div>
+      <div><div class="instrument-label" style="text-align:center">牵引档位</div><div class="gear-control"><button id="down" aria-label="降低一档" disabled>⌄</button><div><div class="gear-value" id="gear">0</div><div class="gear-description" id="gear-description">空档</div></div><button id="up" aria-label="升高一档" disabled>⌃</button></div><div class="gear-hint">−3 制动　·　0 空档　·　+3 牵引</div></div>
+    </div>
+  </section>
+  <div class="overlay" id="overlay"><section class="brief" aria-labelledby="brief-title"><div class="kicker" id="brief-kicker">雪原试行</div><h2 id="brief-title">把列车稳稳开到站</h2><div id="mode-picker" class="mode-picker" role="group" aria-label="选择行驶模式"><button id="mode-trial" aria-pressed="true">雪原试行</button><button id="mode-endless" aria-pressed="false">无尽远行</button></div><div id="intro"><p id="endless-intro" hidden>每趟经过一组限速与坡道，到站后可继续下一趟，累计得分和里程保留。前方路线提前可见，偶尔遇到需要提前判断的下坡。可暂停并结束远行。</p><p id="trial-intro">从车站出发，出站段不限速，环境加速度为 0。试玩线路以约 4–5 分钟的合规驾驶节奏编排。进入前会有预告；进入进度条标出的限速路段后，将速度保持在速度仪表盘的金色框内，按合规行驶距离得分。全程合规通过一段另奖 100 分。</p><ul><li><b>控速</b>　−3～+3 档控制加减速。空档会受坡道影响，不会自动定速。</li><li><b>轴温</b>　每换一档升温 25%，每 5 秒冷却 25%。过热扣 200 分，锁空档冷却 3 秒。</li><li><b>停靠</b>　最后 100 米出现对位条。提前降档制动，在金框内停稳获得停靠分。</li></ul></div><div id="results" hidden></div><button class="primary" id="start">开始行驶 →</button><button id="end-journey" class="text-button journey-end" hidden>结束远行并结算</button><p class="footnote" id="brief-footnote">触屏点按升降档 · 键盘 ↑ / ↓ 或 W / S</p></section></div>
+</main>
+<img id="train-art" width="240" height="66" src="data:image/png;base64,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" hidden alt="定稿列车像素素材">
 </body>
 </html>

@@ -1,3 +1,9 @@
+> **2026-10-10 网页小样已重写**：打开 [`prototype/index.html`](prototype/index.html) 或原路径 [`prototype/v2/index.html`](prototype/v2/index.html)。恢复设计文档的七档力模型、距离计分、过热与停靠；列车朝右。规则来源与试行参数见 [`prototype/README.md`](prototype/README.md)。下文为旧阶段记录，平台结论以带日期的真机记录为准。
+
+> **2026-10-11 站间无尽首版**：开始面板选择“无尽远行”，每趟到站后继续下一趟或结束，累计成绩和里程保留。33 项模型/生成测试通过，手机手感待试玩；说明见 [`prototype/README.md`](prototype/README.md)。
+
+> **2026-10-11 Lua v1**：[`workspace/train/train_game.lua`](workspace/train/train_game.lua) 是千星挂载用单文件，包含试行与无尽玩法。纯核心和网页经过相同驾驶输入对照；编辑器控件、美术与真机尚待接线验证，说明见 [`docs/lua-v1.md`](docs/lua-v1.md)。
+
 > ## 🤖 给 AI / 新接手的人
 > **先读 [`HANDOFF.md`](HANDOFF.md)** —— 那里有平台硬约束、已定的美术路线、
 > 工具链用法、待办清单。读完那份就够接手，不需要读开发对话。
